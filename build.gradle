@@ -1,0 +1,32 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.3'
+    }
+}
+
+apply plugin: 'android'
+
+android{
+    compileSdkVersion 14
+    defaultConfig {
+        versionCode = 4
+        minSdkVersion = 14
+    }
+}
+repositories {
+    mavenCentral()
+}
+dependencies{
+    compile 'com.google.android:support-v4:r7'
+    compile 'com.google.guava:guava:12.0.1'
+    compile 'com.google.code.findbugs:jsr305:2.0.1'
+    compile 'org.roboguice:roboguice:2.0'
+    compile group:'com.google.inject', name:'guice', classifier:'no_aop', version: '3.0'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.1.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.1.2'
+//    testCompile 'junit:junit:4.10'
+}
