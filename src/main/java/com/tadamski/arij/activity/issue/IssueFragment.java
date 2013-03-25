@@ -4,6 +4,7 @@
  */
 package com.tadamski.arij.activity.issue;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
@@ -12,20 +13,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.tadamski.arij.R;
 import com.tadamski.arij.activity.issue.properties.model.IssueProperty;
 import com.tadamski.arij.activity.issue.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.activity.issue.properties.view.IssuePropertyGroupViewFactory;
+import com.tadamski.arij.activity.worklog.newlog.NewWorklog;
+import com.tadamski.arij.activity.worklog.newlog.WorkLogRepository;
 import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.issue.IssueDAO;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.inject.Inject;
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
 
 /**
  *
@@ -35,6 +38,8 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
 
     @Inject
     private IssueDAO issueDAO;
+    @Inject
+    private WorkLogRepository workLogRepository;
     private static final String TAG = IssueFragment.class.getName();
 
     public void loadIssue(String issueKey) {
@@ -73,7 +78,7 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
     }
 
     @Override
-    public void onLoadFinished(Loader<Issue> loader, Issue issue) {
+    public void onLoadFinished(Loader<Issue> loader, final Issue issue) {
         Log.d(TAG, "loader finished");
         IssuePropertyGroup basicGroup = getIssueDetailsProperties(issue);
         IssuePropertyGroup peopleGroup = getIssuePeopleProperties(issue);
@@ -91,6 +96,22 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
         view.addView(viewFactory.createMultipropertiesView(peopleGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createMultipropertiesView(datesGroup, getActivity()),
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        Button workLogButton = new Button(getActivity());
+        workLogButton.setText("log work");
+        workLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        workLogRepository.addNewWorklogItem(issue.getSummary().getKey(), new NewWorklog("test", new Date(), 1200L));
+                        return null;
+                    }
+                }.execute();
+            }
+        });
+        view.addView(workLogButton,
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         if (getActivity() instanceof IssueLoadedListener) {
             ((IssueLoadedListener) getActivity()).issueLoaded(issue);

@@ -11,5 +11,9 @@ public class CommunicationException extends RuntimeException {
     public CommunicationException(Exception ex) {
         super(ex);
     }
+    
+    public CommunicationException(String msg){
+        super(msg);
+    }
 
 }

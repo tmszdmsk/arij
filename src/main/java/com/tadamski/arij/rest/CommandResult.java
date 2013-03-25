@@ -9,14 +9,20 @@ package com.tadamski.arij.rest;
  * @author tmszdmsk
  */
 public class CommandResult {
-    private final String result;
 
-    public CommandResult(String json) {
+    private final String result;
+    private int code;
+
+    public CommandResult(String json, int code) {
         this.result = json;
+        this.code = code;
     }
 
     public String getResult() {
         return result;
     }
-    
+
+    public int getCode() {
+        return code;
+    }
 }

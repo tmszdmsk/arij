@@ -34,6 +34,7 @@ public class RESTRunner {
     }
 
     public CommandResult run(RESTCommand command, LoginInfo loginInfo) {
+        Log.i(TAG, MessageFormat.format("Login info - username: {0}, host: {1}", loginInfo.getUsername(), loginInfo.getBaseURL()));
         if (command instanceof POSTCommand) {
             return runPost((POSTCommand) command, loginInfo);
         } else if (command instanceof GETCommand) {
@@ -57,7 +58,7 @@ public class RESTRunner {
             connection.setDoOutput(true);
             doOutput(connection, postCommand.getBody());
             handleErrors(connection);
-            return new CommandResult(getOutputFromConnection(connection));
+            return new CommandResult(getOutputFromConnection(connection), connection.getResponseCode());
         } catch (IOException ex) {
             throw new CommunicationException(ex);
         }
@@ -76,7 +77,7 @@ public class RESTRunner {
             connection.setDoInput(true);
             connection.setDoOutput(false);
             handleErrors(connection);
-            return new CommandResult(getOutputFromConnection(connection));
+            return new CommandResult(getOutputFromConnection(connection), connection.getResponseCode());
         } catch (IOException ex) {
             throw new CommunicationException(ex);
         }

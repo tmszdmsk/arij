@@ -89,7 +89,7 @@
                 </executions>
                 <configuration>
                     <sign>
-                        <debug>false</debug>
+                        <debug>true</debug>
                     </sign>
                     <zipalign>
                         <skip>false</skip>
