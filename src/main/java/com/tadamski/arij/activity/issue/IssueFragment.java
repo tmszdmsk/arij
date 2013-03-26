@@ -109,7 +109,7 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
         workLogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notificationManager.notify(0, NewWorklogNotificationBuilder.createNotification(IssueFragment.this.getActivity().getApplicationContext(), issue, new Date(), credentialsService.getActive()));
+                NewWorklogNotificationBuilder.createNotification(IssueFragment.this.getActivity().getApplicationContext(), issue, new Date(), credentialsService.getActive());
             }
             
         });

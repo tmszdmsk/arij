@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="issue_list_elem_summary_font_size">11dp</dimen>
+    <dimen name="worklog_new_issue_key_title_font_size">20dp</dimen>
 </resources>

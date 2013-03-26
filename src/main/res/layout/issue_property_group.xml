@@ -11,7 +11,7 @@
         android:text="Property group"
         android:textSize="20dp"
         android:textColor="#ff0099cc"
-        android:drawableBottom="#ff0099cc"    />
+            />
     <LinearLayout 
         android:id="@+id/issue_property_group_properties_layout"
         android:layout_width="match_parent"
