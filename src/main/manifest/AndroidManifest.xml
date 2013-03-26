@@ -12,6 +12,7 @@
         <activity android:name=".activity.issuelist.IssueListActivity" android:theme="@android:style/Theme.Holo.Light"></activity>
         <activity android:name=".activity.issue.IssueActivity" android:theme="@android:style/Theme.Holo.Light"></activity>
         <activity android:name=".activity.login.LoginActivity" android:theme="@android:style/Theme.Holo.Light"></activity>
+        <activity android:name=".worklog.activity.NewWorklogActivity" android:theme="@android:style/Theme.Holo.Light"></activity>
         <service android:name=".account.authenticator.AuthenticationService" android:exported="true">
             <intent-filter> 
                 <action android:name="android.accounts.AccountAuthenticator"/> 

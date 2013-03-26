@@ -34,7 +34,6 @@ public class RESTRunner {
     }
 
     public CommandResult run(RESTCommand command, LoginInfo loginInfo) {
-        Log.i(TAG, MessageFormat.format("Login info - username: {0}, host: {1}", loginInfo.getUsername(), loginInfo.getBaseURL()));
         if (command instanceof POSTCommand) {
             return runPost((POSTCommand) command, loginInfo);
         } else if (command instanceof GETCommand) {
@@ -46,7 +45,7 @@ public class RESTRunner {
     private CommandResult runPost(POSTCommand postCommand, LoginInfo loginInfo) {
         try {
             URL url = getURL(loginInfo.getBaseURL(), postCommand.getPath());
-            Log.i(TAG, MessageFormat.format("Sending {0} to {1} with credentials {2}:{3}", postCommand.getBody(), url, loginInfo.getUsername(), String.valueOf(loginInfo.getPassword())));
+            Log.d(TAG, MessageFormat.format("Sending {0} to {1} with login {2}", postCommand.getBody(), url, loginInfo.getUsername()));
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(5000);
             connection.setRequestMethod("POST");
@@ -67,7 +66,7 @@ public class RESTRunner {
     private CommandResult runGet(GETCommand getCommand, LoginInfo loginInfo) {
         try {
             URL url = getURL(loginInfo.getBaseURL(), getCommand.getPath());
-            Log.i(TAG, MessageFormat.format("Sending GET to {0} with credentials {1}:{2}", url, loginInfo.getUsername(), String.valueOf(loginInfo.getPassword())));
+            Log.i(TAG, MessageFormat.format("Sending GET to {0} with login {1}", url, loginInfo.getUsername()));
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(5000);
             connection.setRequestMethod("GET");
@@ -93,7 +92,6 @@ public class RESTRunner {
 
     private String encodeCredentials(LoginInfo credentials) {
         byte[] toEncode = (credentials.getUsername() + ":" + new String(credentials.getPassword())).getBytes();
-        Log.e(getClass().getName(), credentials.getUsername() + ":" + new String(credentials.getPassword()));
         return Base64.encodeToString(toEncode, Base64.NO_WRAP);
     }
 

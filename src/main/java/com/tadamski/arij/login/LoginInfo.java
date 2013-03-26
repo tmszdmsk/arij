@@ -1,14 +1,13 @@
 package com.tadamski.arij.login;
 
-import android.net.Uri;
 import com.google.common.base.Preconditions;
-import java.net.URL;
+import java.io.Serializable;
 
 /**
  *
  * @author tmszdmsk
  */
-public class LoginInfo {
+public class LoginInfo implements Serializable {
 
     private final String username;
     private final String password;

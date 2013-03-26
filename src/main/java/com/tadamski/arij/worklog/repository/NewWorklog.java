@@ -1,4 +1,4 @@
-package com.tadamski.arij.activity.worklog.newlog;
+package com.tadamski.arij.worklog.repository;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -4,6 +4,7 @@
  */
 package com.tadamski.arij.activity.issue;
 
+import android.app.NotificationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -20,10 +21,12 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.activity.issue.properties.model.IssueProperty;
 import com.tadamski.arij.activity.issue.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.activity.issue.properties.view.IssuePropertyGroupViewFactory;
-import com.tadamski.arij.activity.worklog.newlog.NewWorklog;
-import com.tadamski.arij.activity.worklog.newlog.WorkLogRepository;
+import com.tadamski.arij.worklog.repository.NewWorklog;
+import com.tadamski.arij.worklog.repository.WorkLogRepository;
 import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.issue.IssueDAO;
+import com.tadamski.arij.login.CredentialsService;
+import com.tadamski.arij.worklog.notification.NewWorklogNotificationBuilder;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +43,10 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
     private IssueDAO issueDAO;
     @Inject
     private WorkLogRepository workLogRepository;
+    @Inject
+    private NotificationManager notificationManager;
+    @Inject
+    private CredentialsService credentialsService;
     private static final String TAG = IssueFragment.class.getName();
 
     public void loadIssue(String issueKey) {
@@ -98,18 +105,13 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
         view.addView(viewFactory.createMultipropertiesView(datesGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         Button workLogButton = new Button(getActivity());
-        workLogButton.setText("log work");
+        workLogButton.setText("start work");
         workLogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        workLogRepository.addNewWorklogItem(issue.getSummary().getKey(), new NewWorklog("test", new Date(), 1200L));
-                        return null;
-                    }
-                }.execute();
+                notificationManager.notify(0, NewWorklogNotificationBuilder.createNotification(IssueFragment.this.getActivity().getApplicationContext(), issue, new Date(), credentialsService.getActive()));
             }
+            
         });
         view.addView(workLogButton,
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));

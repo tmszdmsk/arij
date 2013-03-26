@@ -1,4 +1,4 @@
-package com.tadamski.arij.activity.worklog.newlog;
+package com.tadamski.arij.worklog.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tadamski.arij.rest.CommandResult;

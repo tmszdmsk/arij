@@ -3,6 +3,7 @@ package com.tadamski.arij.issue;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  * @author tmszdmsk
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Issue {
+public class Issue implements Serializable {
 
     @JsonUnwrapped
     private Summary summary;
@@ -20,7 +21,7 @@ public class Issue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Summary {
+    public static class Summary implements Serializable {
 
         @JsonProperty("id")
         private Long id;
@@ -52,7 +53,7 @@ public class Issue {
         public Date getResolutionDate() {
             return fields.getResolutionDate();
         }
-        
+
         public Long getId() {
             return id;
         }
@@ -92,7 +93,7 @@ public class Issue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Type {
+    public static class Type implements Serializable {
 
         @JsonProperty
         private long id;
@@ -114,7 +115,7 @@ public class Issue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Priority {
+    public static class Priority implements Serializable {
 
         @JsonProperty
         private long id;
@@ -136,7 +137,7 @@ public class Issue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Status {
+    public static class Status implements Serializable {
 
         @JsonProperty
         private long id;
@@ -158,7 +159,7 @@ public class Issue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Resolution {
+    public static class Resolution implements Serializable {
 
         @JsonProperty
         private long id;
@@ -180,7 +181,7 @@ public class Issue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class User {
+    public static class User implements Serializable {
 
         @JsonProperty
         private long id;
@@ -208,7 +209,7 @@ public class Issue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Fields {
+    public static class Fields implements Serializable {
 
         @JsonProperty
         private String description;

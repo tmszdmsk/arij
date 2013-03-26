@@ -7,13 +7,14 @@ package com.tadamski.arij.issue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
 /**
  *
  * @author tmszdmsk
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Project {
+public class Project implements Serializable {
 
     @JsonProperty("key")
     private String key;
