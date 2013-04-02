@@ -1,11 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical" >
-    <fragment android:name="com.tadamski.arij.worklog.activity.NewWorklogFragment"
-              android:id="@+id/worklog_fragment"
-              android:layout_weight="1"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" />
-</LinearLayout>
-
+<FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+    <fragment android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:name="com.tadamski.arij.worklog.activity.NewWorklogFragment" android:id="@+id/worklog_fragment"
+              android:layout_gravity="center"/>
+</FrameLayout>
