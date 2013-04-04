@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tadamski</groupId>
     <artifactId>arij</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>apk</packaging>
     <name>arij</name>
 
@@ -13,15 +13,15 @@
         <android.sdk.path>E:\android-sdk\</android.sdk.path>
         <android.sdk.platform>14</android.sdk.platform>
         <android.sdk.platform.version>4.0.1.2</android.sdk.platform.version>
-        <sign.debug>true</sign.debug>
+        <debug>true</debug>
         <zipalign.skip>true</zipalign.skip>
     </properties>
 
     <profiles>
         <profile>
-            <id>sign</id>
+            <id>release</id>
             <properties>
-                <sign.debug>false</sign.debug>
+                <debug>false</debug>
                 <zipalign.skip>false</zipalign.skip>
             </properties>
             <build>
@@ -40,6 +40,26 @@
                                     <files>
                                         <file>${project.basedir}/../sign.properties</file>
                                     </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>update-version</id>
+                                <goals>
+                                    <goal>manifest-update</goal>
+                                </goals>
+                                <configuration>
+                                    <manifest>
+                                        <versionName>${project.version}.${maven.build.timestamp}</versionName>
+                                        <versionCodeAutoIncrement>true</versionCodeAutoIncrement>
+                                        <debuggable>${debug}</debuggable>
+                                    </manifest>
                                 </configuration>
                             </execution>
                         </executions>
@@ -147,7 +167,7 @@
                 </executions>
                 <configuration>
                     <sign>
-                        <debug>${sign.debug}</debug>
+                        <debug>${debug}</debug>
                     </sign>
                     <zipalign>
                         <skip>${zipalign.skip}</skip>
