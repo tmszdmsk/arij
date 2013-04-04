@@ -1,61 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="4sp"
-    android:layout_marginLeft="4sp"
-    android:layout_marginRight="4sp"
-    android:layout_marginTop="4sp" >
-
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="4sp"
+                android:layout_marginLeft="4sp"
+                android:layout_marginRight="4sp"
+                android:layout_marginTop="4sp" android:minHeight="50dp">
+
+
     <TextView
-        android:id="@+id/project_shortcut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/issue_id_number"
-        android:gravity="center_vertical|center_horizontal"
-        android:lines="1"
-        android:maxLines="1"
-        android:text="UTC"
-        android:textSize="16sp" />
-
+            android:id="@+id/project_shortcut"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/issue_id_number"
+            android:gravity="center_vertical|center_horizontal"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="UTC"
+            android:textSize="12dp" android:textStyle="bold"/>
+
+
     <TextView
-        android:id="@+id/issue_id_number"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/project_shortcut"
-        android:ellipsize="none"
-        android:gravity="center_horizontal"
-        android:lines="1"
-        android:maxLines="1"
-        android:text="123"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="32sp" />
-
+            android:id="@+id/issue_id_number"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/project_shortcut"
+            android:ellipsize="none"
+            android:gravity="center_vertical|center_horizontal"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="123"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="32dp" android:textStyle="bold"
+            />
+
+
     <TextView
-        android:id="@+id/issue_summary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/issue_id_number"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/issue_id_number"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/issue_id_number"
-        android:ellipsize="end"
-        android:gravity="top|left"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:text="Very long title of super duper extra hiper important user story in which all information was included in summary"
-        android:textSize="16sp" />
-
+            android:id="@+id/issue_creation_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:24@12.02.2012"
+            android:textSize="12dp" android:textColor="@android:color/darker_gray"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"/>
     <TextView
-        android:id="@+id/issue_creation_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="12:24@12.02.2012"
-        android:textSize="16sp" />
+            android:id="@+id/issue_summary"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Very long title of supVery long title of supVery long title of supVery long title of supVery long title of sup"
+            android:textSize="16dp"
+            android:ellipsize="end" android:layout_toRightOf="@+id/issue_id_number"
+            android:layout_below="@+id/project_shortcut" android:layout_marginLeft="10dp" android:maxLines="2"/>
 
 </RelativeLayout>

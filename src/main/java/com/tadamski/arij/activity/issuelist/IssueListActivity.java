@@ -10,8 +10,9 @@ import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.issue.Issue.Summary;
 import com.tadamski.arij.issue.IssueDAO;
 import com.tadamski.arij.util.Callback;
-import javax.inject.Inject;
 import roboguice.activity.RoboListActivity;
+
+import javax.inject.Inject;
 
 public class IssueListActivity extends RoboListActivity {
 
@@ -22,18 +23,20 @@ public class IssueListActivity extends RoboListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setProgressBarIndeterminate(true);
         Log.i(TAG, "onCreate");
         AsyncTask<Void, Void, BaseAdapter> asyncTask = new AsyncTask<Void, Void, BaseAdapter>() {
             @Override
             protected BaseAdapter doInBackground(Void... params) {
-               return new IssueListAdapter(IssueListActivity.this, issueDao.getTasksAssignedToLoggedInUser(), new OpenIssueAction());
+                return new IssueListAdapter(IssueListActivity.this, issueDao.getTasksAssignedToLoggedInUser(), new OpenIssueAction());
             }
 
             @Override
             protected void onPostExecute(BaseAdapter result) {
+                IssueListActivity.this.setProgressBarIndeterminate(false);
                 IssueListActivity.this.setListAdapter(result);
             }
-            
+
         };
         asyncTask.execute();
     }

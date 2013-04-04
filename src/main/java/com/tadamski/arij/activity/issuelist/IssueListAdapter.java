@@ -10,12 +10,13 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.issue.Issue.Summary;
 import com.tadamski.arij.util.Callback;
+
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class IssueListAdapter extends BaseAdapter {
 
+    private static final DateFormat DATE_TIME_INSTANCE = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     private final List<Issue.Summary> issues;
     private final LayoutInflater layoutInflater;
     private final Callback<Issue.Summary> onClickAction;
@@ -62,7 +63,7 @@ public class IssueListAdapter extends BaseAdapter {
         setTextViewText(convertView, R.id.project_shortcut, issueSummary.getKey().split("-")[0]);
         setTextViewText(convertView, R.id.issue_id_number, issueSummary.getKey().split("-")[1]);
         setTextViewText(convertView, R.id.issue_summary, issueSummary.getSummary());
-        setTextViewText(convertView, R.id.issue_creation_date, SimpleDateFormat.getDateTimeInstance().format(issueSummary.getCreated()));
+        setTextViewText(convertView, R.id.issue_creation_date, DATE_TIME_INSTANCE.format(issueSummary.getCreated()));
     }
 
     private void setTextViewText(View parent, int textViewId, String textToSet) {
