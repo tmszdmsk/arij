@@ -1,22 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10sp"
-                android:layout_marginLeft="4sp"
-                android:layout_marginRight="4sp"
-                android:layout_marginTop="10sp" >
-
-    <TextView
-        android:id="@+id/account_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp"
-        android:ellipsize="end"
-        android:gravity="top|left"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:text="Very long title of super duper extra hiper important user story in which all information was included in summary"
-        android:textSize="32sp" />
-
-</RelativeLayout>
+<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:minHeight="60dp">
+    <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/avatar" android:layout_gravity="center_horizontal|top"
+            android:background="@drawable/avatar_placeholder"
+            android:scaleType="centerCrop" android:adjustViewBounds="false"/>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:padding="8dp">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="t.adamski"
+                android:id="@+id/username"
+                android:textSize="24dp"
+                android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:textStyle="bold"
+                android:singleLine="true" android:ellipsize="none"
+                />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="http://oapp.cpu2.cogision.pl:8080/"
+                android:id="@+id/jira_url" android:layout_alignLeft="@+id/username"
+                android:layout_below="@+id/username" android:textSize="12dp"
+                android:textColor="@android:color/darker_gray"
+                android:singleLine="true" android:ellipsize="marquee" android:layout_marginTop="-8dp"/>
+    </RelativeLayout>
+</LinearLayout>

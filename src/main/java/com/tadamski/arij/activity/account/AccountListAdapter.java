@@ -9,10 +9,10 @@ import android.widget.TextView;
 import com.tadamski.arij.R;
 import com.tadamski.arij.login.LoginInfo;
 import com.tadamski.arij.util.Callback;
+
 import java.util.List;
 
 /**
- *
  * @author tmszdmsk
  */
 public class AccountListAdapter extends BaseAdapter {
@@ -45,20 +45,22 @@ public class AccountListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        if(view==null){
-            view = layoutInflater.inflate(R.layout.account_list_elem, null);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.account_list_elem, null);
         }
-        final TextView textView = (TextView) view.findViewById(R.id.account_name);
+        final TextView userName = (TextView) convertView.findViewById(R.id.username);
+        final TextView jiraUrl = (TextView) convertView.findViewById(R.id.jira_url);
         final LoginInfo item = getItem(position);
-        textView.setText(item.getUsername()+"@"+item.getBaseURL());
-        textView.setOnClickListener(new View.OnClickListener() {
+        userName.setText(item.getUsername());
+        jiraUrl.setText(item.getBaseURL());
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onAccountClickAction.call(item);
             }
         });
-        return textView;
+        return convertView;
     }
 
     @Override

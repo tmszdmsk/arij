@@ -5,42 +5,36 @@ import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.activity.issuelist.IssueListActivity;
 import com.tadamski.arij.login.CredentialsService;
 import com.tadamski.arij.login.LoginInfo;
 import com.tadamski.arij.util.Callback;
+import roboguice.activity.RoboListActivity;
+
+import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
-import javax.inject.Inject;
-import roboguice.activity.RoboActivity;
-import roboguice.inject.InjectView;
 
 /**
- *
  * @author tmszdmsk
  */
-public class AccountSelector extends RoboActivity implements OnAccountsUpdateListener{
+public class AccountSelector extends RoboListActivity implements OnAccountsUpdateListener {
 
     @Inject
     private AccountManager accountManager;
     @Inject
     private CredentialsService credentialsService;
-    @InjectView(R.id.accounts_list_view)
-    private ListView accountListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_selector);
         accountManager.addOnAccountsUpdatedListener(this, null, true);
         reloadAccounts();
-        if(accountListView.getAdapter().isEmpty()){
+        if (getListAdapter().isEmpty()) {
             new OpenAddNewAccountScreen().call(null);
         }
     }
@@ -50,7 +44,7 @@ public class AccountSelector extends RoboActivity implements OnAccountsUpdateLis
         accountManager.removeOnAccountsUpdatedListener(this);
         super.onDestroy();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 0, 0, getString(R.string.add_account));
@@ -77,7 +71,7 @@ public class AccountSelector extends RoboActivity implements OnAccountsUpdateLis
     private void reloadAccounts() {
         List<LoginInfo> availableAccounts = getAvailableAccount();
         AccountListAdapter accountListAdapter = new AccountListAdapter(this, availableAccounts, new OpenTaskListForSelectedAccount());
-        accountListView.setAdapter(accountListAdapter);
+        setListAdapter(accountListAdapter);
     }
 
     @Override
