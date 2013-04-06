@@ -13,7 +13,7 @@
         <activity android:name=".activity.issuelist.IssueListActivity" android:theme="@android:style/Theme.Holo.Light"/>
         <activity android:name=".activity.issue.IssueActivity" android:theme="@android:style/Theme.Holo.Light"/>
         <activity android:name=".activity.login.LoginActivity" android:theme="@android:style/Theme.Holo.Light"/>
-        <activity android:name=".worklog.activity.NewWorklogActivity"
+        <activity android:name=".worklog.activity.NewWorklogActivity_"
                   android:theme="@android:style/Theme.Holo.Light.Dialog"/>
         <service android:exported="true" android:name=".account.authenticator.AuthenticationService">
             <intent-filter>

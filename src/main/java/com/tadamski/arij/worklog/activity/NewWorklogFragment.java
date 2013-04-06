@@ -4,15 +4,12 @@
  */
 package com.tadamski.arij.worklog.activity;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.login.LoginInfo;
@@ -20,7 +17,6 @@ import com.tadamski.arij.worklog.notification.NewWorklogNotificationBuilder;
 import com.tadamski.arij.worklog.repository.NewWorklog;
 import com.tadamski.arij.worklog.repository.WorkLogRepository;
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
 
 import javax.inject.Inject;
 import java.text.DateFormat;
@@ -29,39 +25,48 @@ import java.util.Date;
 /**
  * @author tmszdmsk
  */
+@EFragment(R.layout.worklog_new_fragment)
 public class NewWorklogFragment extends RoboFragment {
 
 
-    @InjectView(R.id.start_date)
+    @ViewById(R.id.start_date)
     TextView startDate;
-    @InjectView(R.id.duration)
+    @ViewById(R.id.duration)
     TextView duration;
-    @InjectView(R.id.worklog_comment)
+    @ViewById(R.id.worklog_comment)
     EditText comment;
-    @InjectView(R.id.worklog_log_button)
+    @ViewById(R.id.worklog_log_button)
     Button ok;
-    @InjectView(R.id.worklog_cancel_button)
+    @ViewById(R.id.worklog_cancel_button)
     Button cancel;
-    @InjectView(R.id.plus15m)
+    @ViewById(R.id.plus15m)
     Button durationPlus15mButton;
-    @InjectView(R.id.minus15m)
+    @ViewById(R.id.minus15m)
     Button durationMinus15mButton;
-    @InjectView(R.id.start_plus15m)
+    @ViewById(R.id.start_plus15m)
     Button startPlus15mButton;
-    @InjectView(R.id.start_minus15m)
+    @ViewById(R.id.start_minus15m)
     Button startMinus15mButton;
-    @Inject
-    WorkLogRepository workLogRepository;
     String issueKey;
     Date startDateDate;
     Long durationLong;
     LoginInfo loginInfo;
+    @Inject
+    WorkLogRepository workLogRepository;
+
+    @AfterViews
+    public void attachListeners() {
+        durationPlus15mButton.setOnClickListener(new DurationModifier(15L * 60));
+        durationMinus15mButton.setOnClickListener(new DurationModifier(-15L * 60));
+        startPlus15mButton.setOnClickListener(new StartModifier(15L * 60));
+        startMinus15mButton.setOnClickListener(new StartModifier(-15L * 60));
+    }
 
     public void prepare(Issue issue, Date startDate, Long duration, LoginInfo loginInfo) {
         this.loginInfo = loginInfo;
-        issueKey = issue.getSummary().getKey();
-        startDateDate = startDate;
-        durationLong = duration;
+        this.issueKey = issue.getSummary().getKey();
+        this.startDateDate = startDate;
+        this.durationLong = duration;
         this.startDate.setText(getHumanReadableStartDate(startDate));
         this.duration.setText(getHumanReadableDuration(durationLong));
     }
@@ -88,61 +93,39 @@ public class NewWorklogFragment extends RoboFragment {
         return durationText;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @Click(R.id.worklog_log_button)
+    void logWorkClick() {
+        ok.setEnabled(false);
+        logWork(loginInfo, issueKey, comment.getText().toString(), startDateDate, durationLong);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.worklog_new_fragment, container);
+    @Background
+    void logWork(LoginInfo loginInfo, String issueKey, String comment, Date startDate, long duration) {
+        try {
+            workLogRepository.addNewWorklogItem(issueKey, new NewWorklog(comment, startDate, duration), loginInfo);
+            onWorkLogged(true);
+        } catch (RuntimeException ex) {
+            onWorkLogged(false);
+        }
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ok.setEnabled(false);
-                new AsyncTask<Void, Void, Boolean>() {
+    @UiThread
+    void onWorkLogged(boolean successful) {
+        if (successful) {
+            logWork(loginInfo, issueKey, comment.getText().toString(), startDateDate, durationLong);
+            Toast.makeText(getActivity(), "worklog updated", Toast.LENGTH_SHORT).show();
+            NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
+            getActivity().finish();
+        } else {
+            Toast.makeText(getActivity(), "error sending worklog", Toast.LENGTH_SHORT).show();
+            ok.setEnabled(true);
+        }
+    }
 
-                    @Override
-                    protected Boolean doInBackground(Void... params) {
-                        try {
-                            workLogRepository.addNewWorklogItem(issueKey, new NewWorklog(comment.getText().toString(), startDateDate, durationLong), loginInfo);
-                        } catch (Exception ex) {
-                            return false;
-                        }
-                        return true;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean aBoolean) {
-                        if (aBoolean) {
-                            Toast.makeText(getActivity(), "worklog updated", Toast.LENGTH_SHORT).show();
-                            NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
-                            getActivity().finish();
-                        } else {
-                            ok.setEnabled(true);
-                            Toast.makeText(getActivity(), "error sending worklog", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                }.execute();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
-                getActivity().finish();
-            }
-        });
-        durationPlus15mButton.setOnClickListener(new DurationModifier(15L * 60));
-        durationMinus15mButton.setOnClickListener(new DurationModifier(-15L * 60));
-        startPlus15mButton.setOnClickListener(new StartModifier(15L * 60));
-        startMinus15mButton.setOnClickListener(new StartModifier(-15L * 60));
+    @Click(R.id.worklog_cancel_button)
+    void discardWorklog() {
+        NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
+        getActivity().finish();
     }
 
     private class DurationModifier implements View.OnClickListener {
