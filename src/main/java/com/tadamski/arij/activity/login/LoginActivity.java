@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.tadamski.arij.R;
@@ -19,15 +20,15 @@ import com.tadamski.arij.login.LoginService;
 import com.tadamski.arij.rest.exceptions.CommunicationException;
 import com.tadamski.arij.util.Callback;
 import com.tadamski.arij.util.Result;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javax.inject.Inject;
 import roboguice.activity.RoboAccountAuthenticatorActivity;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
+import javax.inject.Inject;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
- *
  * @author t.adamski
  */
 public class LoginActivity extends RoboAccountAuthenticatorActivity {
@@ -50,6 +51,18 @@ public class LoginActivity extends RoboAccountAuthenticatorActivity {
     private LoginService loginService;
     @Inject
     private AccountManager accountManager;
+
+    @Override
+    protected void onStart() {
+        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStop(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +140,8 @@ public class LoginActivity extends RoboAccountAuthenticatorActivity {
 
     private class LoginAsyncTask extends AsyncTask<LoginInfo, Void, Boolean> {
 
-        private Throwable ex;
         private final Callback<Result<Callback.Void>> callback;
+        private Throwable ex;
 
         public LoginAsyncTask(Callback<Result<Callback.Void>> callback) {
             this.callback = callback;

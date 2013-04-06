@@ -15,90 +15,13 @@
         <android.sdk.platform.version>4.0.1.2</android.sdk.platform.version>
         <android.maven.plugin.version>3.5.2</android.maven.plugin.version>
         <debug>true</debug>
+        <analytics.trackingId>UA-140251-7</analytics.trackingId>
+        <analytics.appName>arij-debug</analytics.appName>
         <zipalign.skip>true</zipalign.skip>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>release</id>
-            <properties>
-                <debug>false</debug>
-                <zipalign.skip>false</zipalign.skip>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>properties-maven-plugin</artifactId>
-                        <version>1.0-alpha-2</version>
-                        <executions>
-                            <execution>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>read-project-properties</goal>
-                                </goals>
-                                <configuration>
-                                    <files>
-                                        <file>${project.basedir}/../sign.properties</file>
-                                    </files>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                        <artifactId>android-maven-plugin</artifactId>
-                        <version>${android.maven.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>update-version</id>
-                                <goals>
-                                    <goal>manifest-update</goal>
-                                </goals>
-                                <configuration>
-                                    <manifest>
-                                        <versionName>${project.version}.${maven.build.timestamp}</versionName>
-                                        <versionCodeAutoIncrement>true</versionCodeAutoIncrement>
-                                        <debuggable>${debug}</debuggable>
-                                    </manifest>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jarsigner-plugin</artifactId>
-                        <version>1.2</version>
-                        <executions>
-                            <execution>
-                                <id>signing</id>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <inherited>true</inherited>
-                                <configuration>
-                                    <archive>target/arij-${project.version}.apk</archive>
-                                    <keystore>${sign.keystore}</keystore>
-                                    <storepass>${sign.storepass}</storepass>
-                                    <keypass>${sign.keypass}</keypass>
-                                    <alias>${sign.alias}</alias>
-                                    <arguments>
-                                        <argument>-sigalg</argument>
-                                        <argument>MD5withRSA</argument>
-                                        <argument>-digestalg</argument>
-                                        <argument>SHA1</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencies>
+
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
@@ -149,8 +72,92 @@
             <version>2.1.2</version>
         </dependency>
 
+        <!-- TO INSTALL LIBRARIES BELOW, USE maven-android-sdk-deployer FROM https://github.com/mosabua/maven-android-sdk-deployer -->
+        <dependency>
+            <groupId>com.google.android.analytics</groupId>
+            <artifactId>analytics</artifactId>
+            <version>2</version>
+        </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <debug>false</debug>
+                <zipalign.skip>false</zipalign.skip>
+                <analytics.appName>arij-release</analytics.appName>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <version>1.0-alpha-2</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>${project.basedir}/../sign.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                        <version>${android.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>update-version</id>
+                                <goals>
+                                    <goal>manifest-update</goal>
+                                </goals>
+                                <configuration>
+                                    <manifest>
+                                        <versionName>${project.version}.${maven.build.timestamp}</versionName>
+                                        <versionCodeAutoIncrement>true</versionCodeAutoIncrement>
+                                    </manifest>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jarsigner-plugin</artifactId>
+                        <version>1.2</version>
+                        <executions>
+                            <execution>
+                                <id>signing</id>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <inherited>true</inherited>
+                                <configuration>
+                                    <archive>target/arij-${project.version}.apk</archive>
+                                    <keystore>${sign.keystore}</keystore>
+                                    <storepass>${sign.storepass}</storepass>
+                                    <keypass>${sign.keypass}</keypass>
+                                    <alias>${sign.alias}</alias>
+                                    <arguments>
+                                        <argument>-sigalg</argument>
+                                        <argument>MD5withRSA</argument>
+                                        <argument>-digestalg</argument>
+                                        <argument>SHA1</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -175,7 +182,7 @@
                     </zipalign>
                     <androidManifestFile>${project.basedir}/src/main/manifest/AndroidManifest.xml</androidManifestFile>
                     <assetsDirectory>${project.basedir}/src/main/assets</assetsDirectory>
-                    <resourceDirectory>${project.basedir}/src/main/res</resourceDirectory>
+                    <resourceDirectory>${project.build.directory}/generated-sources/res</resourceDirectory>
                     <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
                     <sdk>
                         <platform>${android.sdk.platform}</platform>
@@ -200,7 +207,33 @@
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/res</directory>
+                <targetPath>${project.build.directory}/generated-sources/res</targetPath>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/res</directory>
+                <targetPath>${project.build.directory}/generated-sources/res</targetPath>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
 </project>

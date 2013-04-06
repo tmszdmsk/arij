@@ -1,6 +1,7 @@
 package com.tadamski.arij.worklog.activity;
 
 import android.os.Bundle;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.login.LoginInfo;
@@ -26,6 +27,18 @@ public class NewWorklogActivity extends RoboFragmentActivity {
     private Date startDate;
     @InjectExtra(INTENT_LOGIN_INFO)
     private LoginInfo loginInfo;
+
+    @Override
+    protected void onStart() {
+        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStop(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.activity.issuelist.IssueListActivity;
@@ -37,6 +38,18 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
         if (getListAdapter().isEmpty()) {
             new OpenAddNewAccountScreen().call(null);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override

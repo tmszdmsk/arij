@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.BaseAdapter;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.tadamski.arij.activity.issue.IssueActivity;
 import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.issue.Issue.Summary;
@@ -19,6 +20,18 @@ public class IssueListActivity extends RoboListActivity {
     private final String TAG = IssueListActivity.class.getName();
     @Inject
     private IssueDAO issueDao;
+
+    @Override
+    protected void onStart() {
+        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        EasyTracker.getInstance().activityStop(this);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

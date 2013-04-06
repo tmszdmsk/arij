@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5"
           android:versionName="1.0.0.20130405-0046" package="com.tadamski.arij">
 
-    <application android:debuggable="false" android:icon="@drawable/icon" android:label="@string/app_name"
+    <application android:icon="@drawable/icon" android:label="@string/app_name"
                  android:name=".Application">
         <activity android:name=".activity.account.AccountSelector" android:theme="@android:style/Theme.Holo.Light">
             <intent-filter>
@@ -21,8 +21,18 @@
             </intent-filter>
             <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
         </service>
+
+
+        <!-- Used for install referral measurement-->
+        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
+        <receiver android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
