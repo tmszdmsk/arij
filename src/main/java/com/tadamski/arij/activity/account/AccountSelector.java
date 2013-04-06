@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
@@ -83,23 +85,22 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
 
     private void reloadAccounts() {
         List<LoginInfo> availableAccounts = getAvailableAccount();
-        AccountListAdapter accountListAdapter = new AccountListAdapter(this, availableAccounts, new OpenTaskListForSelectedAccount());
+        AccountListAdapter accountListAdapter = new AccountListAdapter(this, availableAccounts);
         setListAdapter(accountListAdapter);
     }
+
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        credentialsService.setActive((LoginInfo) getListAdapter().getItem(position));
+        Intent intent = new Intent(AccountSelector.this, IssueListActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onAccountsUpdated(Account[] accounts) {
         reloadAccounts();
-    }
-
-    private class OpenTaskListForSelectedAccount implements Callback<LoginInfo> {
-
-        @Override
-        public void call(LoginInfo result) {
-            credentialsService.setActive(result);
-            Intent intent = new Intent(AccountSelector.this, IssueListActivity.class);
-            startActivity(intent);
-        }
     }
 
     private class OpenAddNewAccountScreen implements Callback<Callback.Void> {
