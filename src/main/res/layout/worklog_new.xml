@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <TextView
+            android:id="@+id/issue_property_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="Property group"
+            android:textSize="20dp"
+            android:textColor="#ff0099cc"
+            android:drawableBottom="#ff0099cc"/>
+    <LinearLayout
+            android:id="@+id/issue_property_group_properties_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    </LinearLayout>
+</LinearLayout>
+
