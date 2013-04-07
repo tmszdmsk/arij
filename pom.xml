@@ -182,7 +182,7 @@
                     </zipalign>
                     <androidManifestFile>${project.basedir}/src/main/manifest/AndroidManifest.xml</androidManifestFile>
                     <assetsDirectory>${project.basedir}/src/main/assets</assetsDirectory>
-                    <resourceDirectory>${project.build.directory}/generated-sources/res</resourceDirectory>
+                    <resourceDirectory>${project.build.directory}/res</resourceDirectory>
                     <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
                     <sdk>
                         <platform>${android.sdk.platform}</platform>
@@ -220,7 +220,7 @@
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/res</directory>
-                <targetPath>${project.build.directory}/generated-sources/res</targetPath>
+                <targetPath>${project.build.directory}/res</targetPath>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*.xml</include>
@@ -228,7 +228,7 @@
             </resource>
             <resource>
                 <directory>${project.basedir}/src/main/res</directory>
-                <targetPath>${project.build.directory}/generated-sources/res</targetPath>
+                <targetPath>${project.build.directory}/res</targetPath>
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>**/*.xml</exclude>
