@@ -15,7 +15,6 @@ import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.activity.issuelist.IssueListActivity;
 import com.tadamski.arij.login.CredentialsService;
 import com.tadamski.arij.login.LoginInfo;
-import com.tadamski.arij.util.Callback;
 import roboguice.activity.RoboListActivity;
 
 import javax.inject.Inject;
@@ -38,7 +37,7 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
         accountManager.addOnAccountsUpdatedListener(this, null, true);
         reloadAccounts();
         if (getListAdapter().isEmpty()) {
-            new OpenAddNewAccountScreen().call(null);
+            openAddNewAccountScreen();
         }
     }
 
@@ -62,13 +61,16 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, getString(R.string.add_account));
+        getMenuInflater().inflate(R.menu.account_selector_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        new OpenAddNewAccountScreen().call(null);
+        if (item.getItemId() == R.id.menu_item_add_account) {
+            openAddNewAccountScreen();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -89,7 +91,6 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
         setListAdapter(accountListAdapter);
     }
 
-
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         credentialsService.setActive((LoginInfo) getListAdapter().getItem(position));
@@ -97,17 +98,13 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
         startActivity(intent);
     }
 
-
     @Override
     public void onAccountsUpdated(Account[] accounts) {
         reloadAccounts();
     }
 
-    private class OpenAddNewAccountScreen implements Callback<Callback.Void> {
-
-        @Override
-        public void call(Void result) {
-            accountManager.addAccount(Authenticator.ACCOUNT_TYPE, null, null, null, AccountSelector.this, null, null);
-        }
+    private void openAddNewAccountScreen() {
+        accountManager.addAccount(Authenticator.ACCOUNT_TYPE, null, null, null, AccountSelector.this, null, null);
     }
+
 }
