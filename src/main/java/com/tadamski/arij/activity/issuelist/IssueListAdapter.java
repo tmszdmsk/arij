@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.Issue;
 import com.tadamski.arij.issue.Issue.Summary;
-import com.tadamski.arij.util.Callback;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -19,12 +18,10 @@ public class IssueListAdapter extends BaseAdapter {
     private static final DateFormat DATE_TIME_INSTANCE = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     private final List<Issue.Summary> issues;
     private final LayoutInflater layoutInflater;
-    private final Callback<Issue.Summary> onClickAction;
 
-    public IssueListAdapter(Context ctx, List<Issue.Summary> issues, Callback<Issue.Summary> onClickAction) {
+    public IssueListAdapter(Context ctx, List<Issue.Summary> issues) {
         this.issues = issues;
         this.layoutInflater = LayoutInflater.from(ctx);
-        this.onClickAction = onClickAction;
     }
 
     @Override
@@ -50,7 +47,6 @@ public class IssueListAdapter extends BaseAdapter {
         }
         final Summary issueSummary = getItem(position);
         setViewProperties(convertView, issueSummary);
-        setClickListener(convertView, issueSummary);
         return convertView;
     }
 
@@ -69,14 +65,5 @@ public class IssueListAdapter extends BaseAdapter {
     private void setTextViewText(View parent, int textViewId, String textToSet) {
         TextView textView = (TextView) parent.findViewById(textViewId);
         textView.setText(textToSet);
-    }
-
-    private void setClickListener(View convertView, final Issue.Summary issueSummary) {
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickAction.call(issueSummary);
-            }
-        });
     }
 }

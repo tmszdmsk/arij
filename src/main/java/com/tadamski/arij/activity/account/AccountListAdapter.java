@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.tadamski.arij.R;
 import com.tadamski.arij.login.LoginInfo;
-import com.tadamski.arij.util.Callback;
 
 import java.util.List;
 
@@ -19,13 +18,11 @@ public class AccountListAdapter extends BaseAdapter {
 
     private final Context ctx;
     private final List<LoginInfo> loginInfos;
-    private final Callback<LoginInfo> onAccountClickAction;
     private final LayoutInflater layoutInflater;
 
-    public AccountListAdapter(Context ctx, List<LoginInfo> loginInfos, Callback<LoginInfo> onAccountClickAction) {
+    public AccountListAdapter(Context ctx, List<LoginInfo> loginInfos) {
         this.ctx = ctx;
         this.loginInfos = loginInfos;
-        this.onAccountClickAction = onAccountClickAction;
         this.layoutInflater = LayoutInflater.from(ctx);
     }
 
@@ -54,12 +51,6 @@ public class AccountListAdapter extends BaseAdapter {
         final LoginInfo item = getItem(position);
         userName.setText(item.getUsername());
         jiraUrl.setText(item.getBaseURL());
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAccountClickAction.call(item);
-            }
-        });
         return convertView;
     }
 

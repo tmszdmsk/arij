@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 /**
+ *
  * @author tmszdmsk
  */
 public class NewWorklogNotificationBuilder {
@@ -37,19 +38,19 @@ public class NewWorklogNotificationBuilder {
 
         Notification notification =
                 new Notification.Builder(ctx).
-                        setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_menu_agenda)).
-                        setSmallIcon(R.drawable.ic_menu_agenda).
-                        setOngoing(true).
-                        setContentTitle(issue.getSummary().getKey() + ": " + issue.getSummary().getSummary()).
-                        setAutoCancel(false).
-                        setContentText("Started at: " + TIME_FORMAT.format(startDate)).
-                        setContentIntent(PendingIntent.getActivity(ctx, PENDING_REQUETS_ID++, intent, PendingIntent.FLAG_CANCEL_CURRENT)).
-                        setTicker("Work on " + issue.getSummary().getKey() + " started").
-                        getNotification();
+                setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_menu_agenda)).
+                setSmallIcon(R.drawable.ic_menu_agenda).
+                setOngoing(true).
+                setContentTitle(issue.getSummary().getKey() + ": " + issue.getSummary().getSummary()).
+                setAutoCancel(false).
+                setContentText("Started at: " + TIME_FORMAT.format(startDate)).
+                setContentIntent(PendingIntent.getActivity(ctx, PENDING_REQUETS_ID++, intent, PendingIntent.FLAG_CANCEL_CURRENT)).
+                setTicker("Work on "+issue.getSummary().getKey()+" started").
+                getNotification();
         notificationManager.notify(issue.getSummary().getKey(), NOTIFICATION_ID, notification);
     }
 
-    public static void cancelNotification(Context ctx, String issueKey) {
+    public static void cancelNotification(Context ctx, String issueKey){
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(issueKey, NOTIFICATION_ID);
     }

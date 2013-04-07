@@ -41,7 +41,7 @@ public class LoginActivity extends RoboAccountAuthenticatorActivity {
     private EditText passwordEditText;
     @InjectView(R.id.login_button)
     private Button loginButton;
-    @InjectResource(R.string.invald_url_format)
+    @InjectResource(R.string.invalid_url_format)
     private String invalidUrlFormat;
     @InjectResource(R.string.invalid_login_empty)
     private String invalidLoginEmpty;

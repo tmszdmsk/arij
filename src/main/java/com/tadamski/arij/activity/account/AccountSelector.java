@@ -7,13 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.activity.issuelist.IssueListActivity;
 import com.tadamski.arij.login.CredentialsService;
 import com.tadamski.arij.login.LoginInfo;
-import com.tadamski.arij.util.Callback;
 import roboguice.activity.RoboListActivity;
 
 import javax.inject.Inject;
@@ -36,7 +37,7 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
         accountManager.addOnAccountsUpdatedListener(this, null, true);
         reloadAccounts();
         if (getListAdapter().isEmpty()) {
-            new OpenAddNewAccountScreen().call(null);
+            openAddNewAccountScreen();
         }
     }
 
@@ -60,13 +61,16 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, getString(R.string.add_account));
+        getMenuInflater().inflate(R.menu.account_selector_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        new OpenAddNewAccountScreen().call(null);
+        if (item.getItemId() == R.id.menu_item_add_account) {
+            openAddNewAccountScreen();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -83,8 +87,15 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
 
     private void reloadAccounts() {
         List<LoginInfo> availableAccounts = getAvailableAccount();
-        AccountListAdapter accountListAdapter = new AccountListAdapter(this, availableAccounts, new OpenTaskListForSelectedAccount());
+        AccountListAdapter accountListAdapter = new AccountListAdapter(this, availableAccounts);
         setListAdapter(accountListAdapter);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        credentialsService.setActive((LoginInfo) getListAdapter().getItem(position));
+        Intent intent = new Intent(AccountSelector.this, IssueListActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -92,21 +103,8 @@ public class AccountSelector extends RoboListActivity implements OnAccountsUpdat
         reloadAccounts();
     }
 
-    private class OpenTaskListForSelectedAccount implements Callback<LoginInfo> {
-
-        @Override
-        public void call(LoginInfo result) {
-            credentialsService.setActive(result);
-            Intent intent = new Intent(AccountSelector.this, IssueListActivity.class);
-            startActivity(intent);
-        }
+    private void openAddNewAccountScreen() {
+        accountManager.addAccount(Authenticator.ACCOUNT_TYPE, null, null, null, AccountSelector.this, null, null);
     }
 
-    private class OpenAddNewAccountScreen implements Callback<Callback.Void> {
-
-        @Override
-        public void call(Void result) {
-            accountManager.addAccount(Authenticator.ACCOUNT_TYPE, null, null, null, AccountSelector.this, null, null);
-        }
-    }
 }
