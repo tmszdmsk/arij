@@ -210,9 +210,10 @@
                     <source>1.6</source>
                     <target>1.6</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <includes>
-                        <include>${project.basedir}/target/generated-sources/apt/**</include>
-                    </includes>
+                    <annotationProcessors>
+                        <annotationProcessor>com.googlecode.androidannotations.AndroidAnnotationProcessor
+                        </annotationProcessor>
+                    </annotationProcessors>
                 </configuration>
                 <extensions>true</extensions>
             </plugin>
@@ -231,31 +232,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.bsc.maven</groupId>
-                <artifactId>maven-processor-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>process</id>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <processors>
-                                <processor>com.googlecode.androidannotations.AndroidAnnotationProcessor</processor>
-                            </processors>
-                            <additionalSourceDirectories>
-                                <additionalSourceDirectory>${project.build.directory}/generated-sources/r
-                                </additionalSourceDirectory>
-                            </additionalSourceDirectories>
-                        </configuration>
-                    </execution>
-                </executions>
-
-                <dependencies/>
             </plugin>
         </plugins>
         <resources>
