@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import com.tadamski.arij.R;
-import com.tadamski.arij.activity.login.LoginActivity_;
+import com.tadamski.arij.account.activity.AddNewAccountActivity_;
 
 /**
  * @author t.adamski
@@ -29,7 +29,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-        final Intent intent = new Intent(context, LoginActivity_.class);
+        final Intent intent = new Intent(context, AddNewAccountActivity_.class);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         final Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);

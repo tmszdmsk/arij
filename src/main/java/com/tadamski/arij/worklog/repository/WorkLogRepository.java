@@ -1,12 +1,12 @@
 package com.tadamski.arij.worklog.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tadamski.arij.login.LoginInfo;
-import com.tadamski.arij.rest.CommandResult;
-import com.tadamski.arij.rest.RESTRunner;
-import com.tadamski.arij.rest.command.POSTCommand;
-import com.tadamski.arij.rest.exceptions.CommunicationException;
+import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.util.Jack;
+import com.tadamski.arij.util.rest.CommandResult;
+import com.tadamski.arij.util.rest.RESTRunner;
+import com.tadamski.arij.util.rest.command.POSTCommand;
+import com.tadamski.arij.util.rest.exceptions.CommunicationException;
 
 import javax.inject.Inject;
 import java.text.MessageFormat;

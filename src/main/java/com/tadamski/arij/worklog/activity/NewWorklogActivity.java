@@ -6,8 +6,8 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 import com.tadamski.arij.R;
-import com.tadamski.arij.issue.Issue;
-import com.tadamski.arij.login.LoginInfo;
+import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.dao.Issue;
 import roboguice.activity.RoboFragmentActivity;
 
 import java.util.Date;
