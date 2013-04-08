@@ -192,7 +192,7 @@
                     <zipalign>
                         <skip>${zipalign.skip}</skip>
                     </zipalign>
-                    <androidManifestFile>${project.build.directory}/AndroidManifest.xml</androidManifestFile>
+                    <androidManifestFile>AndroidManifest.xml</androidManifestFile>
                     <assetsDirectory>${project.basedir}/src/main/assets</assetsDirectory>
                     <resourceDirectory>${project.build.directory}/res</resourceDirectory>
                     <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
@@ -215,7 +215,6 @@
                         </annotationProcessor>
                     </annotationProcessors>
                 </configuration>
-                <extensions>true</extensions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -250,11 +249,6 @@
                 <excludes>
                     <exclude>**/*.xml</exclude>
                 </excludes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/src/main/manifest</directory>
-                <targetPath>${project.build.directory}</targetPath>
-                <filtering>false</filtering>
             </resource>
         </resources>
     </build>

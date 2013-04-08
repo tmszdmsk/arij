@@ -4,22 +4,21 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.googlecode.androidannotations.annotations.Background;
+import com.googlecode.androidannotations.annotations.Click;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.UiThread;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.login.LoginException;
 import com.tadamski.arij.login.LoginInfo;
 import com.tadamski.arij.login.LoginService;
 import com.tadamski.arij.rest.exceptions.CommunicationException;
-import com.tadamski.arij.util.Callback;
-import com.tadamski.arij.util.Result;
 import roboguice.activity.RoboAccountAuthenticatorActivity;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
@@ -31,6 +30,7 @@ import java.net.URL;
 /**
  * @author t.adamski
  */
+@EActivity(R.layout.login)
 public class LoginActivity extends RoboAccountAuthenticatorActivity {
 
     @InjectView(R.id.url_edit_text)
@@ -64,11 +64,38 @@ public class LoginActivity extends RoboAccountAuthenticatorActivity {
         EasyTracker.getInstance().activityStop(this);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.login);
-        createLoginButtonListener();
+    @Click(R.id.login_button)
+    void login() {
+        if (validate()) {
+            checkCredentials(getCredentials());
+        }
+    }
+
+    @Background
+    void checkCredentials(LoginInfo credentials) {
+        try {
+            loginService.checkCredentials(credentials);
+            ifCredentialsConfirmed(credentials);
+        } catch (LoginException e) {
+            ifCredentialsInvalid();
+        } catch (CommunicationException e) {
+            ifCommunicationException(e);
+        }
+    }
+
+    @UiThread
+    void ifCredentialsConfirmed(LoginInfo credentials) {
+        createAccountAndFinish(credentials);
+    }
+
+    @UiThread
+    void ifCredentialsInvalid() {
+        loginEditText.setError(invalidLoginCredentials);
+    }
+
+    @UiThread
+    void ifCommunicationException(Exception ex) {
+        new AlertDialog.Builder(LoginActivity.this).setMessage(ex.getLocalizedMessage()).create().show();
     }
 
     private boolean validate() {
@@ -100,31 +127,6 @@ public class LoginActivity extends RoboAccountAuthenticatorActivity {
         return new LoginInfo(login, password, url);
     }
 
-    private void createLoginButtonListener() {
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validate()) {
-                    final LoginInfo credentials = getCredentials();
-                    new LoginActivity.LoginAsyncTask(new Callback<Result<Callback.Void>>() {
-                        @Override
-                        public void call(Result<Callback.Void> result) {
-                            if (result.success()) {
-                                createAccountAndFinish(credentials);
-                            } else {
-                                if (result.getException() instanceof LoginException) {
-                                    loginEditText.setError(invalidLoginCredentials);
-                                } else if (result.getException() instanceof CommunicationException) {
-                                    new AlertDialog.Builder(LoginActivity.this).setMessage(result.getException().getLocalizedMessage()).create().show();
-                                }
-                            }
-                        }
-                    }).execute(credentials);
-                }
-            }
-        });
-    }
-
     private void createAccountAndFinish(LoginInfo credentials) {
         Account account = new Account(credentials.getUsername(), Authenticator.ACCOUNT_TYPE);
         Bundle bundle = new Bundle();
@@ -136,38 +138,5 @@ public class LoginActivity extends RoboAccountAuthenticatorActivity {
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    private class LoginAsyncTask extends AsyncTask<LoginInfo, Void, Boolean> {
-
-        private final Callback<Result<Callback.Void>> callback;
-        private Throwable ex;
-
-        public LoginAsyncTask(Callback<Result<Callback.Void>> callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected Boolean doInBackground(LoginInfo... params) {
-            try {
-                Preconditions.checkArgument(params.length == 1);
-                loginService.checkCredentials(params[0]);
-                return true;
-            } catch (LoginException ex) {
-                this.ex = ex;
-            } catch (CommunicationException ex) {
-                this.ex = ex;
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if (ex != null) {
-                callback.call(new Result<Callback.Void>(ex));
-            } else {
-                callback.call(new Result<Callback.Void>(Callback.VOID));
-            }
-        }
     }
 }
