@@ -1,7 +1,6 @@
 ariJ - **a**nother **r**eally **i**nteresting **J**ira 
 ====
-...client for Android
-yes, I came up with this acronym right now.
+...client for Android. Yes, I came up with this acronym right now.
 
 It's my pet project, I want to learn new stuff, test different approaches using different libraries, so don't expect
 well formed codebase, at least at the beginning.
