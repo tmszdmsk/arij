@@ -1,4 +1,4 @@
-ariJ - **a**nother **r**eally **i**nteresting **J**ira client
+ariJ - **a**nother **r**eally **i**nteresting **J**ira client for Android
 ====
 yes, I came up with this acronym right now.
 
@@ -36,4 +36,4 @@ use [mosabua/maven-android-sdk-deployer](https://github.com/mosabua/maven-androi
 ```bash
 mvn install
 ``` 
-and some magic should happen ;)
+and magic should happen ;)
