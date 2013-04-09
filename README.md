@@ -25,7 +25,7 @@ Features planned
 * comments view/add
 * worklog view/add
 * multiple filters
-* plugin for jira to support Google Cloud Messaging with for sending updates
+* plugin for jira to support Google Cloud Messaging to send push notifications
 * tbd
 
 How to build
