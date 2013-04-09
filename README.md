@@ -29,7 +29,7 @@ Features planned
 
 How to build
 ===
-I usually care about as little external(non easy maven-downloadable) dependencies as possible, so it shouldn't be a problem.
+I usually care about as little external(non easy-maven-downloadable) dependencies as possible, so it shouldn't be a problem.
 
 use [mosabua/maven-android-sdk-deployer](https://github.com/mosabua/maven-android-sdk-deployer) to install some dependencies in your local repository and call
 
