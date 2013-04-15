@@ -25,11 +25,12 @@ Features planned
 * comments view/add
 * worklog view/add
 * multiple filters
+* plugin for jira to support Google Cloud Messaging to send push notifications
 * tbd
 
 How to build
 ===
-I usually care about as little external dependencies as possible, so it shouldn't be a problem.
+I usually care about as little external(non easy-maven-downloadable) dependencies as possible, so it shouldn't be a problem.
 
 use [mosabua/maven-android-sdk-deployer](https://github.com/mosabua/maven-android-sdk-deployer) to install some dependencies in your local repository and call
 
