@@ -11,7 +11,6 @@ import com.tadamski.arij.issue.dao.Issue;
 import com.tadamski.arij.issue.dao.Issue.Summary;
 
 import java.text.DateFormat;
-import java.util.LinkedList;
 import java.util.List;
 
 public class IssueListAdapter extends BaseAdapter {
@@ -20,8 +19,8 @@ public class IssueListAdapter extends BaseAdapter {
     private final List<Issue.Summary> issues;
     private final LayoutInflater layoutInflater;
 
-    public IssueListAdapter(Context ctx) {
-        this.issues = new LinkedList<Summary>();
+    public IssueListAdapter(Context ctx, List<Summary> init) {
+        this.issues = init;
         this.layoutInflater = LayoutInflater.from(ctx);
     }
 

@@ -1,10 +1,7 @@
 package com.tadamski.arij.issue.activity.single.view;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.Extra;
-import com.googlecode.androidannotations.annotations.FragmentById;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.dao.Issue;
@@ -20,6 +17,8 @@ public class IssueActivity extends RoboFragmentActivity implements IssueFragment
     LoginInfo account;
     @FragmentById(R.id.issue_fragment)
     IssueFragment issueFragment;
+    @NonConfigurationInstance
+    boolean loaded = false;
 
     @Override
     protected void onStart() {
@@ -36,7 +35,10 @@ public class IssueActivity extends RoboFragmentActivity implements IssueFragment
     @AfterViews
     void init() {
         getActionBar().setTitle(issueKey);
-        issueFragment.loadIssue(issueKey, account);
+        if (!loaded) {
+            issueFragment.loadIssue(issueKey, account);
+            loaded = true;
+        }
     }
 
     @Override

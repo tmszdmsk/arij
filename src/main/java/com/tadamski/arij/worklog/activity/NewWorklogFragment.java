@@ -47,9 +47,13 @@ public class NewWorklogFragment extends RoboFragment {
     Button startPlus15mButton;
     @ViewById(R.id.start_minus15m)
     Button startMinus15mButton;
+    @InstanceState
     String issueKey;
+    @InstanceState
     Date startDateDate;
+    @InstanceState
     Long durationLong;
+    @InstanceState
     LoginInfo loginInfo;
     @Inject
     WorkLogRepository workLogRepository;
@@ -67,8 +71,18 @@ public class NewWorklogFragment extends RoboFragment {
         this.issueKey = issue.getSummary().getKey();
         this.startDateDate = startDate;
         this.durationLong = duration;
-        this.startDate.setText(getHumanReadableStartDate(startDate));
-        this.duration.setText(getHumanReadableDuration(durationLong));
+        initDateAndDuration();
+
+    }
+
+    @AfterViews
+    void initDateAndDuration() {
+        if (startDateDate != null) {
+            this.startDate.setText(getHumanReadableStartDate(startDateDate));
+        }
+        if (durationLong != null) {
+            this.duration.setText(getHumanReadableDuration(durationLong));
+        }
     }
 
     private String getHumanReadableStartDate(Date startDate) {

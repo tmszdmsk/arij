@@ -12,6 +12,7 @@ import com.tadamski.arij.issue.dao.Issue;
 import com.tadamski.arij.issue.dao.IssueDAO;
 import roboguice.fragment.RoboFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,11 +30,14 @@ public class IssueListFragment extends RoboFragment implements AdapterView.OnIte
     @Inject
     IssueDAO issueDAO;
     IssueListAdapter issueListAdapter;
+    @InstanceState
+    ArrayList<Issue.Summary> issues;
     private LoginInfo account;
 
     @AfterViews
     void initListAdapter() {
-        issueListAdapter = new IssueListAdapter(getActivity());
+        if (issues == null) issues = new ArrayList<Issue.Summary>();
+        issueListAdapter = new IssueListAdapter(getActivity(), issues);
         listView.setAdapter(issueListAdapter);
     }
 

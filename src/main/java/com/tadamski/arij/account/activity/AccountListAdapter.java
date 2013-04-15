@@ -17,23 +17,23 @@ import java.util.List;
 public class AccountListAdapter extends BaseAdapter {
 
     private final Context ctx;
-    private final List<LoginInfo> loginInfos;
+    private final List<LoginInfo> accounts;
     private final LayoutInflater layoutInflater;
 
-    public AccountListAdapter(Context ctx, List<LoginInfo> loginInfos) {
+    public AccountListAdapter(Context ctx, List<LoginInfo> accounts) {
         this.ctx = ctx;
-        this.loginInfos = loginInfos;
+        this.accounts = accounts;
         this.layoutInflater = LayoutInflater.from(ctx);
     }
 
     @Override
     public int getCount() {
-        return loginInfos.size();
+        return accounts.size();
     }
 
     @Override
     public LoginInfo getItem(int position) {
-        return loginInfos.get(position);
+        return accounts.get(position);
     }
 
     @Override

@@ -10,9 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.googlecode.androidannotations.annotations.Background;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
@@ -45,6 +43,15 @@ public class IssueFragment extends RoboFragment {
     private NotificationManager notificationManager;
     @Inject
     private CredentialsService credentialsService;
+    @InstanceState
+    Issue loadedIssue;
+
+    @AfterViews
+    void init() {
+        if (loadedIssue != null) {
+            onLoadFinished(loadedIssue);
+        }
+    }
 
     public void loadIssue(String issueKey, LoginInfo account) {
         loadIssueInBackground(issueKey, account);
@@ -52,12 +59,12 @@ public class IssueFragment extends RoboFragment {
 
     @Background
     void loadIssueInBackground(String issueKey, LoginInfo account) {
-        Issue issue = issueDAO.getIssueWithKey(issueKey, account);
-        onLoadFinished(issue);
+        loadedIssue = issueDAO.getIssueWithKey(issueKey, account);
+        onLoadFinished(loadedIssue);
     }
 
     @UiThread
-    public void onLoadFinished(final Issue issue) {
+    void onLoadFinished(final Issue issue) {
         Log.d(TAG, "loader finished");
         IssuePropertyGroup basicGroup = getIssueDetailsProperties(issue);
         IssuePropertyGroup peopleGroup = getIssuePeopleProperties(issue);
