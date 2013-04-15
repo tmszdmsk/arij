@@ -1,6 +1,7 @@
 package com.tadamski.arij.issue.dao;
 
 import com.google.common.base.Preconditions;
+import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.util.Jack;
 import com.tadamski.arij.util.rest.CommandResult;
 import com.tadamski.arij.util.rest.RESTRunner;
@@ -29,11 +30,14 @@ public class IssueDAO {
     @Inject
     private RESTRunner restRunner;
 
-    public List<Issue.Summary> getTasksAssignedToLoggedInUser() {
+    public List<Issue.Summary> executeJql(String jql, Long startAt, Long maxResults, LoginInfo loginInfo) {
         try {
-            JSONObject query = new JSONObject().put("jql", "assignee=currentUser()");
+            JSONObject query = new JSONObject()
+                    .put("jql", jql)
+                    .put("startAt", startAt)
+                    .put("maxResults", maxResults);
             POSTCommand cmd = new POSTCommand(query.toString(), SEARCH_PATH);
-            CommandResult result = restRunner.run(cmd);
+            CommandResult result = restRunner.run(cmd, loginInfo);
             JSONObject resultObject = new JSONObject(result.getResult());
             final JSONArray issuesArray = resultObject.getJSONArray("issues");
             List<Issue.Summary> issueList = new LinkedList<Issue.Summary>();
@@ -50,12 +54,12 @@ public class IssueDAO {
         }
     }
 
-    public Issue getIssueWithKey(String key) {
+    public Issue getIssueWithKey(String key, LoginInfo account) {
         try {
             Preconditions.checkNotNull(key);
             String url = MessageFormat.format(ISSUE_PATH_PATTERN, key.toString());
             GETCommand cmd = new GETCommand(url);
-            CommandResult result = restRunner.run(cmd);
+            CommandResult result = restRunner.run(cmd, account);
             return Jack.son().readValue(result.getResult(), Issue.class);
         } catch (IOException ex) {
             throw new CommunicationException(ex);

@@ -14,7 +14,7 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.activity.list.IssueListActivity;
+import com.tadamski.arij.issue.activity.list.IssueListActivity_;
 import roboguice.activity.RoboListActivity;
 
 import javax.inject.Inject;
@@ -94,7 +94,7 @@ public class AccountSelectorActivity extends RoboListActivity implements OnAccou
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         credentialsService.setActive((LoginInfo) getListAdapter().getItem(position));
-        Intent intent = new Intent(AccountSelectorActivity.this, IssueListActivity.class);
+        Intent intent = new Intent(AccountSelectorActivity.this, IssueListActivity_.class);
         startActivity(intent);
     }
 

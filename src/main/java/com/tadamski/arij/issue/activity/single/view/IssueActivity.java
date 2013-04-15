@@ -1,21 +1,25 @@
-package com.tadamski.arij.issue.activity;
+package com.tadamski.arij.issue.activity.single.view;
 
-import android.os.Bundle;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.Extra;
+import com.googlecode.androidannotations.annotations.FragmentById;
 import com.tadamski.arij.R;
+import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.dao.Issue;
 import roboguice.activity.RoboFragmentActivity;
-import roboguice.inject.InjectExtra;
-import roboguice.inject.InjectFragment;
 
+@EActivity(R.layout.issue)
 public class IssueActivity extends RoboFragmentActivity implements IssueFragment.IssueLoadedListener {
 
-    public static final String INTENT_EXTRA_ISSUE_KEY = "issueKey";
     private static final String TAG = IssueActivity.class.getName();
-    @InjectExtra(INTENT_EXTRA_ISSUE_KEY)
-    private String issueKey;
-    @InjectFragment(R.id.issue_fragment)
-    private IssueFragment issueFragment;
+    @Extra
+    String issueKey;
+    @Extra
+    LoginInfo account;
+    @FragmentById(R.id.issue_fragment)
+    IssueFragment issueFragment;
 
     @Override
     protected void onStart() {
@@ -29,15 +33,14 @@ public class IssueActivity extends RoboFragmentActivity implements IssueFragment
         EasyTracker.getInstance().activityStop(this);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.issue);
+    @AfterViews
+    void init() {
         getActionBar().setTitle(issueKey);
-        issueFragment.loadIssue(issueKey);
+        issueFragment.loadIssue(issueKey, account);
     }
 
     @Override
     public void issueLoaded(Issue issue) {
+        getActionBar().setSubtitle(issue.getSummary().getSummary());
     }
 }

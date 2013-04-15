@@ -11,9 +11,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".issue.activity.list.IssueListActivity"
+        <activity android:name=".issue.activity.list.IssueListActivity_"
                   android:theme="@android:style/Theme.Holo.Light"/>
-        <activity android:name=".issue.activity.IssueActivity" android:theme="@android:style/Theme.Holo.Light"/>
+        <activity android:name=".issue.activity.single.view.IssueActivity_"
+                  android:theme="@android:style/Theme.Holo.Light"/>
         <activity android:name=".account.activity.AddNewAccountActivity_"
                   android:theme="@android:style/Theme.Holo.Light"/>
         <activity android:name=".worklog.activity.NewWorklogActivity_"

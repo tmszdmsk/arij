@@ -75,14 +75,14 @@
         <dependency>
             <groupId>com.googlecode.androidannotations</groupId>
             <artifactId>androidannotations</artifactId>
-            <version>2.7.1</version>
+            <version>2.7</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.googlecode.androidannotations</groupId>
             <artifactId>androidannotations-api</artifactId>
-            <version>2.7.1</version>
+            <version>2.7</version>
         </dependency>
         <!-- TO INSTALL LIBRARIES BELOW, USE maven-android-sdk-deployer FROM https://github.com/mosabua/maven-android-sdk-deployer -->
         <dependency>
@@ -209,11 +209,6 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <annotationProcessors>
-                        <annotationProcessor>com.googlecode.androidannotations.AndroidAnnotationProcessor
-                        </annotationProcessor>
-                    </annotationProcessors>
                 </configuration>
             </plugin>
             <plugin>

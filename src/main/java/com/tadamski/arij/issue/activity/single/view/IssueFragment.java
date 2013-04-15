@@ -2,22 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tadamski.arij.issue.activity;
+package com.tadamski.arij.issue.activity.single.view;
 
 import android.app.NotificationManager;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.googlecode.androidannotations.annotations.Background;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.UiThread;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.CredentialsService;
+import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.activity.properties.view.IssuePropertyGroupViewFactory;
@@ -35,8 +33,10 @@ import java.util.Date;
 /**
  * @author tmszdmsk
  */
-public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue> {
+@EFragment(R.layout.issue_fragment)
+public class IssueFragment extends RoboFragment {
 
+    private static final String TAG = IssueFragment.class.getName();
     @Inject
     private IssueDAO issueDAO;
     @Inject
@@ -45,45 +45,19 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
     private NotificationManager notificationManager;
     @Inject
     private CredentialsService credentialsService;
-    private static final String TAG = IssueFragment.class.getName();
 
-    public void loadIssue(String issueKey) {
-        Bundle issueKeyBundle = new Bundle();
-        issueKeyBundle.putString("issueKey", issueKey);
-        getLoaderManager().restartLoader(0, issueKeyBundle, this);
+    public void loadIssue(String issueKey, LoginInfo account) {
+        loadIssueInBackground(issueKey, account);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @Background
+    void loadIssueInBackground(String issueKey, LoginInfo account) {
+        Issue issue = issueDAO.getIssueWithKey(issueKey, account);
+        onLoadFinished(issue);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.issue_fragment, container);
-    }
-
-    @Override
-    public Loader<Issue> onCreateLoader(int i, Bundle bundle) {
-        final String issueKey = bundle.getString("issueKey");
-        Log.d(TAG, "loader creation, issueKey: " + issueKey);
-        final AsyncTaskLoader<Issue> asyncTaskLoader = new AsyncTaskLoader<Issue>(getActivity()) {
-            @Override
-            public Issue loadInBackground() {
-                Log.d(TAG, "loader called");
-                return issueDAO.getIssueWithKey(issueKey);
-            }
-
-            @Override
-            protected void onStartLoading() {
-                forceLoad();
-            }
-        };
-        return asyncTaskLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Issue> loader, final Issue issue) {
+    @UiThread
+    public void onLoadFinished(final Issue issue) {
         Log.d(TAG, "loader finished");
         IssuePropertyGroup basicGroup = getIssueDetailsProperties(issue);
         IssuePropertyGroup peopleGroup = getIssuePeopleProperties(issue);
@@ -116,11 +90,6 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
         if (getActivity() instanceof IssueLoadedListener) {
             ((IssueLoadedListener) getActivity()).issueLoaded(issue);
         }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Issue> loader) {
-        Log.d(TAG, "loader reset");
     }
 
     private IssuePropertyGroup getIssueDetailsProperties(Issue issue) {
@@ -159,7 +128,6 @@ public class IssueFragment extends RoboFragment implements LoaderCallbacks<Issue
     }
 
     public interface IssueLoadedListener {
-
         public void issueLoaded(Issue issue);
     }
 }

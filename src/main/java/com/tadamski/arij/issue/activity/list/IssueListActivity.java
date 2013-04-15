@@ -1,25 +1,26 @@
 package com.tadamski.arij.issue.activity.list;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.tadamski.arij.issue.activity.IssueActivity;
-import com.tadamski.arij.issue.dao.Issue.Summary;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.FragmentById;
+import com.tadamski.arij.R;
+import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.issue.dao.IssueDAO;
-import roboguice.activity.RoboListActivity;
+import roboguice.activity.RoboFragmentActivity;
 
 import javax.inject.Inject;
 
-public class IssueListActivity extends RoboListActivity {
+@EActivity(R.layout.issue_list_activity)
+public class IssueListActivity extends RoboFragmentActivity {
 
     private final String TAG = IssueListActivity.class.getName();
     @Inject
     private IssueDAO issueDao;
+    @Inject
+    private CredentialsService service;
+    @FragmentById(R.id.fragment)
+    IssueListFragment fragment;
 
     @Override
     protected void onStart() {
@@ -33,31 +34,9 @@ public class IssueListActivity extends RoboListActivity {
         EasyTracker.getInstance().activityStop(this);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setProgressBarIndeterminate(true);
-        Log.i(TAG, "onCreate");
-        AsyncTask<Void, Void, BaseAdapter> asyncTask = new AsyncTask<Void, Void, BaseAdapter>() {
-            @Override
-            protected BaseAdapter doInBackground(Void... params) {
-                return new IssueListAdapter(IssueListActivity.this, issueDao.getTasksAssignedToLoggedInUser());
-            }
-
-            @Override
-            protected void onPostExecute(BaseAdapter result) {
-                IssueListActivity.this.setProgressBarIndeterminate(false);
-                IssueListActivity.this.setListAdapter(result);
-            }
-
-        };
-        asyncTask.execute();
+    @AfterViews
+    void initFragment() {
+        fragment.executeJql("assignee=currentUser()", service.getActive());
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(IssueListActivity.this, IssueActivity.class);
-        intent.putExtra(IssueActivity.INTENT_EXTRA_ISSUE_KEY, ((Summary) getListAdapter().getItem(position)).getKey());
-        startActivity(intent);
-    }
 }
