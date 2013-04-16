@@ -26,3 +26,6 @@ local.properties
 # Gradle
 /.gradle/
 /build/
+
+# External apklib
+/gen-external-apklibs/
