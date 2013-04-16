@@ -30,7 +30,7 @@ public class IssueDAO {
     @Inject
     private RESTRunner restRunner;
 
-    public List<Issue.Summary> executeJql(String jql, Long startAt, Long maxResults, LoginInfo loginInfo) {
+    public ResultList executeJql(String jql, Long startAt, Long maxResults, LoginInfo loginInfo) {
         try {
             JSONObject query = new JSONObject()
                     .put("jql", jql)
@@ -40,17 +40,31 @@ public class IssueDAO {
             CommandResult result = restRunner.run(cmd, loginInfo);
             JSONObject resultObject = new JSONObject(result.getResult());
             final JSONArray issuesArray = resultObject.getJSONArray("issues");
+            final long totalResult = resultObject.getLong("total");
+            final long startAtResult = resultObject.getLong("startAt");
             List<Issue.Summary> issueList = new LinkedList<Issue.Summary>();
             for (int i = 0; i < issuesArray.length(); i++) {
                 JSONObject issue = issuesArray.getJSONObject(i);
                 Issue.Summary readValue = Jack.son().readValue(issue.toString(), Issue.Summary.class);
                 issueList.add(readValue);
             }
-            return issueList;
+            return new ResultList(totalResult, startAtResult, issueList);
         } catch (IOException ex) {
             throw new CommunicationException(ex);
         } catch (JSONException ex) {
             throw new CommunicationException(ex);
+        }
+    }
+
+    public static class ResultList {
+        public long total;
+        public long startAt;
+        public List<Issue.Summary> issues;
+
+        public ResultList(long total, long startAt, List<Issue.Summary> issues) {
+            this.total = total;
+            this.startAt = startAt;
+            this.issues = issues;
         }
     }
 

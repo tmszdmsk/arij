@@ -126,7 +126,6 @@ public class NewWorklogFragment extends RoboFragment {
     @UiThread
     void onWorkLogged(boolean successful) {
         if (successful) {
-            logWork(loginInfo, issueKey, comment.getText().toString(), startDateDate, durationLong);
             Toast.makeText(getActivity(), "worklog updated", Toast.LENGTH_SHORT).show();
             NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
             getActivity().finish();

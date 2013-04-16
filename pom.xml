@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <android.sdk.path>E:\android-sdk\</android.sdk.path>
-        <android.sdk.platform>14</android.sdk.platform>
+        <android.sdk.platform>15</android.sdk.platform>
         <android.sdk.platform.version>4.0.1.2</android.sdk.platform.version>
         <android.maven.plugin.version>3.5.2</android.maven.plugin.version>
         <debug>true</debug>

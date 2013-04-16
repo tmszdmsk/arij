@@ -17,11 +17,23 @@ public class IssueListAdapter extends BaseAdapter {
 
     private static final DateFormat DATE_TIME_INSTANCE = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     private final List<Issue.Summary> issues;
+    private long totalNumberOfIssues;
+    private String jql;
     private final LayoutInflater layoutInflater;
 
-    public IssueListAdapter(Context ctx, List<Summary> init) {
+    public IssueListAdapter(Context ctx, List<Summary> init, long totalNumberOfIssues, String jql) {
         this.issues = init;
+        this.totalNumberOfIssues = totalNumberOfIssues;
+        this.jql = jql;
         this.layoutInflater = LayoutInflater.from(ctx);
+    }
+
+    public String getJql() {
+        return jql;
+    }
+
+    public long getTotalNumberOfIssues() {
+        return totalNumberOfIssues;
     }
 
     public List<Summary> getIssues() {

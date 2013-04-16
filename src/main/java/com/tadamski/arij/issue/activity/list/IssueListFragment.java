@@ -2,6 +2,7 @@ package com.tadamski.arij.issue.activity.list;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.google.inject.Inject;
 import com.googlecode.androidannotations.annotations.*;
@@ -11,9 +12,6 @@ import com.tadamski.arij.issue.activity.single.view.IssueActivity_;
 import com.tadamski.arij.issue.dao.Issue;
 import com.tadamski.arij.issue.dao.IssueDAO;
 import roboguice.fragment.RoboFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,17 +27,8 @@ public class IssueListFragment extends RoboFragment implements AdapterView.OnIte
     ListView listView;
     @Inject
     IssueDAO issueDAO;
-    IssueListAdapter issueListAdapter;
-    @InstanceState
-    ArrayList<Issue.Summary> issues;
+    ListAdapter issueListAdapter;
     private LoginInfo account;
-
-    @AfterViews
-    void initListAdapter() {
-        if (issues == null) issues = new ArrayList<Issue.Summary>();
-        issueListAdapter = new IssueListAdapter(getActivity(), issues);
-        listView.setAdapter(issueListAdapter);
-    }
 
     @AfterViews
     void initClickListener() {
@@ -48,26 +37,29 @@ public class IssueListFragment extends RoboFragment implements AdapterView.OnIte
 
     public void executeJql(String jql, LoginInfo account) {
         this.account = account;
-        issueListAdapter.getIssues().clear();
-        issueListAdapter.notifyDataSetChanged();
         loadInBackground(jql, account);
     }
 
     @Background
     void loadInBackground(String jql, LoginInfo account) {
-        List<Issue.Summary> result = issueDAO.executeJql(jql, 0L, 20L, account);
-        onLoadSuccess(result);
+        IssueDAO.ResultList resultList = issueDAO.executeJql(jql, 0L, 20L, account);
+        onLoadSuccess(resultList, jql, account);
     }
 
     @UiThread
-    void onLoadSuccess(List<Issue.Summary> issues) {
-        issueListAdapter.getIssues().addAll(issues);
-        issueListAdapter.notifyDataSetChanged();
+    void onLoadSuccess(IssueDAO.ResultList resultList, String jql, LoginInfo account) {
+        IssueListAdapter adapter = new IssueListAdapter(getActivity(), resultList.issues, resultList.total, jql);
+        if (resultList.total > resultList.issues.size()) {
+            issueListAdapter = new EndlessIssueListAdapter(issueDAO, getActivity(), adapter, account);
+        } else {
+            issueListAdapter = adapter;
+        }
+        listView.setAdapter(issueListAdapter);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Issue.Summary item = issueListAdapter.getItem(position);
+        Issue.Summary item = (Issue.Summary) issueListAdapter.getItem(position);
         IssueActivity_.intent(getActivity()).issueKey(item.getKey()).account(account).start();
     }
 }
