@@ -40,6 +40,7 @@ public class IssueListFragment extends RoboFragment implements AdapterView.OnIte
     }
 
     public void executeJql(String jql, LoginInfo account) {
+        this.account = account;
         IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue.Summary>(), 1, jql);
         issueListAdapter = new EndlessIssueListAdapter(issueDAO, getActivity(), adapter, account);
         listView.setAdapter(issueListAdapter);
