@@ -5,13 +5,17 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.google.inject.Inject;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.single.view.IssueActivity_;
 import com.tadamski.arij.issue.dao.Issue;
 import com.tadamski.arij.issue.dao.IssueDAO;
 import roboguice.fragment.RoboFragment;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,24 +40,8 @@ public class IssueListFragment extends RoboFragment implements AdapterView.OnIte
     }
 
     public void executeJql(String jql, LoginInfo account) {
-        this.account = account;
-        loadInBackground(jql, account);
-    }
-
-    @Background
-    void loadInBackground(String jql, LoginInfo account) {
-        IssueDAO.ResultList resultList = issueDAO.executeJql(jql, 0L, 20L, account);
-        onLoadSuccess(resultList, jql, account);
-    }
-
-    @UiThread
-    void onLoadSuccess(IssueDAO.ResultList resultList, String jql, LoginInfo account) {
-        IssueListAdapter adapter = new IssueListAdapter(getActivity(), resultList.issues, resultList.total, jql);
-        if (resultList.total > resultList.issues.size()) {
-            issueListAdapter = new EndlessIssueListAdapter(issueDAO, getActivity(), adapter, account);
-        } else {
-            issueListAdapter = adapter;
-        }
+        IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue.Summary>(), 1, jql);
+        issueListAdapter = new EndlessIssueListAdapter(issueDAO, getActivity(), adapter, account);
         listView.setAdapter(issueListAdapter);
     }
 
