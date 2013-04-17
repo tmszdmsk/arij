@@ -28,34 +28,12 @@
             <version>${android.sdk.platform.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>support-v4</artifactId>
-            <version>r7</version>
-        </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>12.0.1</version>
         </dependency>
-        <!-- roboguice start -->
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <classifier>no_aop</classifier>
-            <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.roboguice</groupId>
-            <artifactId>roboguice</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-        <!-- roboguice stop -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -83,15 +61,34 @@
             <artifactId>androidannotations-api</artifactId>
             <version>2.7</version>
         </dependency>
+        <!-- actionbar sherlock -->
+        <dependency>
+            <groupId>com.actionbarsherlock</groupId>
+            <artifactId>actionbarsherlock</artifactId>
+            <version>4.3.0</version>
+            <type>apklib</type>
+        </dependency>
+        <!-- andriod support library -->
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>r7</version>
+        </dependency>
         <!-- local dependencies, they're not in any major public repo -->
         <dependency>
             <groupId>com.google.android.analytics</groupId>
             <artifactId>analytics</artifactId>
             <version>2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/libGoogleAnalyticsV2.jar</systemPath>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>in-project</id>
+            <name>In Project Repo</name>
+            <url>file://${project.basedir}/libs</url>
+        </repository>
+    </repositories>
+
     <profiles>
         <profile>
             <id>release</id>

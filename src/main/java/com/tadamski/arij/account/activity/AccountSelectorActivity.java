@@ -5,31 +5,34 @@ import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.SystemService;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.list.IssueListActivity_;
-import roboguice.activity.RoboListActivity;
 
-import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author tmszdmsk
  */
-public class AccountSelectorActivity extends RoboListActivity implements OnAccountsUpdateListener {
+@EActivity
+public class AccountSelectorActivity extends SherlockListActivity implements OnAccountsUpdateListener {
 
-    @Inject
-    private AccountManager accountManager;
-    @Inject
-    private CredentialsService credentialsService;
+    @SystemService
+    AccountManager accountManager;
+    @Bean
+    CredentialsService credentialsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class AccountSelectorActivity extends RoboListActivity implements OnAccou
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.account_selector_menu, menu);
+        getSupportMenuInflater().inflate(R.menu.account_selector_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

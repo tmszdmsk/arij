@@ -1,6 +1,8 @@
 package com.tadamski.arij.worklog.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EBean;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.util.Jack;
 import com.tadamski.arij.util.rest.CommandResult;
@@ -8,17 +10,17 @@ import com.tadamski.arij.util.rest.RESTRunner;
 import com.tadamski.arij.util.rest.command.POSTCommand;
 import com.tadamski.arij.util.rest.exceptions.CommunicationException;
 
-import javax.inject.Inject;
 import java.text.MessageFormat;
 
 /**
  * @author tmszdmsk
  */
+@EBean
 public class WorkLogRepository {
 
     private static final String WORKLOG_REPOSITORY = "rest/api/latest/issue/{0}/worklog";
-    @Inject
-    private RESTRunner restRunner;
+    @Bean
+    RESTRunner restRunner;
 
     public void addNewWorklogItem(String issueKey, NewWorklog worklog, LoginInfo loginInfo) {
         try {

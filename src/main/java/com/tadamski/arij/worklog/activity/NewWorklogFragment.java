@@ -4,6 +4,7 @@
  */
 package com.tadamski.arij.worklog.activity;
 
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +17,7 @@ import com.tadamski.arij.issue.dao.Issue;
 import com.tadamski.arij.worklog.notification.NewWorklogNotificationBuilder;
 import com.tadamski.arij.worklog.repository.NewWorklog;
 import com.tadamski.arij.worklog.repository.WorkLogRepository;
-import roboguice.fragment.RoboFragment;
 
-import javax.inject.Inject;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -26,7 +25,7 @@ import java.util.Date;
  * @author tmszdmsk
  */
 @EFragment(R.layout.worklog_new_fragment)
-public class NewWorklogFragment extends RoboFragment {
+public class NewWorklogFragment extends Fragment {
 
 
     @ViewById(R.id.start_date)
@@ -55,7 +54,7 @@ public class NewWorklogFragment extends RoboFragment {
     Long durationLong;
     @InstanceState
     LoginInfo loginInfo;
-    @Inject
+    @Bean
     WorkLogRepository workLogRepository;
 
     @AfterViews

@@ -1,14 +1,14 @@
 package com.tadamski.arij.issue.activity.single.view;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.dao.Issue;
-import roboguice.activity.RoboFragmentActivity;
 
 @EActivity(R.layout.issue)
-public class IssueActivity extends RoboFragmentActivity implements IssueFragment.IssueLoadedListener {
+public class IssueActivity extends SherlockFragmentActivity implements IssueFragment.IssueLoadedListener {
 
     private static final String TAG = IssueActivity.class.getName();
     @Extra

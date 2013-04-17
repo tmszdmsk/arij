@@ -9,21 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.base.Strings;
-import com.googlecode.androidannotations.annotations.Background;
-import com.googlecode.androidannotations.annotations.Click;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginException;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.account.service.LoginService;
 import com.tadamski.arij.util.rest.exceptions.CommunicationException;
-import roboguice.activity.RoboAccountAuthenticatorActivity;
-import roboguice.inject.InjectResource;
-import roboguice.inject.InjectView;
 
-import javax.inject.Inject;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -31,26 +25,26 @@ import java.net.URL;
  * @author t.adamski
  */
 @EActivity(R.layout.login)
-public class AddNewAccountActivity extends RoboAccountAuthenticatorActivity {
+public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity {
 
-    @InjectView(R.id.url_edit_text)
-    private EditText urlEditText;
-    @InjectView(R.id.login_edit_text)
-    private EditText loginEditText;
-    @InjectView(R.id.password_edit_text)
-    private EditText passwordEditText;
-    @InjectView(R.id.login_button)
-    private Button loginButton;
-    @InjectResource(R.string.invalid_url_format)
-    private String invalidUrlFormat;
-    @InjectResource(R.string.invalid_login_empty)
-    private String invalidLoginEmpty;
-    @InjectResource(R.string.invalid_login_credentials)
-    private String invalidLoginCredentials;
-    @Inject
-    private LoginService loginService;
-    @Inject
-    private AccountManager accountManager;
+    @ViewById(R.id.url_edit_text)
+    EditText urlEditText;
+    @ViewById(R.id.login_edit_text)
+    EditText loginEditText;
+    @ViewById(R.id.password_edit_text)
+    EditText passwordEditText;
+    @ViewById(R.id.login_button)
+    Button loginButton;
+    @StringRes(R.string.invalid_url_format)
+    String invalidUrlFormat;
+    @StringRes(R.string.invalid_login_empty)
+    String invalidLoginEmpty;
+    @StringRes(R.string.invalid_login_credentials)
+    String invalidLoginCredentials;
+    @Bean
+    LoginService loginService;
+    @SystemService
+    AccountManager accountManager;
 
     @Override
     protected void onStart() {

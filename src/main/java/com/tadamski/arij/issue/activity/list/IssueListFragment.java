@@ -4,8 +4,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import com.google.inject.Inject;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
@@ -13,7 +14,6 @@ import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.single.view.IssueActivity_;
 import com.tadamski.arij.issue.dao.Issue;
 import com.tadamski.arij.issue.dao.IssueDAO;
-import roboguice.fragment.RoboFragment;
 
 import java.util.ArrayList;
 
@@ -25,11 +25,11 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 @EFragment(R.layout.issue_list_fragment)
-public class IssueListFragment extends RoboFragment implements AdapterView.OnItemClickListener {
+public class IssueListFragment extends SherlockFragment implements AdapterView.OnItemClickListener {
 
     @ViewById(android.R.id.list)
     ListView listView;
-    @Inject
+    @Bean
     IssueDAO issueDAO;
     ListAdapter issueListAdapter;
     private LoginInfo account;

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.CredentialsService;
@@ -21,9 +22,7 @@ import com.tadamski.arij.issue.dao.Issue;
 import com.tadamski.arij.issue.dao.IssueDAO;
 import com.tadamski.arij.worklog.notification.NewWorklogNotificationBuilder;
 import com.tadamski.arij.worklog.repository.WorkLogRepository;
-import roboguice.fragment.RoboFragment;
 
-import javax.inject.Inject;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,19 +31,19 @@ import java.util.Date;
  * @author tmszdmsk
  */
 @EFragment(R.layout.issue_fragment)
-public class IssueFragment extends RoboFragment {
+public class IssueFragment extends SherlockFragment {
 
     private static final String TAG = IssueFragment.class.getName();
-    @Inject
-    private IssueDAO issueDAO;
-    @Inject
-    private WorkLogRepository workLogRepository;
-    @Inject
-    private NotificationManager notificationManager;
-    @Inject
-    private CredentialsService credentialsService;
     @InstanceState
     Issue loadedIssue;
+    @Bean
+    IssueDAO issueDAO;
+    @Bean
+    WorkLogRepository workLogRepository;
+    @SystemService
+    NotificationManager notificationManager;
+    @Bean
+    CredentialsService credentialsService;
 
     @AfterViews
     void init() {

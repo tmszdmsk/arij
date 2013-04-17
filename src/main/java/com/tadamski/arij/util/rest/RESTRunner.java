@@ -2,6 +2,9 @@ package com.tadamski.arij.util.rest;
 
 import android.util.Base64;
 import android.util.Log;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EBean;
+import com.googlecode.androidannotations.api.Scope;
 import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.util.rest.command.GETCommand;
@@ -9,8 +12,6 @@ import com.tadamski.arij.util.rest.command.POSTCommand;
 import com.tadamski.arij.util.rest.command.RESTCommand;
 import com.tadamski.arij.util.rest.exceptions.*;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -20,12 +21,12 @@ import java.text.MessageFormat;
 /**
  * @author tmszdmsk
  */
-@Singleton
+@EBean(scope = Scope.Singleton)
 public class RESTRunner {
 
     private static final String TAG = RESTRunner.class.getName();
-    @Inject
-    private CredentialsService credentialsService;
+    @Bean
+    CredentialsService credentialsService;
 
     public CommandResult run(RESTCommand command) {
         return run(command, credentialsService.getActive());

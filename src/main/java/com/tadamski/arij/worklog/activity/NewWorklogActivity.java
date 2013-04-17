@@ -1,11 +1,11 @@
 package com.tadamski.arij.worklog.activity;
 
+import android.support.v4.app.FragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.dao.Issue;
-import roboguice.activity.RoboFragmentActivity;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ import java.util.Date;
  * @author tmszdmsk
  */
 @EActivity(R.layout.worklog_new_activity)
-public class NewWorklogActivity extends RoboFragmentActivity {
+public class NewWorklogActivity extends FragmentActivity {
 
     private static final String TAG = NewWorklogActivity.class.getName();
     @FragmentById(R.id.worklog_fragment)

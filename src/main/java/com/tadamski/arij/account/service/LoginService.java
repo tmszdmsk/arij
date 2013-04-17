@@ -1,6 +1,7 @@
 package com.tadamski.arij.account.service;
 
-import com.google.inject.Inject;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EBean;
 import com.tadamski.arij.util.rest.RESTRunner;
 import com.tadamski.arij.util.rest.command.POSTCommand;
 import com.tadamski.arij.util.rest.exceptions.CommunicationException;
@@ -12,11 +13,12 @@ import org.json.JSONObject;
 /**
  * @author t.adamski
  */
+@EBean
 public class LoginService {
 
     private static final String POST_PATH = "rest/auth/1/session";
-    @Inject
-    private RESTRunner restRunner;
+    @Bean
+    RESTRunner restRunner;
 
     public void checkCredentials(LoginInfo loginInfo) throws LoginException, CommunicationException {
         try {
