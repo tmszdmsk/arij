@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.NotificationCompat;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.dao.Issue;
@@ -36,7 +37,7 @@ public class NewWorklogNotificationBuilder {
                 .flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS).get();
 
         Notification notification =
-                new Notification.Builder(ctx).
+                new NotificationCompat.Builder(ctx).
                         setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_stat_new_worklog)).
                         setSmallIcon(R.drawable.ic_stat_new_worklog).
                         setOngoing(true).

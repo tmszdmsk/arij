@@ -34,7 +34,7 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
 
     @AfterViews
     void init() {
-        getActionBar().setTitle(issueKey);
+        getSupportActionBar().setTitle(issueKey);
         if (!loaded) {
             issueFragment.loadIssue(issueKey, account);
             loaded = true;
@@ -43,6 +43,6 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
 
     @Override
     public void issueLoaded(Issue issue) {
-        getActionBar().setSubtitle(issue.getSummary().getSummary());
+        getSupportActionBar().setSubtitle(issue.getSummary().getSummary());
     }
 }
