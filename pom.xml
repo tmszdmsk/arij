@@ -78,17 +78,18 @@
             <version>2.7</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.googlecode.androidannotations</groupId>
             <artifactId>androidannotations-api</artifactId>
             <version>2.7</version>
         </dependency>
-        <!-- TO INSTALL LIBRARIES BELOW, USE maven-android-sdk-deployer FROM https://github.com/mosabua/maven-android-sdk-deployer -->
+        <!-- local dependencies, they're not in any major public repo -->
         <dependency>
             <groupId>com.google.android.analytics</groupId>
             <artifactId>analytics</artifactId>
             <version>2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/libGoogleAnalyticsV2.jar</systemPath>
         </dependency>
     </dependencies>
     <profiles>
@@ -114,6 +115,7 @@
                                 <configuration>
                                     <files>
                                         <file>${project.basedir}/../sign.properties</file>
+                                        libGoogleAnalyticsV2
                                     </files>
                                 </configuration>
                             </execution>
