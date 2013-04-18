@@ -37,3 +37,8 @@ Just make sure that your ANDROID_HOME environment variable is set properly.
 mvn install
 ``` 
 and magic should happen ;)
+If not, [create an issue](http://github.com/tmszdmsk/arij/issues/new) or write an [e-mail](mailto:tomasz.adamski@gmail.com)
+
+License
+===
+...is [here](http://github.com/tmszdmsk/arij/blob/master/LICENSE)
