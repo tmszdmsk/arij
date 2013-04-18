@@ -14,9 +14,9 @@
         <activity android:name=".issue.activity.single.view.IssueActivity_"
                   android:theme="@style/Theme.Sherlock.Light"/>
         <activity android:name=".account.activity.AddNewAccountActivity_"
-                  android:theme="@style/Theme.Sherlock.Light"/>
+                  android:theme="@style/Theme.Sherlock.Light.NoActionBar"/>
         <activity android:name=".worklog.activity.NewWorklogActivity_"
-                  android:theme="@android:style/Theme.Holo.Light.Dialog"/>
+                  android:theme="@style/Theme.Sherlock.Light"/>
         <service android:exported="true" android:name=".account.authenticator.AuthenticationService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>

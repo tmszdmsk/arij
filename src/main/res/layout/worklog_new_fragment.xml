@@ -64,8 +64,8 @@
             android:id="@+id/worklog_comment"
             android:layout_below="@+id/textView2"
             android:maxLines="4"
-            android:minLines="1" android:singleLine="false" android:hint="Leave your comment here"
-            android:layout_alignParentLeft="true" android:layout_alignParentRight="true"/>
+            android:singleLine="false" android:hint="Leave your comment here"
+            android:layout_alignParentLeft="true" android:layout_alignParentRight="true" android:lines="4"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -79,14 +79,14 @@
                 android:id="@+id/worklog_cancel_button"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true" android:layout_weight="1"
-                style="@android:style/Holo.Light.ButtonBar.AlertDialog"/>
+                />
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="Log work"
                 android:id="@+id/worklog_log_button"
                 android:layout_alignParentRight="true" android:layout_alignTop="@+id/worklog_cancel_button"
-                android:layout_weight="1" style="@android:style/Holo.Light.ButtonBar.AlertDialog"/>
+                android:layout_weight="1"/>
     </LinearLayout>
 </RelativeLayout>
 
