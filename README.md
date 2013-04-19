@@ -41,4 +41,4 @@ If not, [create an issue](http://github.com/tmszdmsk/arij/issues/new) or write a
 
 License
 ===
-...is [here](http://github.com/tmszdmsk/arij/blob/master/LICENSE)
+MIT, details [here](http://github.com/tmszdmsk/arij/blob/master/LICENSE)
