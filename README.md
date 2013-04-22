@@ -14,7 +14,7 @@ or [compile it yourself](https://github.com/tmszdmsk/arij/blob/master/README.md#
 Current state
 ===
 * multiple accounts support
-* presents list of first N issues assigned to logged in user
+* presents list issues assigned to logged in user
 * screen with basic informations about issue
 * allows to start work on issue with timer and log that work later
 
