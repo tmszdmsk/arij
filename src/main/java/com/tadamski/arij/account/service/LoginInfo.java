@@ -11,10 +11,11 @@ import java.io.Serializable;
 
 public class LoginInfo implements Serializable {
 
+    @Expose
     private String username;
+    @Expose
     private String password;
-    @Expose(deserialize = false, serialize = false)
-    private transient String baseUrl;
+    private String baseUrl;
 
     public LoginInfo(String username, String password, String baseUrl) {
         Preconditions.checkNotNull(username);

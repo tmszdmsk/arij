@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Selection;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -30,6 +31,8 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @ViewById(R.id.url_edit_text)
     EditText urlEditText;
+    @ViewById(R.id.add_account_default_postfix_button)
+    Button defaultPostfixButton;
     @ViewById(R.id.login_edit_text)
     EditText loginEditText;
     @ViewById(R.id.password_edit_text)
@@ -59,20 +62,30 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         EasyTracker.getInstance().activityStop(this);
     }
 
-    @AfterViews
-    protected void initUrlEditText() {
-        urlEditText.setText(getString(R.string.add_account_url_default_hostname));
-        Selection.setSelection(urlEditText.getText(), 0);
-
+    @Click(R.id.add_account_default_postfix_button)
+    void changeDefaultHostnamePostfix() {
+        int initialLength = urlEditText.getText().length();
+        String postFix = defaultPostfixButton.getText().toString();
+        defaultPostfixButton.setVisibility(View.GONE);
+        urlEditText.append(postFix);
+        Selection.setSelection(urlEditText.getText(), initialLength);
     }
 
     @Click(R.id.login_button)
     void login() {
-        String url = urlEditText.getText().toString();
+        String url = getBaseUrl();
         String login = loginEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         if (validate()) {
             checkCredentials(url, login, password);
+        }
+    }
+
+    String getBaseUrl() {
+        if (defaultPostfixButton.getVisibility() == View.VISIBLE) {
+            return urlEditText.getText().toString() + defaultPostfixButton.getText().toString();
+        } else {
+            return urlEditText.getText().toString();
         }
     }
 
@@ -128,7 +141,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     private boolean validate() {
         boolean seemsValid = true;
         //url
-        String url = urlEditText.getText().toString();
+        String url = getBaseUrl();
         try {
             new URL("http://" + url);
             urlEditText.setError(null);

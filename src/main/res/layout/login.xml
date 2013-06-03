@@ -16,15 +16,20 @@
                 android:layout_marginLeft="3dp"/>
         <EditText
                 android:id="@+id/url_edit_text"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/sample_url"
                 android:inputType="textUri"
                 android:layout_alignParentRight="true"
-                android:text="@string/add_account_url_default_hostname">
+                android:layout_weight="1">
             <requestFocus/>
         </EditText>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_account_url_default_hostname"
+                android:id="@+id/add_account_default_postfix_button"/>
     </LinearLayout>
 
 
