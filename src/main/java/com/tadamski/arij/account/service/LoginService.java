@@ -4,9 +4,7 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.tadamski.arij.util.rest.RESTRunner;
 import com.tadamski.arij.util.rest.command.POSTCommand;
-import com.tadamski.arij.util.rest.exceptions.CommunicationException;
-import com.tadamski.arij.util.rest.exceptions.ForbiddenException;
-import com.tadamski.arij.util.rest.exceptions.UnauthorizedException;
+import com.tadamski.arij.util.rest.exceptions.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,9 +25,13 @@ public class LoginService {
             restRunner.run(post, loginInfo);
         } catch (JSONException ex) {
             throw new CommunicationException(ex);
-        } catch (UnauthorizedException ex) {
-            throw new LoginException(ex);
+        } catch (NotFoundException ex) {
+            throw new CommunicationException(ex);
+        } catch (ServerErrorException ex) {
+            throw new CommunicationException(ex);
         } catch (ForbiddenException ex) {
+            throw new CommunicationException(ex);
+        } catch (UnauthorizedException ex) {
             throw new LoginException(ex);
         }
 

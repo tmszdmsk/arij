@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Selection;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -58,22 +59,44 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         EasyTracker.getInstance().activityStop(this);
     }
 
+    @AfterViews
+    protected void initUrlEditText() {
+        urlEditText.setText(getString(R.string.add_account_url_default_hostname));
+        Selection.setSelection(urlEditText.getText(), 0);
+
+    }
+
     @Click(R.id.login_button)
     void login() {
+        String url = urlEditText.getText().toString();
+        String login = loginEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
         if (validate()) {
-            checkCredentials(getCredentials());
+            checkCredentials(url, login, password);
         }
     }
 
     @Background
-    void checkCredentials(LoginInfo credentials) {
+    void checkCredentials(String url, String login, String password) {
         try {
-            loginService.checkCredentials(credentials);
-            ifCredentialsConfirmed(credentials);
+            LoginInfo credentials = null;
+            try {
+                LoginInfo possibleCredentials = new LoginInfo(login, password, "https://" + url);
+                loginService.checkCredentials(possibleCredentials);
+                credentials = possibleCredentials;
+            } catch (CommunicationException ex) {
+                try {
+                    LoginInfo possibleCredentials = new LoginInfo(login, password, "http://" + url);
+                    loginService.checkCredentials(possibleCredentials);
+                    credentials = possibleCredentials;
+                } catch (CommunicationException ex2) {
+                    ifCommunicationException(ex2);
+                }
+            }
+            if (credentials != null)
+                ifCredentialsConfirmed(credentials);
         } catch (LoginException e) {
             ifCredentialsInvalid();
-        } catch (CommunicationException e) {
-            ifCommunicationException(e);
         }
     }
 
@@ -97,7 +120,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         //url
         String url = urlEditText.getText().toString();
         try {
-            new URL(url);
+            new URL("http://" + url);
             urlEditText.setError(null);
         } catch (MalformedURLException ex) {
             urlEditText.setError(invalidUrlFormat);
@@ -112,13 +135,6 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
             loginEditText.setError(null);
         }
         return seemsValid;
-    }
-
-    private LoginInfo getCredentials() {
-        String url = urlEditText.getText().toString();
-        String login = loginEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        return new LoginInfo(login, password, url);
     }
 
     private void createAccountAndFinish(LoginInfo credentials) {
