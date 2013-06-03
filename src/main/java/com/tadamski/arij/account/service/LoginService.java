@@ -1,39 +1,23 @@
 package com.tadamski.arij.account.service;
 
-import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
-import com.tadamski.arij.util.rest.RESTRunner;
-import com.tadamski.arij.util.rest.command.POSTCommand;
-import com.tadamski.arij.util.rest.exceptions.*;
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit.RestAdapter;
+import retrofit.client.Response;
 
 /**
- * @author t.adamski
+ * Created with IntelliJ IDEA.
+ * User: tmszdmsk
+ * Date: 03.06.13
+ * Time: 18:48
+ * To change this template use File | Settings | File Templates.
  */
 @EBean
 public class LoginService {
 
-    private static final String POST_PATH = "rest/auth/1/session";
-    @Bean
-    RESTRunner restRunner;
-
-    public void checkCredentials(LoginInfo loginInfo) throws LoginException, CommunicationException {
-        try {
-            JSONObject jsonObject = new JSONObject().put("username", loginInfo.getUsername()).put("password", new String(loginInfo.getPassword()));
-            POSTCommand post = new POSTCommand(jsonObject.toString(), POST_PATH);
-            restRunner.run(post, loginInfo);
-        } catch (JSONException ex) {
-            throw new CommunicationException(ex);
-        } catch (NotFoundException ex) {
-            throw new CommunicationException(ex);
-        } catch (ServerErrorException ex) {
-            throw new CommunicationException(ex);
-        } catch (ForbiddenException ex) {
-            throw new CommunicationException(ex);
-        } catch (UnauthorizedException ex) {
-            throw new LoginException(ex);
-        }
-
+    public Response checkCredentials(LoginInfo loginInfo) {
+        RestAdapter restAdapter = new RestAdapter.Builder().setServer(loginInfo.getBaseURL()).build();
+        LoginResource loginResource = restAdapter.create(LoginResource.class);
+        Response response = loginResource.checkCredentials(loginInfo);
+        return response;
     }
 }

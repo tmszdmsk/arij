@@ -14,10 +14,10 @@ import com.googlecode.androidannotations.annotations.*;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
-import com.tadamski.arij.account.service.LoginException;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.account.service.LoginService;
-import com.tadamski.arij.util.rest.exceptions.CommunicationException;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -76,27 +76,37 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         }
     }
 
+    private CheckResult checkServer(LoginInfo loginInfo) {
+        try {
+            Response response = loginService.checkCredentials(loginInfo);
+            return new CheckResult(response.getStatus(), response.toString());
+        } catch (RetrofitError retrofitError) {
+            if (retrofitError.isNetworkError()) {
+                return new CheckResult(0, retrofitError.getCause().toString());
+            } else {
+                return new CheckResult(retrofitError.getResponse().getStatus(), retrofitError.toString());
+            }
+        }
+    }
+
     @Background
     void checkCredentials(String url, String login, String password) {
-        try {
-            LoginInfo credentials = null;
-            try {
-                LoginInfo possibleCredentials = new LoginInfo(login, password, "https://" + url);
-                loginService.checkCredentials(possibleCredentials);
-                credentials = possibleCredentials;
-            } catch (CommunicationException ex) {
-                try {
-                    LoginInfo possibleCredentials = new LoginInfo(login, password, "http://" + url);
-                    loginService.checkCredentials(possibleCredentials);
-                    credentials = possibleCredentials;
-                } catch (CommunicationException ex2) {
-                    ifCommunicationException(ex2);
-                }
-            }
-            if (credentials != null)
-                ifCredentialsConfirmed(credentials);
-        } catch (LoginException e) {
+        LoginInfo possibleCredentials = new LoginInfo(login, password, "https://" + url);
+        CheckResult result = checkServer(possibleCredentials);
+        if (result.code == 200) {
+            ifCredentialsConfirmed(possibleCredentials);
+        } else if (result.code == 401) {
             ifCredentialsInvalid();
+        } else {
+            possibleCredentials = new LoginInfo(login, password, "http://" + url);
+            result = checkServer(possibleCredentials);
+            if (result.code == 200) {
+                ifCredentialsConfirmed(possibleCredentials);
+            } else if (result.code == 401) {
+                ifCredentialsInvalid();
+            } else {
+                ifCommunicationException(new RuntimeException(result.code + result.reason));
+            }
         }
     }
 
@@ -149,4 +159,16 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         setResult(RESULT_OK, intent);
         finish();
     }
+
+    private static class CheckResult {
+        int code;
+        String reason;
+
+        private CheckResult(int code, String reason) {
+            this.code = code;
+            this.reason = reason;
+        }
+    }
+
+
 }

@@ -1,17 +1,20 @@
 package com.tadamski.arij.account.service;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 
 /**
  * @author tmszdmsk
  */
+
 public class LoginInfo implements Serializable {
 
-    private final String username;
-    private final String password;
-    private final String baseUrl;
+    private String username;
+    private String password;
+    @Expose(deserialize = false, serialize = false)
+    private transient String baseUrl;
 
     public LoginInfo(String username, String password, String baseUrl) {
         Preconditions.checkNotNull(username);

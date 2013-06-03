@@ -8,7 +8,6 @@ package com.tadamski.arij;
  * @author tmszdmsk
  */
 public class Application extends android.app.Application {
-    // uncaught exception handler variable
     public Application() {
     }
 }
