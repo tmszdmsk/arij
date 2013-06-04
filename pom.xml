@@ -13,7 +13,7 @@
         <android.sdk.path>E:\android-sdk\</android.sdk.path>
         <android.sdk.platform>16</android.sdk.platform>
         <android.sdk.platform.version>4.1.1.4</android.sdk.platform.version>
-        <android.maven.plugin.version>3.5.3</android.maven.plugin.version>
+        <android.maven.plugin.version>3.6.0</android.maven.plugin.version>
         <debug>true</debug>
         <analytics.trackingId>UA-140251-7</analytics.trackingId>
         <analytics.appName>arij-debug</analytics.appName>
