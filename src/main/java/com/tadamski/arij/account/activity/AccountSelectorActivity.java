@@ -140,6 +140,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
         LoginInfo loginInfo = (LoginInfo) getListAdapter().getItem(position);
         if (activeActionMode == null) {
             credentialsService.setActive(loginInfo);
+            getListView().setItemChecked(position, false);
             IssueListActivity_.intent(this).loginInfo(loginInfo).start();
         } else {
             getListView().setItemChecked(getListView().getCheckedItemPosition(), false);
