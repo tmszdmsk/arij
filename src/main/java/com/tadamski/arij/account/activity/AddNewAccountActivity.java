@@ -81,6 +81,11 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         }
     }
 
+    @UiThread
+    void setLoginButtonState(boolean enabled) {
+        loginButton.setEnabled(enabled);
+    }
+
     String getBaseUrl() {
         if (defaultPostfixButton.getVisibility() == View.VISIBLE) {
             return urlEditText.getText().toString() + defaultPostfixButton.getText().toString();
@@ -104,22 +109,27 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @Background
     void checkCredentials(String url, String login, String password) {
-        LoginInfo possibleCredentials = new LoginInfo(login, password, "https://" + url);
-        CheckResult result = checkServer(possibleCredentials);
-        if (result.code == 200) {
-            ifCredentialsConfirmed(possibleCredentials);
-        } else if (result.code == 401) {
-            ifCredentialsInvalid();
-        } else {
-            possibleCredentials = new LoginInfo(login, password, "http://" + url);
-            result = checkServer(possibleCredentials);
+        try {
+            setLoginButtonState(false);
+            LoginInfo possibleCredentials = new LoginInfo(login, password, "https://" + url);
+            CheckResult result = checkServer(possibleCredentials);
             if (result.code == 200) {
                 ifCredentialsConfirmed(possibleCredentials);
             } else if (result.code == 401) {
                 ifCredentialsInvalid();
             } else {
-                ifCommunicationException(new RuntimeException(result.code + result.reason));
+                possibleCredentials = new LoginInfo(login, password, "http://" + url);
+                result = checkServer(possibleCredentials);
+                if (result.code == 200) {
+                    ifCredentialsConfirmed(possibleCredentials);
+                } else if (result.code == 401) {
+                    ifCredentialsInvalid();
+                } else {
+                    ifCommunicationException(result.code + result.reason);
+                }
             }
+        } finally {
+            setLoginButtonState(true);
         }
     }
 
@@ -134,8 +144,8 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     }
 
     @UiThread
-    void ifCommunicationException(Exception ex) {
-        new AlertDialog.Builder(AddNewAccountActivity.this).setMessage(ex.getLocalizedMessage()).create().show();
+    void ifCommunicationException(String msg) {
+        new AlertDialog.Builder(AddNewAccountActivity.this).setMessage(msg).create().show();
     }
 
     private boolean validate() {

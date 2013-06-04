@@ -10,6 +10,7 @@
     <string name="invalid_login_empty">Login cannot be empty</string>
     <string name="invalid_login_credentials">Login/password combination incorrect</string>
     <string name="add_account">Add account</string>
+    <string name="remove_account">Remove account</string>
     <string name="add_account_url_prefix">http(s)://</string>
     <string name="add_account_url_default_hostname">.atlassian.net</string>
 
