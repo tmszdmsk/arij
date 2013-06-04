@@ -53,6 +53,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
         EasyTracker.getInstance().activityStop(this);
+
     }
 
     @Override
@@ -70,6 +71,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_add_account) {
+            EasyTracker.getTracker().sendEvent("AccountSelectorActivity", "account_add_manual", null, null);
             openAddNewAccountScreen();
             return true;
         }
@@ -132,6 +134,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     }
 
     private void removeAccount(LoginInfo loginInfo) {
+        EasyTracker.getTracker().sendEvent("AccountSelectorActivity", "account_removed", null, null);
         accountManager.removeAccount(new Account(loginInfo.getUsername(), Authenticator.ACCOUNT_TYPE), null, null);
     }
 
@@ -141,6 +144,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
         if (activeActionMode == null) {
             credentialsService.setActive(loginInfo);
             getListView().setItemChecked(position, false);
+            EasyTracker.getTracker().sendEvent("AccountSelectorActivity", "account_open", null, Long.valueOf(position));
             IssueListActivity_.intent(this).loginInfo(loginInfo).start();
         } else {
             getListView().setItemChecked(getListView().getCheckedItemPosition(), false);
