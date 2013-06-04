@@ -73,11 +73,14 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @Click(R.id.login_button)
     void login() {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_button_pushed", null, null);
         String url = getBaseUrl();
         String login = loginEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         if (validate()) {
             checkCredentials(url, login, password);
+        } else {
+            EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "validation_not_passed", null, null);
         }
     }
 
@@ -135,16 +138,19 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @UiThread
     void ifCredentialsConfirmed(LoginInfo credentials) {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_success", null, null);
         createAccountAndFinish(credentials);
     }
 
     @UiThread
     void ifCredentialsInvalid() {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_failed_invalid_credentials", null, null);
         loginEditText.setError(invalidLoginCredentials);
     }
 
     @UiThread
     void ifCommunicationException(String msg) {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_failed_exception", msg, null);
         new AlertDialog.Builder(AddNewAccountActivity.this).setMessage(msg).create().show();
     }
 
