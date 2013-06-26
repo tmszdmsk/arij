@@ -22,7 +22,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @FragmentById(R.id.fragment)
     IssueListFragment fragment;
     @ViewById(R.id.drawer)
-    ListView drawerListView;
+    ListView filtersListView;
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @NonConfigurationInstance
@@ -48,10 +48,10 @@ public class IssueListActivity extends SherlockFragmentActivity {
 
     @OptionsItem(android.R.id.home)
     void drawer() {
-        if (drawerLayout.isDrawerOpen(drawerListView)) {
-            drawerLayout.closeDrawer(drawerListView);
+        if (drawerLayout.isDrawerOpen(filtersListView)) {
+            drawerLayout.closeDrawer(filtersListView);
         } else {
-            drawerLayout.openDrawer(drawerListView);
+            drawerLayout.openDrawer(filtersListView);
         }
     }
 
@@ -62,8 +62,8 @@ public class IssueListActivity extends SherlockFragmentActivity {
             loaded = true;
         }
         final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
-        drawerListView.setAdapter(filtersListAdapter);
-        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        filtersListView.setAdapter(filtersListAdapter);
+        filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 selectFilter(filtersListAdapter.getItem(i));
@@ -80,6 +80,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     void selectFilter(Filter filter) {
         fragment.executeJql(filter.jql, loginInfo);
         IssueListActivity.this.setTitle(filter.name);
+        drawerLayout.closeDrawer(filtersListView);
     }
 
 
