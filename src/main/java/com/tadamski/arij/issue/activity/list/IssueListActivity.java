@@ -11,6 +11,7 @@ import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.list.filters.DefaultFilters;
+import com.tadamski.arij.issue.activity.list.filters.Filter;
 import com.tadamski.arij.issue.activity.list.filters.FiltersListAdapter;
 import com.tadamski.arij.issue.dao.IssueDAO;
 
@@ -57,7 +58,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @AfterViews
     void initFragment() {
         if (!loaded) {
-            fragment.executeJql("assignee=currentUser()", loginInfo);
+            selectFilter(filters.getFilterList().get(0));
             loaded = true;
         }
         final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
@@ -65,7 +66,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                fragment.executeJql(filtersListAdapter.getItem(i).jql, loginInfo);
+                selectFilter(filtersListAdapter.getItem(i));
             }
         });
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
@@ -74,6 +75,11 @@ public class IssueListActivity extends SherlockFragmentActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
+    }
+
+    void selectFilter(Filter filter) {
+        fragment.executeJql(filter.jql, loginInfo);
+        IssueListActivity.this.setTitle(filter.name);
     }
 
 
