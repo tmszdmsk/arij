@@ -2,13 +2,16 @@ package com.tadamski.arij.issue.activity.list;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.activity.list.filters.DefaultFilters;
+import com.tadamski.arij.issue.activity.list.filters.FiltersListAdapter;
 import com.tadamski.arij.issue.dao.IssueDAO;
 
 @EActivity(R.layout.issue_list_activity)
@@ -28,6 +31,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     ActionBarDrawerToggle drawerToggle;
     @Extra
     LoginInfo loginInfo;
+    DefaultFilters filters = new DefaultFilters();
 
     @Override
     protected void onStart() {
@@ -56,7 +60,14 @@ public class IssueListActivity extends SherlockFragmentActivity {
             fragment.executeJql("assignee=currentUser()", loginInfo);
             loaded = true;
         }
-        drawerListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[]{"ABC", "DEF"}));
+        final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
+        drawerListView.setAdapter(filtersListAdapter);
+        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                fragment.executeJql(filtersListAdapter.getItem(i).jql, loginInfo);
+            }
+        });
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_drawer,
                 R.string.open, R.string.close);
