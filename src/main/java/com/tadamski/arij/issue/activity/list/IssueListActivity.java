@@ -25,8 +25,6 @@ public class IssueListActivity extends SherlockFragmentActivity {
     boolean loaded;
     @Bean
     IssueDAO issueDao;
-    @Bean
-    CredentialsService service;
     ActionBarDrawerToggle drawerToggle;
     @Extra
     LoginInfo loginInfo;
@@ -41,6 +39,15 @@ public class IssueListActivity extends SherlockFragmentActivity {
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
         EasyTracker.getInstance().activityStop(this);
+    }
+
+    @OptionsItem(android.R.id.home)
+    void drawer() {
+        if (drawerLayout.isDrawerOpen(drawerListView)) {
+            drawerLayout.closeDrawer(drawerListView);
+        } else {
+            drawerLayout.openDrawer(drawerListView);
+        }
     }
 
     @AfterViews

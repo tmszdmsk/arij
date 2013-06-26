@@ -76,6 +76,16 @@
             <groupId>com.google</groupId>
             <version>2</version>
         </dependency>
+        <dependency>
+            <artifactId>play-services</artifactId>
+            <groupId>com.google.android</groupId>
+            <version>v1</version>
+        </dependency>
+        <dependency>
+            <artifactId>support-v4</artifactId>
+            <groupId>android.support</groupId>
+            <version>r13</version>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>
@@ -100,7 +110,6 @@
                                 <configuration>
                                     <files>
                                         <file>${project.basedir}/../sign.properties</file>
-                                        libGoogleAnalyticsV2
                                     </files>
                                 </configuration>
                             </execution>
