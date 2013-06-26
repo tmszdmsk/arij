@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -43,8 +42,10 @@ public class FiltersListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        TextView textView = new TextView(ctx);
-        textView.setText(getItem(i).name);
-        return textView;
+        FilterView fv = null;
+        if (view != null) fv = (FilterView) view;
+        else fv = FilterView_.build(ctx);
+        fv.setFilter(getItem(i));
+        return fv;
     }
 }

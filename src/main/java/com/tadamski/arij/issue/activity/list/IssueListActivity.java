@@ -58,23 +58,25 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @AfterViews
     void initFragment() {
         if (!loaded) {
-            selectFilter(filters.getFilterList().get(0));
+            final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
+            filtersListView.setAdapter(filtersListAdapter);
+            filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    filtersListView.setItemChecked(i, true);
+                    selectFilter(filtersListAdapter.getItem(i));
+                }
+            });
+            drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                    R.drawable.ic_drawer,
+                    R.string.open, R.string.close);
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
+            drawerToggle.syncState();
+            filtersListView.setItemChecked(0, true);
+            selectFilter(filtersListAdapter.getItem(0));
             loaded = true;
         }
-        final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
-        filtersListView.setAdapter(filtersListAdapter);
-        filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectFilter(filtersListAdapter.getItem(i));
-            }
-        });
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                R.drawable.ic_drawer,
-                R.string.open, R.string.close);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        drawerToggle.syncState();
     }
 
     void selectFilter(Filter filter) {

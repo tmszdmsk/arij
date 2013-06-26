@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="48dp" android:gravity="center_vertical" android:focusable="false"
+              android:clickable="false">
+
+    <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton" android:layout_gravity="left|center_vertical" android:checked="false"
+            android:clickable="false" android:focusable="false"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/filter_name" android:gravity="center_vertical" android:text="Assigned to me"
+            android:focusable="false" android:clickable="false"
+            android:textSize="@dimen/worklog_new_issue_key_title_font_size"/>
+</LinearLayout>
