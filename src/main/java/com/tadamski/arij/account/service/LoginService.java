@@ -1,37 +1,27 @@
 package com.tadamski.arij.account.service;
 
-import com.googlecode.androidannotations.annotations.Bean;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.googlecode.androidannotations.annotations.EBean;
-import com.tadamski.arij.util.rest.RESTRunner;
-import com.tadamski.arij.util.rest.command.POSTCommand;
-import com.tadamski.arij.util.rest.exceptions.CommunicationException;
-import com.tadamski.arij.util.rest.exceptions.ForbiddenException;
-import com.tadamski.arij.util.rest.exceptions.UnauthorizedException;
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit.RestAdapter;
+import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
 
 /**
- * @author t.adamski
+ * Created with IntelliJ IDEA.
+ * User: tmszdmsk
+ * Date: 03.06.13
+ * Time: 18:48
+ * To change this template use File | Settings | File Templates.
  */
 @EBean
 public class LoginService {
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-    private static final String POST_PATH = "rest/auth/1/session";
-    @Bean
-    RESTRunner restRunner;
-
-    public void checkCredentials(LoginInfo loginInfo) throws LoginException, CommunicationException {
-        try {
-            JSONObject jsonObject = new JSONObject().put("username", loginInfo.getUsername()).put("password", new String(loginInfo.getPassword()));
-            POSTCommand post = new POSTCommand(jsonObject.toString(), POST_PATH);
-            restRunner.run(post, loginInfo);
-        } catch (JSONException ex) {
-            throw new CommunicationException(ex);
-        } catch (UnauthorizedException ex) {
-            throw new LoginException(ex);
-        } catch (ForbiddenException ex) {
-            throw new LoginException(ex);
-        }
-
+    public Response checkCredentials(LoginInfo loginInfo) {
+        RestAdapter restAdapter = new RestAdapter.Builder().setServer(loginInfo.getBaseURL()).setConverter(new GsonConverter(gson)).build();
+        LoginResource loginResource = restAdapter.create(LoginResource.class);
+        Response response = loginResource.checkCredentials(loginInfo);
+        return response;
     }
 }

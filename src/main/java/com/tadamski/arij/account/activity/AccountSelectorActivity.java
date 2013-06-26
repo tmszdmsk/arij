@@ -3,17 +3,14 @@ package com.tadamski.arij.account.activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
+import android.widget.AbsListView;
 import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.googlecode.androidannotations.annotations.Bean;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.CredentialsService;
@@ -33,6 +30,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     AccountManager accountManager;
     @Bean
     CredentialsService credentialsService;
+    ActionMode activeActionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +40,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
         if (getListAdapter().isEmpty()) {
             openAddNewAccountScreen();
         }
+        getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
 
     @Override
@@ -54,6 +53,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     protected void onStop() {
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
         EasyTracker.getInstance().activityStop(this);
+
     }
 
     @Override
@@ -71,6 +71,7 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_add_account) {
+            EasyTracker.getTracker().sendEvent("AccountSelectorActivity", "account_add_manual", null, null);
             openAddNewAccountScreen();
             return true;
         }
@@ -94,11 +95,61 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
         setListAdapter(accountListAdapter);
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        credentialsService.setActive((LoginInfo) getListAdapter().getItem(position));
-        Intent intent = new Intent(AccountSelectorActivity.this, IssueListActivity_.class);
-        startActivity(intent);
+    @ItemLongClick(android.R.id.list)
+    void onAccountLongClick(final int position) {
+        getListView().setItemChecked(position, true);
+        getSherlock().startActionMode(new ActionMode.Callback() {
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                activeActionMode = mode;
+                mode.getMenuInflater().inflate(R.menu.account_selector_menu_contextual, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_item_remove_account:
+                        LoginInfo loginInfo = (LoginInfo) getListAdapter().getItem(getListView().getCheckedItemPosition());
+                        removeAccount(loginInfo);
+                        mode.finish();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                activeActionMode = null;
+                getListView().setItemChecked(getListView().getCheckedItemPosition(), false);
+            }
+        });
+    }
+
+    private void removeAccount(LoginInfo loginInfo) {
+        EasyTracker.getTracker().sendEvent("AccountSelectorActivity", "account_removed", null, null);
+        accountManager.removeAccount(new Account(loginInfo.getUsername(), Authenticator.ACCOUNT_TYPE), null, null);
+    }
+
+    @ItemClick(android.R.id.list)
+    void onAccountClick(int position) {
+        LoginInfo loginInfo = (LoginInfo) getListAdapter().getItem(position);
+        if (activeActionMode == null) {
+            credentialsService.setActive(loginInfo);
+            getListView().setItemChecked(position, false);
+            EasyTracker.getTracker().sendEvent("AccountSelectorActivity", "account_open", null, Long.valueOf(position));
+            IssueListActivity_.intent(this).loginInfo(loginInfo).start();
+        } else {
+            getListView().setItemChecked(getListView().getCheckedItemPosition(), false);
+            getListView().setItemChecked(position, true);
+        }
     }
 
     @Override
@@ -109,5 +160,4 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     private void openAddNewAccountScreen() {
         accountManager.addAccount(Authenticator.ACCOUNT_TYPE, null, null, null, AccountSelectorActivity.this, null, null);
     }
-
 }

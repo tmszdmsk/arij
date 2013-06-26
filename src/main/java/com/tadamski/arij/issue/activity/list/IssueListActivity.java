@@ -8,7 +8,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
-import com.tadamski.arij.account.service.CredentialsService;
+import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.dao.IssueDAO;
 
 @EActivity(R.layout.issue_list_activity)
@@ -28,6 +28,8 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @Bean
     CredentialsService service;
     ActionBarDrawerToggle drawerToggle;
+    @Extra
+    LoginInfo loginInfo;
 
     @Override
     protected void onStart() {
@@ -44,7 +46,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @AfterViews
     void initFragment() {
         if (!loaded) {
-            fragment.executeJql("assignee=currentUser()", service.getActive());
+            fragment.executeJql("assignee=currentUser()", loginInfo);
             loaded = true;
         }
         drawerListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[]{"ABC", "DEF"}));

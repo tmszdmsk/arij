@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Selection;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -13,10 +15,10 @@ import com.googlecode.androidannotations.annotations.*;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
-import com.tadamski.arij.account.service.LoginException;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.account.service.LoginService;
-import com.tadamski.arij.util.rest.exceptions.CommunicationException;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,6 +31,8 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @ViewById(R.id.url_edit_text)
     EditText urlEditText;
+    @ViewById(R.id.add_account_default_postfix_button)
+    Button defaultPostfixButton;
     @ViewById(R.id.login_edit_text)
     EditText loginEditText;
     @ViewById(R.id.password_edit_text)
@@ -58,46 +62,104 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         EasyTracker.getInstance().activityStop(this);
     }
 
+    @Click(R.id.add_account_default_postfix_button)
+    void changeDefaultHostnamePostfix() {
+        int initialLength = urlEditText.getText().length();
+        String postFix = defaultPostfixButton.getText().toString();
+        defaultPostfixButton.setVisibility(View.GONE);
+        urlEditText.append(postFix);
+        Selection.setSelection(urlEditText.getText(), initialLength);
+    }
+
     @Click(R.id.login_button)
     void login() {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_button_pushed", null, null);
+        String url = getBaseUrl();
+        String login = loginEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
         if (validate()) {
-            checkCredentials(getCredentials());
+            checkCredentials(url, login, password);
+        } else {
+            EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "validation_not_passed", null, null);
+        }
+    }
+
+    @UiThread
+    void setLoginButtonState(boolean enabled) {
+        loginButton.setEnabled(enabled);
+    }
+
+    String getBaseUrl() {
+        if (defaultPostfixButton.getVisibility() == View.VISIBLE) {
+            return urlEditText.getText().toString() + defaultPostfixButton.getText().toString();
+        } else {
+            return urlEditText.getText().toString();
+        }
+    }
+
+    private CheckResult checkServer(LoginInfo loginInfo) {
+        try {
+            Response response = loginService.checkCredentials(loginInfo);
+            return new CheckResult(response.getStatus(), response.toString());
+        } catch (RetrofitError retrofitError) {
+            if (retrofitError.isNetworkError()) {
+                return new CheckResult(0, retrofitError.getCause().toString());
+            } else {
+                return new CheckResult(retrofitError.getResponse().getStatus(), retrofitError.toString());
+            }
         }
     }
 
     @Background
-    void checkCredentials(LoginInfo credentials) {
+    void checkCredentials(String url, String login, String password) {
         try {
-            loginService.checkCredentials(credentials);
-            ifCredentialsConfirmed(credentials);
-        } catch (LoginException e) {
-            ifCredentialsInvalid();
-        } catch (CommunicationException e) {
-            ifCommunicationException(e);
+            setLoginButtonState(false);
+            LoginInfo possibleCredentials = new LoginInfo(login, password, "https://" + url);
+            CheckResult result = checkServer(possibleCredentials);
+            if (result.code == 200) {
+                ifCredentialsConfirmed(possibleCredentials);
+            } else if (result.code == 401) {
+                ifCredentialsInvalid();
+            } else {
+                possibleCredentials = new LoginInfo(login, password, "http://" + url);
+                result = checkServer(possibleCredentials);
+                if (result.code == 200) {
+                    ifCredentialsConfirmed(possibleCredentials);
+                } else if (result.code == 401) {
+                    ifCredentialsInvalid();
+                } else {
+                    ifCommunicationException(result.code + result.reason);
+                }
+            }
+        } finally {
+            setLoginButtonState(true);
         }
     }
 
     @UiThread
     void ifCredentialsConfirmed(LoginInfo credentials) {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_success", null, null);
         createAccountAndFinish(credentials);
     }
 
     @UiThread
     void ifCredentialsInvalid() {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_failed_invalid_credentials", null, null);
         loginEditText.setError(invalidLoginCredentials);
     }
 
     @UiThread
-    void ifCommunicationException(Exception ex) {
-        new AlertDialog.Builder(AddNewAccountActivity.this).setMessage(ex.getLocalizedMessage()).create().show();
+    void ifCommunicationException(String msg) {
+        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_failed_exception", msg, null);
+        new AlertDialog.Builder(AddNewAccountActivity.this).setMessage(msg).create().show();
     }
 
     private boolean validate() {
         boolean seemsValid = true;
         //url
-        String url = urlEditText.getText().toString();
+        String url = getBaseUrl();
         try {
-            new URL(url);
+            new URL("http://" + url);
             urlEditText.setError(null);
         } catch (MalformedURLException ex) {
             urlEditText.setError(invalidUrlFormat);
@@ -114,13 +176,6 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         return seemsValid;
     }
 
-    private LoginInfo getCredentials() {
-        String url = urlEditText.getText().toString();
-        String login = loginEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        return new LoginInfo(login, password, url);
-    }
-
     private void createAccountAndFinish(LoginInfo credentials) {
         Account account = new Account(credentials.getUsername(), Authenticator.ACCOUNT_TYPE);
         Bundle bundle = new Bundle();
@@ -133,4 +188,16 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         setResult(RESULT_OK, intent);
         finish();
     }
+
+    private static class CheckResult {
+        int code;
+        String reason;
+
+        private CheckResult(int code, String reason) {
+            this.code = code;
+            this.reason = reason;
+        }
+    }
+
+
 }

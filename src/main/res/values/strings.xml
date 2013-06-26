@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ariJ</string>
-    <string name="sample_url">http://jira.example.com:8080/ctx</string>
+    <string name="sample_url">example</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="login_button">Login now</string>
@@ -12,5 +12,8 @@
     <string name="add_account">Add account</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="remove_account">Remove account</string>
+    <string name="add_account_url_prefix">http(s)://</string>
+    <string name="add_account_url_default_hostname">.atlassian.net</string>
 
 </resources>
