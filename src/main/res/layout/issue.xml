@@ -6,6 +6,10 @@
               android:id="@+id/issue_fragment"
               android:layout_weight="1"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+              android:layout_height="902dp"/>
+    <fragment android:layout_width="fill_parent"
+              android:layout_height="100dp"
+              android:name="com.tadamski.arij.comments.CommentsFragment_" android:id="@+id/comments_fragment"
+              android:layout_gravity="center"/>
 </LinearLayout>
 

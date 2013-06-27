@@ -5,6 +5,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.comments.CommentsFragment;
 import com.tadamski.arij.issue.dao.Issue;
 
 @EActivity(R.layout.issue)
@@ -17,6 +18,8 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     LoginInfo account;
     @FragmentById(R.id.issue_fragment)
     IssueFragment issueFragment;
+    @FragmentById(R.id.comments_fragment)
+    CommentsFragment commentsFragment;
     @NonConfigurationInstance
     boolean loaded = false;
 
@@ -37,6 +40,7 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
         getSupportActionBar().setTitle(issueKey);
         if (!loaded) {
             issueFragment.loadIssue(issueKey, account);
+            commentsFragment.loadComments(account, issueKey);
             loaded = true;
         }
     }
