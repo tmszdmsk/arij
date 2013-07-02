@@ -1,6 +1,9 @@
 package com.tadamski.arij.comments.resource;
 
-import retrofit.http.*;
+import retrofit.http.Body;
+import retrofit.http.GET;
+import retrofit.http.POST;
+import retrofit.http.Path;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,9 +16,9 @@ import retrofit.http.*;
 public interface CommentsResource {
 
     @GET("/rest/api/2/issue/{issueKey}/comment")
-    CommentsList getComments(@Path("issueKey") String issueKey, @Header("Authorization") String credentials);
+    CommentsList getComments(@Path("issueKey") String issueKey);
 
     @POST("/rest/api/2/issue/{issueKey}/comment")
-    Comment addComment(@Path("issueKey") String issueKey, @Body Comment comment, @Header("Authorization") String credentials);
+    Comment addComment(@Path("issueKey") String issueKey, @Body Comment comment);
 
 }
