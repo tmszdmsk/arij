@@ -10,8 +10,8 @@ import com.tadamski.arij.issue.dao.Issue;
  * To change this template use File | Settings | File Templates.
  */
 public class Comment {
-    String body;
-    Issue.User author;
+    private String body;
+    private Issue.User author;
 
     public Comment(String body) {
         this.body = body;

@@ -1,26 +1,19 @@
 package com.tadamski.arij.worklog.repository;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 /**
  *
  * @author tmszdmsk
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class NewWorklog {
-    @JsonProperty("comment")
     private String comment;
-    @JsonProperty("started")
-    private Date startDate;
-    @JsonProperty("timeSpentSeconds")
+    private Date started;
     private Long timeSpentSeconds;
 
-    public NewWorklog(String comment, Date startDate, Long timeSpentSeconds) {
+    public NewWorklog(String comment, Date started, Long timeSpentSeconds) {
         this.comment = comment;
-        this.startDate = startDate;
+        this.started = started;
         this.timeSpentSeconds = timeSpentSeconds;
     }
     
