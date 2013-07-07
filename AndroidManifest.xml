@@ -9,8 +9,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".issue.activity.list.IssueListActivity_" android:theme="@style/Theme.Sherlock.Light"/>
-        <activity android:name=".issue.activity.single.view.IssueActivity_"
+        <activity android:name=".issue.list.IssueListActivity_" android:theme="@style/Theme.Sherlock.Light"/>
+        <activity android:name=".issue.single.activity.single.view.IssueActivity_"
                   android:theme="@style/Theme.Sherlock.Light"/>
         <activity android:name=".issue.comments.activity.CommentsActivity_"
                   android:theme="@style/Theme.Sherlock.Light"/>

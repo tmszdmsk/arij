@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.activity.list;
+package com.tadamski.arij.issue.list;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,9 +11,9 @@ import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.activity.single.view.IssueActivity_;
 import com.tadamski.arij.issue.resource.Issue;
 import com.tadamski.arij.issue.resource.IssueDAO;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 
 import java.util.ArrayList;
 

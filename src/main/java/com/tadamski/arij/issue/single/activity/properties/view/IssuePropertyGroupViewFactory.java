@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.activity.properties.view;
+package com.tadamski.arij.issue.single.activity.properties.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.tadamski.arij.R;
-import com.tadamski.arij.issue.activity.properties.model.IssueProperty;
-import com.tadamski.arij.issue.activity.properties.model.IssuePropertyGroup;
+import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
+import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
 
 /**
  * @author tmszdmsk

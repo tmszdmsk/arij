@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.activity.list.filters;
+package com.tadamski.arij.issue.list.filters;
 
 import java.util.ArrayList;
 import java.util.List;

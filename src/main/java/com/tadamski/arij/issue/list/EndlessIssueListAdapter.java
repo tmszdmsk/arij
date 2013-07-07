@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.activity.list;
+package com.tadamski.arij.issue.list;
 
 import android.content.Context;
 import com.tadamski.arij.R;

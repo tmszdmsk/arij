@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tadamski.arij.issue.activity.single.view;
+package com.tadamski.arij.issue.single.activity.single.view;
 
 import android.app.NotificationManager;
 import android.util.Log;
@@ -15,11 +15,11 @@ import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.activity.properties.model.IssueProperty;
-import com.tadamski.arij.issue.activity.properties.model.IssuePropertyGroup;
-import com.tadamski.arij.issue.activity.properties.view.IssuePropertyGroupViewFactory;
 import com.tadamski.arij.issue.resource.Issue;
 import com.tadamski.arij.issue.resource.IssueDAO;
+import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
+import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
+import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
 import com.tadamski.arij.issue.worklog.notification.NewWorklogNotificationBuilder;
 import com.tadamski.arij.issue.worklog.repository.WorkLogRepository;
 

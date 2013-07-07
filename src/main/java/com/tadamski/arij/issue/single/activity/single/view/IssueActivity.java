@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.activity.single.view;
+package com.tadamski.arij.issue.single.activity.single.view;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;

@@ -92,8 +92,8 @@ public class CommentsFragment extends SherlockListFragment {
     @Background
     void sendComment(String commentText) {
         Comment newComment = new Comment(commentText);
-        commentsService.addComment(actualLoginInfo, actualIssueKey, newComment);
-        addSentComment(newComment);
+        Comment sentComment = commentsService.addComment(actualLoginInfo, actualIssueKey, newComment);
+        addSentComment(sentComment);
     }
 
     @UiThread

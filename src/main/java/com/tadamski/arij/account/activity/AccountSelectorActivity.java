@@ -15,7 +15,7 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.activity.list.IssueListActivity_;
+import com.tadamski.arij.issue.list.IssueListActivity_;
 
 import java.util.LinkedList;
 import java.util.List;

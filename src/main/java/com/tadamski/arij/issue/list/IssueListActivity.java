@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.activity.list;
+package com.tadamski.arij.issue.list;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -10,9 +10,9 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.activity.list.filters.DefaultFilters;
-import com.tadamski.arij.issue.activity.list.filters.Filter;
-import com.tadamski.arij.issue.activity.list.filters.FiltersListAdapter;
+import com.tadamski.arij.issue.list.filters.DefaultFilters;
+import com.tadamski.arij.issue.list.filters.Filter;
+import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
 import com.tadamski.arij.issue.resource.IssueDAO;
 
 @EActivity(R.layout.issue_list_activity)

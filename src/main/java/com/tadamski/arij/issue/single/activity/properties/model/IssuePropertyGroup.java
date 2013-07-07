@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tadamski.arij.issue.activity.properties.model;
+package com.tadamski.arij.issue.single.activity.properties.model;
 
 import java.util.Collections;
 import java.util.List;
