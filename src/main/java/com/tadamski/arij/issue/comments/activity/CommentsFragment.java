@@ -36,6 +36,7 @@ public class CommentsFragment extends SherlockListFragment {
     TextView commentText;
     private LoginInfo actualLoginInfo;
     private String actualIssueKey;
+    private ArrayAdapter<Comment> listAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +57,8 @@ public class CommentsFragment extends SherlockListFragment {
 
     @UiThread
     void putCommentsIntoList(List<Comment> comments) {
-        setListAdapter(new ArrayAdapter<Comment>(getActivity(), android.R.layout.simple_list_item_1, comments));
+        listAdapter = new ArrayAdapter<Comment>(getActivity(), android.R.layout.simple_list_item_1, comments);
+        setListAdapter(listAdapter);
     }
 
     @AfterViews
@@ -89,7 +91,15 @@ public class CommentsFragment extends SherlockListFragment {
 
     @Background
     void sendComment(String commentText) {
-        commentsService.addComment(actualLoginInfo, actualIssueKey, new Comment(commentText));
+        Comment newComment = new Comment(commentText);
+        commentsService.addComment(actualLoginInfo, actualIssueKey, newComment);
+        addSentComment(newComment);
+    }
+
+    @UiThread
+    void addSentComment(Comment comment) {
+        listAdapter.add(comment);
+        getListView().smoothScrollToPosition(getListView().getCount());
     }
 
     private boolean shouldSendButtonBeEnabled() {

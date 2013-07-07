@@ -31,6 +31,6 @@ public class Comment {
 
     @Override
     public String toString() {
-        return author.getDisplayName() + ": " + body;
+        return body;
     }
 }
