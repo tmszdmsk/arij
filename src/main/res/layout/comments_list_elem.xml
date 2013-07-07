@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/comment_text" android:layout_gravity="left|center_vertical"
+            android:layout_alignParentLeft="true" android:layout_marginLeft="0dp" android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="by Tomasz Adamski"
+            android:id="@+id/comment_author_name" android:layout_below="@+id/comment_text"
+            android:layout_alignParentRight="true"
+            android:textStyle="italic" android:textColor="@android:color/darker_gray"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="yesterday"
+            android:id="@+id/comment_date"
+            android:layout_below="@+id/comment_text" android:layout_alignParentLeft="true"
+            android:textColor="@android:color/darker_gray"/>
+</RelativeLayout>

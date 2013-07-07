@@ -2,6 +2,8 @@ package com.tadamski.arij.issue.comments.resource;
 
 import com.tadamski.arij.issue.resource.Issue;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: tmszdmsk
@@ -12,6 +14,7 @@ import com.tadamski.arij.issue.resource.Issue;
 public class Comment {
     private String body;
     private Issue.User author;
+    private Date created;
 
     public Comment(String body) {
         this.body = body;
@@ -29,8 +32,16 @@ public class Comment {
         return author;
     }
 
+    public Date getCreatedDate() {
+        return created;
+    }
+
     @Override
     public String toString() {
-        return author.getDisplayName() + ": " + body;
+        return "Comment{" +
+                "body='" + body + '\'' +
+                ", author=" + author +
+                ", created=" + created +
+                '}';
     }
 }

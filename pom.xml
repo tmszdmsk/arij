@@ -86,6 +86,12 @@
             <groupId>android.support</groupId>
             <version>r13</version>
         </dependency>
+        <!--for displaying nice relative dates -->
+        <dependency>
+            <groupId>org.ocpsoft.prettytime</groupId>
+            <artifactId>prettytime</artifactId>
+            <version>3.0.2.Final</version>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>

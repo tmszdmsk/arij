@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -36,7 +35,7 @@ public class CommentsFragment extends SherlockListFragment {
     TextView commentText;
     private LoginInfo actualLoginInfo;
     private String actualIssueKey;
-    private ArrayAdapter<Comment> listAdapter;
+    private CommentsListAdapter listAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class CommentsFragment extends SherlockListFragment {
 
     @UiThread
     void putCommentsIntoList(List<Comment> comments) {
-        listAdapter = new ArrayAdapter<Comment>(getActivity(), android.R.layout.simple_list_item_1, comments);
+        listAdapter = new CommentsListAdapter(getActivity(), comments);
         setListAdapter(listAdapter);
     }
 
