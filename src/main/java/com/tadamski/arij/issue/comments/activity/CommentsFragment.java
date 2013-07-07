@@ -1,11 +1,17 @@
 package com.tadamski.arij.issue.comments.activity;
 
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.googlecode.androidannotations.annotations.Background;
-import com.googlecode.androidannotations.annotations.Bean;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.*;
+import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.resource.Comment;
 import com.tadamski.arij.issue.comments.resource.CommentsService;
@@ -24,8 +30,21 @@ import java.util.List;
 public class CommentsFragment extends SherlockListFragment {
     @Bean
     CommentsService commentsService;
+    @ViewById(R.id.send_button)
+    ImageButton sendButton;
+    @ViewById(R.id.comment_text)
+    TextView commentText;
+    private LoginInfo actualLoginInfo;
+    private String actualIssueKey;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.comments_fragment, container, true);
+    }
 
     public void loadComments(LoginInfo loginInfo, String issueKey) {
+        actualLoginInfo = loginInfo;
+        actualIssueKey = issueKey;
         loadCommentsAsync(loginInfo, issueKey);
     }
 
@@ -38,6 +57,43 @@ public class CommentsFragment extends SherlockListFragment {
     @UiThread
     void putCommentsIntoList(List<Comment> comments) {
         setListAdapter(new ArrayAdapter<Comment>(getActivity(), android.R.layout.simple_list_item_1, comments));
+    }
+
+    @AfterViews
+    void sendButtonActivator() {
+        commentText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                sendButton.setEnabled(shouldSendButtonBeEnabled());
+            }
+        });
+        sendButton.setEnabled(shouldSendButtonBeEnabled());
+    }
+
+    @Click(R.id.send_button)
+    void sendComment() {
+        if (shouldSendButtonBeEnabled()) {
+            sendComment(commentText.getText().toString());
+            commentText.setText("");
+        }
+    }
+
+    @Background
+    void sendComment(String commentText) {
+        commentsService.addComment(actualLoginInfo, actualIssueKey, new Comment(commentText));
+    }
+
+    private boolean shouldSendButtonBeEnabled() {
+        return !commentText.getText().toString().trim().isEmpty();
     }
 
 

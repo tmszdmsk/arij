@@ -1,10 +1,7 @@
 package com.tadamski.arij.issue.comments.activity;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.Extra;
-import com.googlecode.androidannotations.annotations.FragmentById;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 
@@ -20,10 +17,16 @@ public class CommentsActivity extends SherlockFragmentActivity {
     LoginInfo loginInfo;
     @FragmentById(R.id.comments_fragment)
     CommentsFragment commentsFragment;
+    @NonConfigurationInstance
+    boolean loaded = false;
+
 
     @AfterViews
     void loadComments() {
-        getSupportActionBar().setTitle(issueKey);
-        commentsFragment.loadComments(loginInfo, issueKey);
+        if (!loaded) {
+            getSupportActionBar().setTitle(issueKey);
+            commentsFragment.loadComments(loginInfo, issueKey);
+            loaded = true;
+        }
     }
 }
