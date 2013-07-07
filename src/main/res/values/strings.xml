@@ -10,6 +10,7 @@
     <string name="invalid_login_empty">Login cannot be empty</string>
     <string name="invalid_login_credentials">Login/password combination incorrect</string>
     <string name="add_account">Add account</string>
+    <string name="comments">Comments</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="remove_account">Remove account</string>

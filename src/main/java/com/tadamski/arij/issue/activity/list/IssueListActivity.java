@@ -13,7 +13,7 @@ import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.activity.list.filters.Filter;
 import com.tadamski.arij.issue.activity.list.filters.FiltersListAdapter;
-import com.tadamski.arij.issue.dao.IssueDAO;
+import com.tadamski.arij.issue.resource.IssueDAO;
 
 @EActivity(R.layout.issue_list_activity)
 public class IssueListActivity extends SherlockFragmentActivity {

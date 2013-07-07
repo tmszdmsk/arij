@@ -1,4 +1,4 @@
-package com.tadamski.arij.comments.resource;
+package com.tadamski.arij.issue.comments.resource;
 
 import retrofit.http.Body;
 import retrofit.http.GET;

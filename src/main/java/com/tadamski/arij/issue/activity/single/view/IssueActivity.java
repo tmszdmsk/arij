@@ -1,12 +1,13 @@
 package com.tadamski.arij.issue.activity.single.view;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.comments.CommentsFragment;
-import com.tadamski.arij.issue.dao.Issue;
+import com.tadamski.arij.issue.comments.activity.CommentsActivity_;
+import com.tadamski.arij.issue.resource.Issue;
 
 @EActivity(R.layout.issue)
 public class IssueActivity extends SherlockFragmentActivity implements IssueFragment.IssueLoadedListener {
@@ -15,11 +16,9 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     @Extra
     String issueKey;
     @Extra
-    LoginInfo account;
+    LoginInfo loginInfo;
     @FragmentById(R.id.issue_fragment)
     IssueFragment issueFragment;
-    @FragmentById(R.id.comments_fragment)
-    CommentsFragment commentsFragment;
     @NonConfigurationInstance
     boolean loaded = false;
 
@@ -27,6 +26,17 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     protected void onStart() {
         super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
         EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.issue_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @OptionsItem(R.id.menu_item_comments)
+    void onCommentsClicked() {
+        CommentsActivity_.intent(this).issueKey(issueKey).loginInfo(loginInfo).start();
     }
 
     @Override
@@ -39,8 +49,7 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     void init() {
         getSupportActionBar().setTitle(issueKey);
         if (!loaded) {
-            issueFragment.loadIssue(issueKey, account);
-            commentsFragment.loadComments(account, issueKey);
+            issueFragment.loadIssue(issueKey, loginInfo);
             loaded = true;
         }
     }

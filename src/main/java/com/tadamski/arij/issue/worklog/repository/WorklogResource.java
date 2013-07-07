@@ -1,4 +1,4 @@
-package com.tadamski.arij.worklog.repository;
+package com.tadamski.arij.issue.worklog.repository;
 
 import retrofit.client.Response;
 import retrofit.http.Body;

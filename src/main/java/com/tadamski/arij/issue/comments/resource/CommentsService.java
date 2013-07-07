@@ -1,9 +1,7 @@
-package com.tadamski.arij.comments;
+package com.tadamski.arij.issue.comments.resource;
 
 import com.googlecode.androidannotations.annotations.EBean;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.comments.resource.Comment;
-import com.tadamski.arij.comments.resource.CommentsResource;
 import com.tadamski.arij.util.retrofit.RestAdapterProvider;
 
 import java.util.List;
@@ -18,12 +16,12 @@ import java.util.List;
 @EBean
 public class CommentsService {
 
-    List<Comment> getComments(LoginInfo loginInfo, String issueKey) {
+    public List<Comment> getComments(LoginInfo loginInfo, String issueKey) {
         CommentsResource commentsResource = getResource(loginInfo);
         return commentsResource.getComments(issueKey).getComments();
     }
 
-    Comment addComment(LoginInfo loginInfo, String issueKey, Comment comment) {
+    public Comment addComment(LoginInfo loginInfo, String issueKey, Comment comment) {
         CommentsResource commentsResource = getResource(loginInfo);
         return commentsResource.addComment(issueKey, comment);
     }

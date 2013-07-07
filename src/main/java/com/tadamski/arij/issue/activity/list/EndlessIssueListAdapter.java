@@ -3,7 +3,7 @@ package com.tadamski.arij.issue.activity.list;
 import android.content.Context;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.dao.IssueDAO;
+import com.tadamski.arij.issue.resource.IssueDAO;
 import com.tadamski.arij.util.endless.EndlessAdapter;
 
 /**

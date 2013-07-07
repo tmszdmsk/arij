@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.tadamski.arij.R;
-import com.tadamski.arij.issue.dao.Issue;
-import com.tadamski.arij.issue.dao.Issue.Summary;
+import com.tadamski.arij.issue.resource.Issue;
+import com.tadamski.arij.issue.resource.Issue.Summary;
 
 import java.text.DateFormat;
 import java.util.List;

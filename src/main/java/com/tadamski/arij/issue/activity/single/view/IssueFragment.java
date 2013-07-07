@@ -18,10 +18,10 @@ import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.activity.properties.view.IssuePropertyGroupViewFactory;
-import com.tadamski.arij.issue.dao.Issue;
-import com.tadamski.arij.issue.dao.IssueDAO;
-import com.tadamski.arij.worklog.notification.NewWorklogNotificationBuilder;
-import com.tadamski.arij.worklog.repository.WorkLogRepository;
+import com.tadamski.arij.issue.resource.Issue;
+import com.tadamski.arij.issue.resource.IssueDAO;
+import com.tadamski.arij.issue.worklog.notification.NewWorklogNotificationBuilder;
+import com.tadamski.arij.issue.worklog.repository.WorkLogRepository;
 
 import java.text.DateFormat;
 import java.util.ArrayList;

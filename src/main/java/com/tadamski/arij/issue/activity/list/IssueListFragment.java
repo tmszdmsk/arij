@@ -12,8 +12,8 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.activity.single.view.IssueActivity_;
-import com.tadamski.arij.issue.dao.Issue;
-import com.tadamski.arij.issue.dao.IssueDAO;
+import com.tadamski.arij.issue.resource.Issue;
+import com.tadamski.arij.issue.resource.IssueDAO;
 
 import java.util.ArrayList;
 
@@ -49,6 +49,6 @@ public class IssueListFragment extends SherlockFragment implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Issue.Summary item = (Issue.Summary) issueListAdapter.getItem(position);
-        IssueActivity_.intent(getActivity()).issueKey(item.getKey()).account(account).start();
+        IssueActivity_.intent(getActivity()).issueKey(item.getKey()).loginInfo(account).start();
     }
 }

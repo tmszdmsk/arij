@@ -12,9 +12,12 @@
         <activity android:name=".issue.activity.list.IssueListActivity_" android:theme="@style/Theme.Sherlock.Light"/>
         <activity android:name=".issue.activity.single.view.IssueActivity_"
                   android:theme="@style/Theme.Sherlock.Light"/>
+        <activity android:name=".issue.comments.activity.CommentsActivity_"
+                  android:theme="@style/Theme.Sherlock.Light"/>
         <activity android:name=".account.activity.AddNewAccountActivity_"
                   android:theme="@style/Theme.Sherlock.Light.NoActionBar"/>
-        <activity android:name=".worklog.activity.NewWorklogActivity_" android:theme="@style/Theme.Sherlock.Light"/>
+        <activity android:name=".issue.worklog.activity.NewWorklogActivity_"
+                  android:theme="@style/Theme.Sherlock.Light"/>
         <service android:exported="true" android:name=".account.authenticator.AuthenticationService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>

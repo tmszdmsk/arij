@@ -1,4 +1,4 @@
-package com.tadamski.arij.comments;
+package com.tadamski.arij.issue.comments.activity;
 
 import android.widget.ArrayAdapter;
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -7,7 +7,8 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.comments.resource.Comment;
+import com.tadamski.arij.issue.comments.resource.Comment;
+import com.tadamski.arij.issue.comments.resource.CommentsService;
 
 import java.util.List;
 

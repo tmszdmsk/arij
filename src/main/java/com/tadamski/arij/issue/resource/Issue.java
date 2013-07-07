@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.dao;
+package com.tadamski.arij.issue.resource;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

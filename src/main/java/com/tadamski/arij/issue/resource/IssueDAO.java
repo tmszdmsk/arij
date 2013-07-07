@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.dao;
+package com.tadamski.arij.issue.resource;
 
 import com.google.common.base.Preconditions;
 import com.googlecode.androidannotations.annotations.Bean;
