@@ -12,7 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by tmszdmsk on 02.07.13.
@@ -29,9 +28,7 @@ public class RestAdapterProvider {
         private final DateFormat iso8601Format;
 
         ISODateAdapter() {
-            this.iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'+0000'", Locale.US);
-            this.iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
-
+            this.iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
         }
 
         public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
