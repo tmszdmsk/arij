@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.comments.resource.Comment;
+
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;

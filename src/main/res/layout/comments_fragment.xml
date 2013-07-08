@@ -2,28 +2,41 @@
 
 <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
     <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@android:id/list" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="true" android:layout_alignParentRight="true"
-            android:layout_above="@+id/linearLayout" android:stackFromBottom="true"/>
+            android:id="@android:id/list"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/linearLayout"
+            android:stackFromBottom="true"/>
+
     <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:id="@+id/linearLayout">
+
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:id="@+id/comment_text" android:layout_weight="1" android:layout_gravity="bottom"
+                android:id="@+id/comment_text"
+                android:layout_weight="1"
+                android:layout_gravity="bottom"
                 />
+
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:id="@+id/send_button" android:src="@drawable/abs__ic_go_search_api_holo_light"
+                android:id="@+id/send_button"
+                android:src="@drawable/abs__ic_go_search_api_holo_light"
                 android:layout_gravity="bottom"
                 android:text=">"
                 />

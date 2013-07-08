@@ -2,10 +2,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-    <fragment android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:name="com.tadamski.arij.issue.comments.activity.CommentsFragment_"
-              android:id="@+id/comments_fragment"
-              android:layout_gravity="center"/>
+
+    <fragment
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:name="com.tadamski.arij.issue.comments.activity.CommentsFragment_"
+            android:id="@+id/comments_fragment"
+            android:layout_gravity="center"/>
 </LinearLayout>
 

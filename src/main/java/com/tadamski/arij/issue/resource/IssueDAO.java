@@ -10,6 +10,7 @@ import com.tadamski.arij.util.rest.RESTRunner;
 import com.tadamski.arij.util.rest.command.GETCommand;
 import com.tadamski.arij.util.rest.command.POSTCommand;
 import com.tadamski.arij.util.rest.exceptions.CommunicationException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

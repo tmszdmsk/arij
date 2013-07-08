@@ -1,7 +1,9 @@
 package com.tadamski.arij.util.retrofit;
 
 import android.util.Base64;
+
 import com.tadamski.arij.account.service.LoginInfo;
+
 import retrofit.RequestInterceptor;
 
 /**
@@ -21,7 +23,7 @@ public class AuthorizationInterceptor implements RequestInterceptor {
     }
 
     private String authorizationHeaderValue(LoginInfo credentials) {
-        byte[] toEncode = (credentials.getUsername() + ":" + new String(credentials.getPassword())).getBytes();
+        byte[] toEncode = (credentials.getUsername() + ":" + credentials.getPassword()).getBytes();
         return "Basic " + Base64.encodeToString(toEncode, Base64.NO_WRAP);
     }
 }

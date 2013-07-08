@@ -8,14 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".IssueListActivity_">
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
-        <fragment android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  android:name="com.tadamski.arij.issue.list.IssueListFragment_" android:id="@+id/fragment"
-                  android:layout_gravity="center"/>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <fragment
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:name="com.tadamski.arij.issue.list.IssueListFragment_"
+                android:id="@+id/fragment"
+                android:layout_gravity="center"/>
     </LinearLayout>
+
     <ListView
             android:id="@+id/drawer"
             android:layout_width="240dp"

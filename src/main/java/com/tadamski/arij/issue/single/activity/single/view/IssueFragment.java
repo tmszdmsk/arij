@@ -10,8 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragment;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Background;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.InstanceState;
+import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.UiThread;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
@@ -20,8 +27,7 @@ import com.tadamski.arij.issue.resource.IssueDAO;
 import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
-import com.tadamski.arij.issue.worklog.notification.NewWorklogNotificationBuilder;
-import com.tadamski.arij.issue.worklog.repository.WorkLogRepository;
+import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotificationBuilder;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -38,8 +44,6 @@ public class IssueFragment extends SherlockFragment {
     Issue loadedIssue;
     @Bean
     IssueDAO issueDAO;
-    @Bean
-    WorkLogRepository workLogRepository;
     @SystemService
     NotificationManager notificationManager;
     @Bean

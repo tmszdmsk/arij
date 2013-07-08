@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tadamski.arij.issue.worklog.notification;
+package com.tadamski.arij.issue.worklog.newlog.notification;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,10 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.resource.Issue;
-import com.tadamski.arij.issue.worklog.activity.NewWorklogActivity_;
+import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity_;
 
 import java.text.DateFormat;
 import java.util.Date;

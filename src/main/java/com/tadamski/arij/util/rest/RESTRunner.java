@@ -2,6 +2,7 @@ package com.tadamski.arij.util.rest;
 
 import android.util.Base64;
 import android.util.Log;
+
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.api.Scope;
@@ -10,9 +11,19 @@ import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.util.rest.command.GETCommand;
 import com.tadamski.arij.util.rest.command.POSTCommand;
 import com.tadamski.arij.util.rest.command.RESTCommand;
-import com.tadamski.arij.util.rest.exceptions.*;
+import com.tadamski.arij.util.rest.exceptions.CommunicationException;
+import com.tadamski.arij.util.rest.exceptions.ForbiddenException;
+import com.tadamski.arij.util.rest.exceptions.NotFoundException;
+import com.tadamski.arij.util.rest.exceptions.ServerErrorException;
+import com.tadamski.arij.util.rest.exceptions.UnauthorizedException;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;

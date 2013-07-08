@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 /**
- *
  * @author tmszdmsk
  */
 public class AuthenticationService extends Service {
@@ -38,7 +37,7 @@ public class AuthenticationService extends Service {
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
             Log.v(TAG,
                     "getBinder()...  returning the AccountAuthenticator binder for intent "
-                    + intent);
+                            + intent);
         }
         return mAuthenticator.getIBinder();
     }

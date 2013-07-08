@@ -1,4 +1,4 @@
-package com.tadamski.arij.issue.comments.activity;
+package com.tadamski.arij.issue.worklog.list;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -12,15 +12,15 @@ import com.tadamski.arij.account.service.LoginInfo;
 /**
  * Created by tmszdmsk on 07.07.13.
  */
-@EActivity(R.layout.comments)
-public class CommentsActivity extends SherlockFragmentActivity {
+@EActivity(R.layout.worklogs)
+public class WorklogsActivity extends SherlockFragmentActivity {
 
     @Extra
     String issueKey;
     @Extra
     LoginInfo loginInfo;
-    @FragmentById(R.id.comments_fragment)
-    CommentsFragment commentsFragment;
+    @FragmentById(R.id.worklogs_fragment)
+    WorklogsFragment worklogsFragment;
     @NonConfigurationInstance
     boolean loaded = false;
 
@@ -29,7 +29,7 @@ public class CommentsActivity extends SherlockFragmentActivity {
     void loadComments() {
         if (!loaded) {
             getSupportActionBar().setTitle(issueKey);
-            commentsFragment.loadComments(loginInfo, issueKey);
+            worklogsFragment.loadWorklogs(loginInfo, issueKey);
             loaded = true;
         }
     }

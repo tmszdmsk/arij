@@ -3,6 +3,7 @@ package com.tadamski.arij.account.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.googlecode.androidannotations.annotations.EBean;
+
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;

@@ -12,10 +12,6 @@ import java.util.List;
 public class CommentsList {
     List<Comment> comments;
 
-    public CommentsList(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }

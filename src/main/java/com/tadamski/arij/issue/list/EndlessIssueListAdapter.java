@@ -1,6 +1,7 @@
 package com.tadamski.arij.issue.list;
 
 import android.content.Context;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.resource.IssueDAO;

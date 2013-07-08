@@ -1,9 +1,14 @@
 package com.tadamski.arij.account.authenticator;
 
-import android.accounts.*;
+import android.accounts.AbstractAccountAuthenticator;
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.activity.AddNewAccountActivity_;
 

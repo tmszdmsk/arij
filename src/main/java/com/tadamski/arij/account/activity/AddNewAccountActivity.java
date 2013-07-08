@@ -9,19 +9,27 @@ import android.text.Selection;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.base.Strings;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.Background;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.Click;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.account.service.LoginService;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * @author t.adamski

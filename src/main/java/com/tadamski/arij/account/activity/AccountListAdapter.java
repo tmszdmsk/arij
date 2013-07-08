@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 
@@ -16,12 +17,10 @@ import java.util.List;
  */
 public class AccountListAdapter extends BaseAdapter {
 
-    private final Context ctx;
     private final List<LoginInfo> accounts;
     private final LayoutInflater layoutInflater;
 
     public AccountListAdapter(Context ctx, List<LoginInfo> accounts) {
-        this.ctx = ctx;
         this.accounts = accounts;
         this.layoutInflater = LayoutInflater.from(ctx);
     }
