@@ -32,7 +32,7 @@ public class NewWorklogNotificationBuilder {
     public static void createNotification(Context ctx, Issue issue, Date startDate, LoginInfo loginInfo) {
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = NewWorklogActivity_.intent(ctx)
-                .issue(issue)
+                .issueKey(issue.getSummary().getKey())
                 .loginInfo(loginInfo)
                 .startDate(startDate)
                 .flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS).get();
@@ -47,7 +47,7 @@ public class NewWorklogNotificationBuilder {
                         setContentText("Started at: " + TIME_FORMAT.format(startDate)).
                         setContentIntent(PendingIntent.getActivity(ctx, PENDING_REQUETS_ID++, intent, PendingIntent.FLAG_CANCEL_CURRENT)).
                         setTicker("Work on " + issue.getSummary().getKey() + " started").
-                        getNotification();
+                        build();
         notificationManager.notify(issue.getSummary().getKey(), NOTIFICATION_ID, notification);
     }
 
