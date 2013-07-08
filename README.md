@@ -18,15 +18,19 @@ Current state
 * screen with basic informations about issue
 * allows to start work on issue with timer and log that work later
 
+In progress
+===
+* comments view/add
+* worklog view/add
+* multiple filters
+
 Features planned
 ===
 * assigning tasks to logged in user
 * transition between issue states (starting work, stopping it, resolving)
-* comments view/add
-* worklog view/add
-* multiple filters
+* opening links from jira (that will be tricky ;)
 * plugin for jira to support Google Cloud Messaging to send push notifications
-* tbd
+* tbc
 
 How to build
 ===
@@ -45,4 +49,5 @@ MIT, details [here](http://github.com/tmszdmsk/arij/blob/master/LICENSE)
 
 Thanks
 ===
-* to [Cogision](http://cogision.com), company standing behind [UsabilityTools.com](http://usabilitytools.com) - all commits sent as "t.adamski" were created during research week.
+* to [Cogision](http://cogision.com) - me employer, company standing behind [UsabilityTools.com](http://usabilitytools.com) - all commits sent as "t.adamski" were created during "10% of work time for research". 
+* to [Atlassian](http://atlassian.com) - for opensource license for OnDemand Jira
