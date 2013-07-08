@@ -1,10 +1,11 @@
 package com.tadamski.arij.issue.list;
 
 import android.content.Context;
-
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.resource.IssueDAO;
+import com.tadamski.arij.issue.resource.IssueService;
+import com.tadamski.arij.issue.resource.issue.IssuesResultList;
+import com.tadamski.arij.issue.resource.search.SearchParams;
 import com.tadamski.arij.util.endless.EndlessAdapter;
 
 /**
@@ -16,27 +17,27 @@ import com.tadamski.arij.util.endless.EndlessAdapter;
  */
 public class EndlessIssueListAdapter extends EndlessAdapter {
 
-    private IssueDAO issueDAO;
+    private IssueService issueService;
     private IssueListAdapter wrapped;
     private LoginInfo loginInfo;
-    private IssueDAO.ResultList resultList;
+    private IssuesResultList resultList;
 
-    public EndlessIssueListAdapter(IssueDAO issueDAO, Context context, IssueListAdapter wrapped, LoginInfo loginInfo) {
+    public EndlessIssueListAdapter(IssueService issueService, Context context, IssueListAdapter wrapped, LoginInfo loginInfo) {
         super(context, wrapped, R.layout.pending);
-        this.issueDAO = issueDAO;
+        this.issueService = issueService;
         this.wrapped = wrapped;
         this.loginInfo = loginInfo;
     }
 
     @Override
     protected boolean cacheInBackground() throws Exception {
-        this.resultList = issueDAO.executeJql(wrapped.getJql(), (long) wrapped.getCount(), 20L, loginInfo);
-        if (wrapped.getCount() + resultList.issues.size() >= resultList.total) return false;
+        this.resultList = issueService.search(loginInfo, new SearchParams(wrapped.getJql(), (long) wrapped.getCount(), 20L));
+        if (wrapped.getCount() + resultList.getIssues().size() >= resultList.getTotal()) return false;
         else return true;
     }
 
     @Override
     protected void appendCachedData() {
-        wrapped.getIssues().addAll(resultList.issues);
+        wrapped.getIssues().addAll(resultList.getIssues());
     }
 }

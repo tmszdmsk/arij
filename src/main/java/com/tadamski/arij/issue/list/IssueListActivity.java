@@ -5,23 +5,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Bean;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.Extra;
-import com.googlecode.androidannotations.annotations.FragmentById;
-import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
-import com.googlecode.androidannotations.annotations.OptionsItem;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
-import com.tadamski.arij.issue.resource.IssueDAO;
+import com.tadamski.arij.issue.resource.IssueService;
 
 @EActivity(R.layout.issue_list_activity)
 public class IssueListActivity extends SherlockFragmentActivity {
@@ -36,7 +28,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @NonConfigurationInstance
     boolean loaded;
     @Bean
-    IssueDAO issueDao;
+    IssueService issueService;
     ActionBarDrawerToggle drawerToggle;
     @Extra
     LoginInfo loginInfo;

@@ -1,6 +1,6 @@
 package com.tadamski.arij.issue.worklog.resource;
 
-import com.tadamski.arij.issue.resource.Issue;
+import com.tadamski.arij.issue.resource.model.User;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ public class Worklog {
     private String comment;
     private Date started;
     private Long timeSpentSeconds;
-    private Issue.User author;
+    private User author;
     private Date created;
     private String timeSpent;
     private String id;
@@ -35,7 +35,7 @@ public class Worklog {
         return timeSpentSeconds;
     }
 
-    public Issue.User getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

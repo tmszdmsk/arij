@@ -3,16 +3,11 @@ package com.tadamski.arij.issue.single.activity.single.view;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.Extra;
-import com.googlecode.androidannotations.annotations.FragmentById;
-import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
-import com.googlecode.androidannotations.annotations.OptionsItem;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.activity.CommentsActivity_;
-import com.tadamski.arij.issue.resource.Issue;
+import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.worklog.list.WorklogsActivity_;
 
 @EActivity(R.layout.issue)
@@ -67,6 +62,6 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
 
     @Override
     public void issueLoaded(Issue issue) {
-        getSupportActionBar().setSubtitle(issue.getSummary().getSummary());
+        getSupportActionBar().setSubtitle(issue.getSummary());
     }
 }

@@ -1,6 +1,6 @@
 package com.tadamski.arij.issue.comments.resource;
 
-import com.tadamski.arij.issue.resource.Issue;
+import com.tadamski.arij.issue.resource.model.User;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Comment {
     private String body;
-    private Issue.User author;
+    private User author;
     private Date created;
 
     public Comment(String body) {
@@ -28,7 +28,7 @@ public class Comment {
         this.body = body;
     }
 
-    public Issue.User getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

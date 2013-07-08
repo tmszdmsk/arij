@@ -5,20 +5,17 @@ import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
 import android.os.Bundle;
 import android.widget.AbsListView;
-
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.ItemLongClick;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
-import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListActivity_;
 
@@ -33,8 +30,6 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
 
     @SystemService
     AccountManager accountManager;
-    @Bean
-    CredentialsService credentialsService;
     ActionMode activeActionMode;
 
     @Override
@@ -147,7 +142,6 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
     void onAccountClick(int position) {
         LoginInfo loginInfo = (LoginInfo) getListAdapter().getItem(position);
         if (activeActionMode == null) {
-            credentialsService.setActive(loginInfo);
             getListView().setItemChecked(position, false);
             EasyTracker.getTracker().sendEvent("AccountSelectorActivity", "account_open", null, Long.valueOf(position));
             IssueListActivity_.intent(this).loginInfo(loginInfo).start();

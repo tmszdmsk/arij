@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.tadamski.arij.R;
-import com.tadamski.arij.issue.resource.Issue;
-import com.tadamski.arij.issue.resource.Issue.Summary;
+import com.tadamski.arij.issue.resource.model.Issue;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -17,12 +15,12 @@ import java.util.List;
 public class IssueListAdapter extends BaseAdapter {
 
     private static final DateFormat DATE_TIME_INSTANCE = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-    private final List<Issue.Summary> issues;
+    private final List<Issue> issues;
     private long totalNumberOfIssues;
     private String jql;
     private final LayoutInflater layoutInflater;
 
-    public IssueListAdapter(Context ctx, List<Summary> init, long totalNumberOfIssues, String jql) {
+    public IssueListAdapter(Context ctx, List<Issue> init, long totalNumberOfIssues, String jql) {
         this.issues = init;
         this.totalNumberOfIssues = totalNumberOfIssues;
         this.jql = jql;
@@ -37,7 +35,7 @@ public class IssueListAdapter extends BaseAdapter {
         return totalNumberOfIssues;
     }
 
-    public List<Summary> getIssues() {
+    public List<Issue> getIssues() {
         return issues;
     }
 
@@ -47,13 +45,13 @@ public class IssueListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Issue.Summary getItem(int position) {
+    public Issue getItem(int position) {
         return issues.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        final Summary summary = getItem(position);
+        final Issue summary = getItem(position);
         return summary.getId();
     }
 
@@ -62,7 +60,7 @@ public class IssueListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.issue_list_elem, null);
         }
-        final Summary issueSummary = getItem(position);
+        final Issue issueSummary = getItem(position);
         setViewProperties(convertView, issueSummary);
         return convertView;
     }
@@ -72,7 +70,7 @@ public class IssueListAdapter extends BaseAdapter {
         return true;
     }
 
-    private void setViewProperties(View convertView, final Summary issueSummary) {
+    private void setViewProperties(View convertView, final Issue issueSummary) {
         setTextViewText(convertView, R.id.project_shortcut, issueSummary.getKey().split("-")[0]);
         setTextViewText(convertView, R.id.issue_id_number, issueSummary.getKey().split("-")[1]);
         setTextViewText(convertView, R.id.issue_summary, issueSummary.getSummary());

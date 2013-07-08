@@ -10,20 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockFragment;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Background;
-import com.googlecode.androidannotations.annotations.Bean;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.InstanceState;
-import com.googlecode.androidannotations.annotations.SystemService;
-import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.*;
 import com.tadamski.arij.R;
-import com.tadamski.arij.account.service.CredentialsService;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.resource.Issue;
-import com.tadamski.arij.issue.resource.IssueDAO;
+import com.tadamski.arij.issue.resource.IssueService;
+import com.tadamski.arij.issue.resource.model.Issue;
+import com.tadamski.arij.issue.resource.model.Resolution;
 import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
@@ -40,29 +33,20 @@ import java.util.Date;
 public class IssueFragment extends SherlockFragment {
 
     private static final String TAG = IssueFragment.class.getName();
-    @InstanceState
-    Issue loadedIssue;
     @Bean
-    IssueDAO issueDAO;
+    IssueService issueService;
     @SystemService
     NotificationManager notificationManager;
-    @Bean
-    CredentialsService credentialsService;
+    LoginInfo actualLoginInfo;
 
-    @AfterViews
-    void init() {
-        if (loadedIssue != null) {
-            onLoadFinished(loadedIssue);
-        }
-    }
-
-    public void loadIssue(String issueKey, LoginInfo account) {
-        loadIssueInBackground(issueKey, account);
+    public void loadIssue(String issueKey, LoginInfo loginInfo) {
+        this.actualLoginInfo = loginInfo;
+        loadIssueInBackground(issueKey, loginInfo);
     }
 
     @Background
-    void loadIssueInBackground(String issueKey, LoginInfo account) {
-        loadedIssue = issueDAO.getIssueWithKey(issueKey, account);
+    void loadIssueInBackground(String issueKey, LoginInfo loginInfo) {
+        Issue loadedIssue = issueService.getIssue(loginInfo, issueKey);
         onLoadFinished(loadedIssue);
     }
 
@@ -74,11 +58,11 @@ public class IssueFragment extends SherlockFragment {
         IssuePropertyGroup datesGroup = getIssueDateProperties(issue);
         LinearLayout view = (LinearLayout) this.getView().findViewWithTag("layout");
         final TextView description = new TextView(getActivity());
-        description.setText(issue.getSummary().getDescription());
+        description.setText(issue.getDescription());
         final IssuePropertyGroupViewFactory viewFactory = new IssuePropertyGroupViewFactory();
-        view.addView(viewFactory.createSingleTextView("Summary", issue.getSummary().getSummary(), getActivity()),
+        view.addView(viewFactory.createSingleTextView("Summary", issue.getSummary(), getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        view.addView(viewFactory.createSingleTextView("Description", issue.getSummary().getDescription(), getActivity()),
+        view.addView(viewFactory.createSingleTextView("Description", issue.getDescription(), getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createMultipropertiesView(basicGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -91,7 +75,7 @@ public class IssueFragment extends SherlockFragment {
         workLogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewWorklogNotificationBuilder.createNotification(IssueFragment.this.getActivity().getApplicationContext(), issue, new Date(), credentialsService.getActive());
+                NewWorklogNotificationBuilder.createNotification(IssueFragment.this.getActivity().getApplicationContext(), issue, new Date(), actualLoginInfo);
             }
 
         });
@@ -104,12 +88,10 @@ public class IssueFragment extends SherlockFragment {
 
     private IssuePropertyGroup getIssueDetailsProperties(Issue issue) {
         final ArrayList<IssueProperty> basicProperties = new ArrayList<IssueProperty>();
-        issue.getSummary().getType();
-        basicProperties.add(new IssueProperty("type", "Type", issue.getSummary().getType().getName(), null));
-        basicProperties.add(new IssueProperty("priority", "Priority", issue.getSummary().getPriority().getName(), null));
-//        basicProperties.add(new IssueProperty("labels", "Labels", "retrieve labels", null));
-        basicProperties.add(new IssueProperty("status", "Status", issue.getSummary().getStatus().getName(), null));
-        final Issue.Resolution resolution = issue.getSummary().getResolution();
+        basicProperties.add(new IssueProperty("type", "Type", issue.getIssueType().getName(), null));
+        basicProperties.add(new IssueProperty("priority", "Priority", issue.getPriority().getName(), null));
+        basicProperties.add(new IssueProperty("status", "Status", issue.getStatus().getName(), null));
+        Resolution resolution = issue.getResolution();
         basicProperties.add(new IssueProperty("resolution", "Resolution", resolution == null ? "Unresolved" : resolution.getName(), null));
         IssuePropertyGroup basicGroup = new IssuePropertyGroup(basicProperties, "Details");
         return basicGroup;
@@ -117,9 +99,8 @@ public class IssueFragment extends SherlockFragment {
 
     private IssuePropertyGroup getIssuePeopleProperties(Issue issue) {
         final ArrayList<IssueProperty> people = new ArrayList<IssueProperty>();
-        issue.getSummary().getType();
-        people.add(new IssueProperty("assignee", "Assignee", issue.getSummary().getAssignee().getDisplayName(), null));
-        people.add(new IssueProperty("reporter", "Reporter", issue.getSummary().getAssignee().getDisplayName(), null));
+        people.add(new IssueProperty("assignee", "Assignee", issue.getAssignee().getDisplayName(), null));
+        people.add(new IssueProperty("reporter", "Reporter", issue.getAssignee().getDisplayName(), null));
         IssuePropertyGroup peopleGroup = new IssuePropertyGroup(people, "People");
         return peopleGroup;
     }
@@ -127,11 +108,10 @@ public class IssueFragment extends SherlockFragment {
     private IssuePropertyGroup getIssueDateProperties(Issue issue) {
         DateFormat df = DateFormat.getDateTimeInstance();
         final ArrayList<IssueProperty> dates = new ArrayList<IssueProperty>();
-        issue.getSummary().getType();
-        dates.add(new IssueProperty("created", "Created", df.format(issue.getSummary().getCreated()), null));
-        dates.add(new IssueProperty("updated", "Updated", df.format(issue.getSummary().getUpdated()), null));
-        if (issue.getSummary().getResolutionDate() != null) {
-            dates.add(new IssueProperty("resolved", "Resolved", df.format(issue.getSummary().getResolutionDate()), null));
+        dates.add(new IssueProperty("created", "Created", df.format(issue.getCreated()), null));
+        dates.add(new IssueProperty("updated", "Updated", df.format(issue.getUpdated()), null));
+        if (issue.getResolutionDate() != null) {
+            dates.add(new IssueProperty("resolved", "Resolved", df.format(issue.getResolutionDate()), null));
         }
         IssuePropertyGroup datesGroup = new IssuePropertyGroup(dates, "Dates");
         return datesGroup;

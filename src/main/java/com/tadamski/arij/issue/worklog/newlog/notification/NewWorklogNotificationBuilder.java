@@ -11,10 +11,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
-
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.resource.Issue;
+import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity_;
 
 import java.text.DateFormat;
@@ -32,7 +31,7 @@ public class NewWorklogNotificationBuilder {
     public static void createNotification(Context ctx, Issue issue, Date startDate, LoginInfo loginInfo) {
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = NewWorklogActivity_.intent(ctx)
-                .issueKey(issue.getSummary().getKey())
+                .issueKey(issue.getKey())
                 .loginInfo(loginInfo)
                 .startDate(startDate)
                 .flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS).get();
@@ -42,13 +41,13 @@ public class NewWorklogNotificationBuilder {
                         setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_stat_new_worklog)).
                         setSmallIcon(R.drawable.ic_stat_new_worklog).
                         setOngoing(true).
-                        setContentTitle(issue.getSummary().getKey() + ": " + issue.getSummary().getSummary()).
+                        setContentTitle(issue.getKey() + ": " + issue.getSummary()).
                         setAutoCancel(false).
                         setContentText("Started at: " + TIME_FORMAT.format(startDate)).
                         setContentIntent(PendingIntent.getActivity(ctx, PENDING_REQUETS_ID++, intent, PendingIntent.FLAG_CANCEL_CURRENT)).
-                        setTicker("Work on " + issue.getSummary().getKey() + " started").
+                        setTicker("Work on " + issue.getKey() + " started").
                         build();
-        notificationManager.notify(issue.getSummary().getKey(), NOTIFICATION_ID, notification);
+        notificationManager.notify(issue.getKey(), NOTIFICATION_ID, notification);
     }
 
     public static void cancelNotification(Context ctx, String issueKey) {
