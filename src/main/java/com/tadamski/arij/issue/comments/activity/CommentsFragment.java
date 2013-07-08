@@ -6,7 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.googlecode.androidannotations.annotations.*;
@@ -30,7 +30,7 @@ public class CommentsFragment extends SherlockListFragment {
     @Bean
     CommentsService commentsService;
     @ViewById(R.id.send_button)
-    ImageButton sendButton;
+    Button sendButton;
     @ViewById(R.id.comment_text)
     TextView commentText;
     private LoginInfo actualLoginInfo;
