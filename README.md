@@ -42,3 +42,7 @@ If not, [create an issue](http://github.com/tmszdmsk/arij/issues/new) or write a
 License
 ===
 MIT, details [here](http://github.com/tmszdmsk/arij/blob/master/LICENSE)
+
+Thanks
+===
+* to [Cogision](http://cogision.com), company standing behind [UsabilityTools.com](http://usabilitytools.com) - all commits sent as "t.adamski" were created during research week.
