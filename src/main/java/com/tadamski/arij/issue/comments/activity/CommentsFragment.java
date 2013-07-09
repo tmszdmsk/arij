@@ -41,6 +41,9 @@ public class CommentsFragment extends SherlockListFragment {
     Button sendButton;
     @ViewById(R.id.comment_text)
     TextView commentText;
+
+    @ViewById(R.id.loading)
+    View loadingIndicator;
     private LoginInfo actualLoginInfo;
     private String actualIssueKey;
     private CommentsListAdapter listAdapter;
@@ -54,6 +57,7 @@ public class CommentsFragment extends SherlockListFragment {
         actualLoginInfo = loginInfo;
         actualIssueKey = issueKey;
         if (commentsList == null) {
+            loadingIndicator.setVisibility(View.VISIBLE);
             loadCommentsAsync(loginInfo, issueKey);
         } else {
             putCommentsIntoList(commentsList.getComments());
@@ -68,6 +72,7 @@ public class CommentsFragment extends SherlockListFragment {
 
     @UiThread
     void putCommentsIntoList(List<Comment> comments) {
+        loadingIndicator.setVisibility(View.GONE);
         listAdapter = new CommentsListAdapter(getActivity(), comments);
         setListAdapter(listAdapter);
     }

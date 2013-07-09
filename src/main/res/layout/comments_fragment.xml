@@ -40,4 +40,6 @@
                 android:text="SEND"
                 android:layout_gravity="bottom"/>
     </LinearLayout>
+
+    <include layout="@layout/loading_indicator"/>
 </RelativeLayout>

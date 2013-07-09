@@ -16,18 +16,5 @@
         </LinearLayout>
     </ScrollView>
 
-    <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/loading"
-            android:visibility="gone">
-
-        <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/progressBar"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"/>
-    </FrameLayout>
+    <include layout="@layout/loading_indicator"/>
 </RelativeLayout>

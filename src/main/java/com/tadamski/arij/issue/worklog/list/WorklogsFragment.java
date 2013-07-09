@@ -1,7 +1,9 @@
 package com.tadamski.arij.issue.worklog.list;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 
@@ -10,6 +12,8 @@ import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.ViewById;
+import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.worklog.resource.Worklog;
 import com.tadamski.arij.issue.worklog.resource.WorklogList;
@@ -29,7 +33,13 @@ import java.util.List;
 public class WorklogsFragment extends SherlockListFragment {
     @Bean
     WorklogService worklogService;
+    @ViewById(R.id.loading)
+    View loadingIndicator;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.worklogs_fragment, container);
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -37,9 +47,10 @@ public class WorklogsFragment extends SherlockListFragment {
     }
 
     void loadWorklogs(LoginInfo loginInfo, String issueKey, WorklogList worklogList) {
-        if (worklogList == null)
+        if (worklogList == null) {
             loadWorklogsAsync(loginInfo, issueKey);
-        else
+            loadingIndicator.setVisibility(View.VISIBLE);
+        } else
             putWorklogsIntoList(worklogList.getWorklogs());
     }
 
@@ -51,6 +62,7 @@ public class WorklogsFragment extends SherlockListFragment {
 
     @UiThread
     void putWorklogsIntoList(List<Worklog> worklogs) {
+        loadingIndicator.setVisibility(View.GONE);
         setListAdapter(createAdapter(worklogs));
         getListView().smoothScrollToPosition(getListAdapter().getCount());
     }

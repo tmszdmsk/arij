@@ -7,7 +7,6 @@ package com.tadamski.arij.issue.single.activity.single.view;
 import android.app.NotificationManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,7 +41,7 @@ public class IssueFragment extends SherlockFragment {
     @SystemService
     NotificationManager notificationManager;
     @ViewById(R.id.loading)
-    FrameLayout loadingIndicator;
+    View loadingIndicator;
     LoginInfo actualLoginInfo;
 
     public void loadIssue(String issueKey, LoginInfo loginInfo) {
