@@ -17,8 +17,9 @@ import java.util.Date;
  * @author tmszdmsk
  */
 @EActivity(R.layout.worklog_new_activity)
-public class NewWorklogActivity extends FragmentActivity {
+public class NewWorklogActivity extends FragmentActivity implements NewWorklogFragment.WorkLoggedListener {
 
+    public static final int REQUEST_CODE_LOG = 125;
     private static final String TAG = NewWorklogActivity.class.getName();
     @FragmentById(R.id.worklog_fragment)
     NewWorklogFragment fragment;
@@ -45,11 +46,26 @@ public class NewWorklogActivity extends FragmentActivity {
 
     @AfterViews
     protected void prepareFragment() {
+        if (startDate == null) {
+            startDate = new Date(System.currentTimeMillis() - 60 * 60 * 1000);
+        }
         Long seconds = Math.max((new Date().getTime() - startDate.getTime()) / 1000, 60);
         if (!loaded) {
             setTitle(issueKey);
             fragment.prepare(issueKey, startDate, seconds, loginInfo);
             loaded = true;
         }
+    }
+
+    @Override
+    public void onWorkLogged() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void onWorkDiscarded() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 }

@@ -134,7 +134,9 @@ public class NewWorklogFragment extends Fragment {
         if (successful) {
             Toast.makeText(getActivity(), "worklog updated", Toast.LENGTH_SHORT).show();
             NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
-            getActivity().finish();
+            if (getActivity() instanceof WorkLoggedListener) {
+                ((WorkLoggedListener) getActivity()).onWorkLogged();
+            }
         } else {
             Toast.makeText(getActivity(), "error sending worklog", Toast.LENGTH_SHORT).show();
             ok.setEnabled(true);
@@ -144,7 +146,9 @@ public class NewWorklogFragment extends Fragment {
     @Click(R.id.worklog_cancel_button)
     void discardWorklog() {
         NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
-        getActivity().finish();
+        if (getActivity() instanceof WorkLoggedListener) {
+            ((WorkLoggedListener) getActivity()).onWorkDiscarded();
+        }
     }
 
     private class DurationModifier implements View.OnClickListener {
@@ -175,5 +179,11 @@ public class NewWorklogFragment extends Fragment {
             startDateDate = new Date(startDateDate.getTime() + amountInSeconds * 1000);
             startDate.setText(getHumanReadableStartDate(startDateDate));
         }
+    }
+
+    public interface WorkLoggedListener {
+        void onWorkLogged();
+
+        void onWorkDiscarded();
     }
 }
