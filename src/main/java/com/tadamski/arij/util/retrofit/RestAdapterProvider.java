@@ -10,6 +10,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
+import com.tadamski.arij.BuildConfig;
 import com.tadamski.arij.account.service.LoginInfo;
 
 import java.lang.reflect.Type;
@@ -30,7 +31,7 @@ public class RestAdapterProvider {
 
     public static <T> T get(Class<T> clazz, LoginInfo loginInfo) {
         Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new ISODateAdapter()).create();
-        return new RestAdapter.Builder().setConverter(new GsonConverter(gson)).setDebug(true).setServer(loginInfo.getBaseURL()).setRequestInterceptor(new AuthorizationInterceptor(loginInfo)).build().create(clazz);
+        return new RestAdapter.Builder().setConverter(new GsonConverter(gson)).setDebug(BuildConfig.DEBUG).setServer(loginInfo.getBaseURL()).setRequestInterceptor(new AuthorizationInterceptor(loginInfo)).build().create(clazz);
     }
 
     static class ISODateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
