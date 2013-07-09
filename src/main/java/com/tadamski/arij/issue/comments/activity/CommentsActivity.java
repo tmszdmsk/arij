@@ -27,8 +27,9 @@ public class CommentsActivity extends SherlockFragmentActivity {
 
     @AfterViews
     void loadComments() {
+        getSupportActionBar().setTitle(issueKey);
+        getSupportActionBar().setSubtitle(getString(R.string.comments));
         if (!loaded) {
-            getSupportActionBar().setTitle(issueKey);
             commentsFragment.loadComments(loginInfo, issueKey);
             loaded = true;
         }

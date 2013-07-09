@@ -5,9 +5,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.Extra;
+import com.googlecode.androidannotations.annotations.FragmentById;
+import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
+import com.googlecode.androidannotations.annotations.OptionsItem;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.filters.DefaultFilters;
@@ -29,9 +37,9 @@ public class IssueListActivity extends SherlockFragmentActivity {
     boolean loaded;
     @Bean
     IssueService issueService;
-    ActionBarDrawerToggle drawerToggle;
     @Extra
     LoginInfo loginInfo;
+    ActionBarDrawerToggle drawerToggle;
     DefaultFilters filters = new DefaultFilters();
 
     @Override
