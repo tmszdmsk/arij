@@ -53,6 +53,7 @@ public class WorklogsActivity extends SherlockFragmentActivity {
     void loadWorklogs() {
         if (!loaded) {
             getSupportActionBar().setTitle(issueKey);
+            getSupportActionBar().setSubtitle(getString(R.string.worklog));
             worklogsFragment.loadWorklogs(loginInfo, issueKey, worklogList);
             loaded = true;
         }

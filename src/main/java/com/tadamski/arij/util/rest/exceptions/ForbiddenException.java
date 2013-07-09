@@ -10,4 +10,8 @@ public class ForbiddenException extends RuntimeException {
     public ForbiddenException(String responseMessage) {
         super(responseMessage);
     }
+
+    public ForbiddenException(Throwable throwable) {
+        super(throwable);
+    }
 }
