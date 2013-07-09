@@ -11,4 +11,9 @@
             android:title="@string/worklog"
             android:showAsAction="ifRoom|withText"
             />
+    <item
+            android:id="@+id/menu_item_start_work"
+            android:title="@string/start_work"
+            android:showAsAction="ifRoom|withText"
+            />
 </menu>

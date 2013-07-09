@@ -13,6 +13,7 @@
     <string name="comments">Comments</string>
     <string name="worklog">Worklog</string>
     <string name="log_work">Log work</string>
+    <string name="start_work">Start work</string>
     <string name="no_comment">No comment</string>
     <string name="open">Open</string>
     <string name="close">Close</string>

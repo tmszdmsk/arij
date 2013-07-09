@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.resource.model.Issue;
@@ -22,13 +23,13 @@ import java.util.Date;
 /**
  * @author tmszdmsk
  */
-public class NewWorklogNotificationBuilder {
+public class NewWorklogNotification {
 
     private static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
     private static int NOTIFICATION_ID = 12366234;
     private static int PENDING_REQUETS_ID = 0;
 
-    public static void createNotification(Context ctx, Issue issue, Date startDate, LoginInfo loginInfo) {
+    public static void create(Context ctx, Issue issue, Date startDate, LoginInfo loginInfo) {
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = NewWorklogActivity_.intent(ctx)
                 .issueKey(issue.getKey())
@@ -50,7 +51,7 @@ public class NewWorklogNotificationBuilder {
         notificationManager.notify(issue.getKey(), NOTIFICATION_ID, notification);
     }
 
-    public static void cancelNotification(Context ctx, String issueKey) {
+    public static void cancel(Context ctx, String issueKey) {
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(issueKey, NOTIFICATION_ID);
     }

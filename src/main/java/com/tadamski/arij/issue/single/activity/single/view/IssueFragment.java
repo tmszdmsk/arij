@@ -6,12 +6,15 @@ package com.tadamski.arij.issue.single.activity.single.view;
 
 import android.app.NotificationManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragment;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.Background;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.UiThread;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.resource.IssueService;
@@ -20,11 +23,9 @@ import com.tadamski.arij.issue.resource.model.Resolution;
 import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
-import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotificationBuilder;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author tmszdmsk
@@ -69,17 +70,6 @@ public class IssueFragment extends SherlockFragment {
         view.addView(viewFactory.createMultipropertiesView(peopleGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createMultipropertiesView(datesGroup, getActivity()),
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        Button workLogButton = new Button(getActivity());
-        workLogButton.setText("start work");
-        workLogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NewWorklogNotificationBuilder.createNotification(IssueFragment.this.getActivity().getApplicationContext(), issue, new Date(), actualLoginInfo);
-            }
-
-        });
-        view.addView(workLogButton,
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         if (getActivity() instanceof IssueLoadedListener) {
             ((IssueLoadedListener) getActivity()).issueLoaded(issue);

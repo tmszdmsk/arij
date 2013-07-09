@@ -21,7 +21,7 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotificationBuilder;
+import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
 import com.tadamski.arij.issue.worklog.resource.Worklog;
 import com.tadamski.arij.issue.worklog.resource.WorklogService;
 
@@ -133,7 +133,7 @@ public class NewWorklogFragment extends Fragment {
     void onWorkLogged(boolean successful) {
         if (successful) {
             Toast.makeText(getActivity(), "worklog updated", Toast.LENGTH_SHORT).show();
-            NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
+            NewWorklogNotification.cancel(getActivity(), issueKey);
             if (getActivity() instanceof WorkLoggedListener) {
                 ((WorkLoggedListener) getActivity()).onWorkLogged();
             }
@@ -145,7 +145,7 @@ public class NewWorklogFragment extends Fragment {
 
     @Click(R.id.worklog_cancel_button)
     void discardWorklog() {
-        NewWorklogNotificationBuilder.cancelNotification(getActivity(), issueKey);
+        NewWorklogNotification.cancel(getActivity(), issueKey);
         if (getActivity() instanceof WorkLoggedListener) {
             ((WorkLoggedListener) getActivity()).onWorkDiscarded();
         }
