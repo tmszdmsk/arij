@@ -1,15 +1,33 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:stretchColumns="1"
-            android:scrollbars="vertical"
-            android:isScrollContainer="true">
+            android:id="@+id/scrollView">
 
-    <LinearLayout
-            android:tag="layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-    </LinearLayout>
-</ScrollView>
+        <LinearLayout
+                android:tag="layout"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+        </LinearLayout>
+    </ScrollView>
 
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/loading"
+            android:visibility="gone">
+
+        <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"/>
+    </FrameLayout>
+</RelativeLayout>

@@ -6,6 +6,8 @@ package com.tadamski.arij.issue.single.activity.single.view;
 
 import android.app.NotificationManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.resource.IssueService;
@@ -38,10 +41,13 @@ public class IssueFragment extends SherlockFragment {
     IssueService issueService;
     @SystemService
     NotificationManager notificationManager;
+    @ViewById(R.id.loading)
+    FrameLayout loadingIndicator;
     LoginInfo actualLoginInfo;
 
     public void loadIssue(String issueKey, LoginInfo loginInfo) {
         this.actualLoginInfo = loginInfo;
+        loadingIndicator.setVisibility(View.VISIBLE);
         loadIssueInBackground(issueKey, loginInfo);
     }
 
@@ -53,6 +59,7 @@ public class IssueFragment extends SherlockFragment {
 
     @UiThread
     void onLoadFinished(final Issue issue) {
+        loadingIndicator.setVisibility(View.GONE);
         Log.d(TAG, "loader finished");
         IssuePropertyGroup basicGroup = getIssueDetailsProperties(issue);
         IssuePropertyGroup peopleGroup = getIssuePeopleProperties(issue);
