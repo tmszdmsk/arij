@@ -15,20 +15,20 @@ Current state
 ===
 * multiple accounts support
 * presents list issues assigned to logged in user
-* screen with basic informations about issue
+* screen with informations about issue
 * allows to start work on issue with timer and log that work later
+* comments view/add
+* worklog view/add
 
 In progress
 ===
-* comments view/add
-* worklog view/add
 * multiple filters
 
 Features planned
 ===
 * assigning tasks to logged in user
 * transition between issue states (starting work, stopping it, resolving)
-* opening links from jira (that will be tricky ;)
+* opening links pointing to jira in application (that will be tricky ;)
 * plugin for jira to support Google Cloud Messaging to send push notifications
 * tbc
 
@@ -38,10 +38,10 @@ I usually care about as little external(non easy-maven-downloadable) dependencie
 Just make sure that your ANDROID_HOME environment variable is set properly.
 
 ```bash
-mvn install
+mvn validate install
 ``` 
 and magic should happen ;)
-If not, [create an issue](http://github.com/tmszdmsk/arij/issues/new) or write an [e-mail](mailto:tomasz.adamski@gmail.com)
+If not - [create an issue](http://github.com/tmszdmsk/arij/issues/new) or write an [e-mail](mailto:tomasz.adamski@gmail.com)
 
 License
 ===
