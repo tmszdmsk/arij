@@ -1,5 +1,6 @@
 package com.tadamski.arij.issue.comments.resource;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * Time: 22:13
  * To change this template use File | Settings | File Templates.
  */
-public class CommentsList {
+public class CommentsList implements Serializable {
     List<Comment> comments;
 
     public List<Comment> getComments() {

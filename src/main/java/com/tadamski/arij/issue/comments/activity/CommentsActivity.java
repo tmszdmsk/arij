@@ -8,6 +8,7 @@ import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.comments.resource.CommentsList;
 
 /**
  * Created by tmszdmsk on 07.07.13.
@@ -19,6 +20,8 @@ public class CommentsActivity extends SherlockFragmentActivity {
     String issueKey;
     @Extra
     LoginInfo loginInfo;
+    @Extra
+    CommentsList commentsList;
     @FragmentById(R.id.comments_fragment)
     CommentsFragment commentsFragment;
     @NonConfigurationInstance
@@ -30,7 +33,7 @@ public class CommentsActivity extends SherlockFragmentActivity {
         getSupportActionBar().setTitle(issueKey);
         getSupportActionBar().setSubtitle(getString(R.string.comments));
         if (!loaded) {
-            commentsFragment.loadComments(loginInfo, issueKey);
+            commentsFragment.loadComments(loginInfo, issueKey, commentsList);
             loaded = true;
         }
     }

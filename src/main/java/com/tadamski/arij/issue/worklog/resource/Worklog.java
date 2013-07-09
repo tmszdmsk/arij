@@ -2,12 +2,13 @@ package com.tadamski.arij.issue.worklog.resource;
 
 import com.tadamski.arij.issue.resource.model.User;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by t.adamski on 7/8/13.
  */
-public class Worklog {
+public class Worklog implements Serializable {
 
     private String comment;
     private Date started;

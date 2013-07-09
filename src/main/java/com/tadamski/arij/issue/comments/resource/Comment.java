@@ -2,6 +2,7 @@ package com.tadamski.arij.issue.comments.resource;
 
 import com.tadamski.arij.issue.resource.model.User;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * Time: 21:06
  * To change this template use File | Settings | File Templates.
  */
-public class Comment {
+public class Comment implements Serializable {
     private String body;
     private User author;
     private Date created;

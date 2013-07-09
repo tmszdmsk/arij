@@ -1,9 +1,11 @@
 package com.tadamski.arij.issue.resource.model;
 
+import java.io.Serializable;
+
 /**
  * Created by tmszdmsk on 08.07.13.
  */
-public class Type {
+public class Type implements Serializable {
     private String self;
     private Long id;
     private String description;

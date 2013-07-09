@@ -8,11 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Background;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.Click;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.resource.Comment;
+import com.tadamski.arij.issue.comments.resource.CommentsList;
 import com.tadamski.arij.issue.comments.resource.CommentsService;
 
 import java.util.List;
@@ -42,10 +50,14 @@ public class CommentsFragment extends SherlockListFragment {
         return inflater.inflate(R.layout.comments_fragment, container, true);
     }
 
-    public void loadComments(LoginInfo loginInfo, String issueKey) {
+    public void loadComments(LoginInfo loginInfo, String issueKey, CommentsList commentsList) {
         actualLoginInfo = loginInfo;
         actualIssueKey = issueKey;
-        loadCommentsAsync(loginInfo, issueKey);
+        if (commentsList == null) {
+            loadCommentsAsync(loginInfo, issueKey);
+        } else {
+            putCommentsIntoList(commentsList.getComments());
+        }
     }
 
     @Background

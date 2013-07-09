@@ -46,12 +46,19 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
 
     @OptionsItem(R.id.menu_item_comments)
     void onCommentsClicked() {
-        CommentsActivity_.intent(this).issueKey(issueKey).loginInfo(loginInfo).start();
+        CommentsActivity_.intent(this)
+                .issueKey(issueKey).loginInfo(loginInfo)
+                .commentsList(actualIssue == null ? null : actualIssue.getComments())
+                .start();
     }
 
     @OptionsItem(R.id.menu_item_worklog)
     void onWorklogClicked() {
-        WorklogsActivity_.intent(this).issueKey(issueKey).loginInfo(loginInfo).start();
+        WorklogsActivity_.intent(this)
+                .issueKey(issueKey)
+                .loginInfo(loginInfo)
+                .worklogList(actualIssue == null ? null : actualIssue.getWorklog())
+                .start();
     }
 
     @OptionsItem(R.id.menu_item_start_work)

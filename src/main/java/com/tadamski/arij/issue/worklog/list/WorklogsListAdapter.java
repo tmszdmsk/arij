@@ -45,6 +45,11 @@ public class WorklogsListAdapter extends BaseAdapter {
     }
 
     @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             view = LayoutInflater.from(ctx).inflate(R.layout.worklogs_list_elem, null);

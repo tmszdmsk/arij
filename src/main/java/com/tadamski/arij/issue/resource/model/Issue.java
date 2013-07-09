@@ -1,5 +1,8 @@
 package com.tadamski.arij.issue.resource.model;
 
+import com.tadamski.arij.issue.comments.resource.CommentsList;
+import com.tadamski.arij.issue.worklog.resource.WorklogList;
+
 import java.util.Date;
 
 /**
@@ -71,6 +74,14 @@ public class Issue {
         return fields.resolutiondate;
     }
 
+    public WorklogList getWorklog() {
+        return fields.worklog;
+    }
+
+    public CommentsList getComments() {
+        return fields.comment;
+    }
+
     private class Fields {
         String summary;
         String description;
@@ -84,6 +95,8 @@ public class Issue {
         Project project;
         Resolution resolution;
         Date resolutiondate;
+        WorklogList worklog;
+        CommentsList comment;
     }
 
 }

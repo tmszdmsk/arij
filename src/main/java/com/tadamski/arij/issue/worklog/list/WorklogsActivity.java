@@ -13,6 +13,7 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity;
 import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity_;
+import com.tadamski.arij.issue.worklog.resource.WorklogList;
 
 /**
  * Created by tmszdmsk on 07.07.13.
@@ -24,6 +25,8 @@ public class WorklogsActivity extends SherlockFragmentActivity {
     String issueKey;
     @Extra
     LoginInfo loginInfo;
+    @Extra
+    WorklogList worklogList;
     @FragmentById(R.id.worklogs_fragment)
     WorklogsFragment worklogsFragment;
     @NonConfigurationInstance
@@ -43,14 +46,14 @@ public class WorklogsActivity extends SherlockFragmentActivity {
     @OnActivityResult(NewWorklogActivity.REQUEST_CODE_LOG)
     void onWorkLogged(int resultCode) {
         if (resultCode == NewWorklogActivity.RESULT_OK)
-            worklogsFragment.loadWorklogs(loginInfo, issueKey);
+            worklogsFragment.loadWorklogs(loginInfo, issueKey, null); //null for workloglist because we want them to be reloaded
     }
 
     @AfterViews
-    void loadComments() {
+    void loadWorklogs() {
         if (!loaded) {
             getSupportActionBar().setTitle(issueKey);
-            worklogsFragment.loadWorklogs(loginInfo, issueKey);
+            worklogsFragment.loadWorklogs(loginInfo, issueKey, worklogList);
             loaded = true;
         }
     }
