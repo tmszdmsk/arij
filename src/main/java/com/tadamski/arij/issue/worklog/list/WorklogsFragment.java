@@ -90,7 +90,6 @@ public class WorklogsFragment extends SherlockListFragment {
     void putWorklogsIntoList(List<Worklog> worklogs) {
         loadingIndicator.setVisibility(View.GONE);
         setListAdapter(createAdapter(worklogs));
-        getListView().smoothScrollToPosition(getListAdapter().getCount());
     }
 
     private ListAdapter createAdapter(List<Worklog> worklogs) {

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="58dp"
                 android:layout_marginBottom="4sp"
                 android:layout_marginLeft="4sp"
                 android:layout_marginRight="4sp"
                 android:layout_marginTop="4sp"
-                android:minHeight="50dp">
+                android:minHeight="58dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+        >
 
 
     <TextView
@@ -49,7 +52,8 @@
             android:textSize="12dp"
             android:textColor="@android:color/darker_gray"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"/>
 
     <TextView
             android:id="@+id/issue_summary"
@@ -61,6 +65,7 @@
             android:layout_toRightOf="@+id/issue_id_number"
             android:layout_below="@+id/project_shortcut"
             android:layout_marginLeft="10dp"
-            android:maxLines="2"/>
+            android:maxLines="2"
+            android:layout_marginRight="8dp"/>
 
 </RelativeLayout>

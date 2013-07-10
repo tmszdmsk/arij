@@ -27,9 +27,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:id="@+id/linearLayout" android:baselineAligned="false">
+            android:id="@+id/linearLayout"
+            android:baselineAligned="false"
+            android:padding="4dp">
 
-        <EditText
+    <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
