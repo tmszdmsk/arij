@@ -10,6 +10,7 @@ package com.tadamski.arij.issue.list.filters;
 public class Filter {
 
     public String name;
+    public String description;
     public String jql;
 
     public Filter(String name, String jql) {
