@@ -34,7 +34,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @NonConfigurationInstance
-    boolean loaded;
+    int selectedFilterPosition = -1;
     @Bean
     IssueService issueService;
     @Extra
@@ -64,32 +64,39 @@ public class IssueListActivity extends SherlockFragmentActivity {
     }
 
     @AfterViews
-    void initFragment() {
-        if (!loaded) {
-            final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
-            filtersListView.setAdapter(filtersListAdapter);
-            filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    filtersListView.setItemChecked(i, true);
-                    selectFilter(filtersListAdapter.getItem(i));
-                }
-            });
-            drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                    R.drawable.ic_drawer,
-                    R.string.open, R.string.close);
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-            getActionBar().setHomeButtonEnabled(true);
-            drawerToggle.syncState();
-            filtersListView.setItemChecked(0, true);
-            selectFilter(filtersListAdapter.getItem(0));
-            loaded = true;
+    void initDrawer() {
+        final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
+        filtersListView.setAdapter(filtersListAdapter);
+        filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                filtersListView.setItemChecked(i, true);
+                loadFilterInFragment(i);
+                setActivityPropertiesFromFilter(i);
+            }
+        });
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.drawable.ic_drawer,
+                R.string.open, R.string.close);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        drawerToggle.syncState();
+        if (selectedFilterPosition == -1) {
+            loadFilterInFragment(0);
         }
+        setActivityPropertiesFromFilter(selectedFilterPosition);
     }
 
-    void selectFilter(Filter filter) {
+    void loadFilterInFragment(int position) {
+        selectedFilterPosition = position;
+        Filter filter = (Filter) filtersListView.getItemAtPosition(position);
         fragment.executeJql(filter.jql, loginInfo);
-        IssueListActivity.this.setTitle(filter.name);
+    }
+
+    void setActivityPropertiesFromFilter(int position) {
+        Filter filter = (Filter) filtersListView.getItemAtPosition(position);
+        getSupportActionBar().setTitle(filter.name);
+        filtersListView.setItemChecked(position, true);
         drawerLayout.closeDrawer(filtersListView);
     }
 

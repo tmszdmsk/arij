@@ -55,11 +55,20 @@ public class IssueFragment extends SherlockFragment {
     private LoginInfo actualLoginInfo;
     private String actualIssueKey;
     private Issue loadedIssue;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        if (loadedIssue != null) {
+            onLoadFinished(loadedIssue);
+        }
     }
 
     @Override
