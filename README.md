@@ -14,16 +14,15 @@ or [compile it yourself](https://github.com/tmszdmsk/arij/blob/master/README.md#
 Current state
 ===
 * multiple accounts support
-* presents list issues assigned to logged in user
-* screen with informations about issue
-* allows to start work on issue with timer and log that work later
+* 4 predefined filters to display issues
 * comments view/add
 * worklog view/add
+* allows to start work on issue with timer and log that work later
 * assigning tasks to logged in user
 
 In progress
 ===
-* multiple filters
+* opening links pointing to jira in application (that will be tricky ;)
 
 Features planned
 ===
