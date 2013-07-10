@@ -31,6 +31,7 @@ Features planned
 * transition between issue states (starting work, stopping it, resolving)
 * handling of custom fields
 * opening links pointing to jira in application (that will be tricky ;)
+* edition of all issue fields
 * plugin for jira to support Google Cloud Messaging to send push notifications
 * tbc
 
