@@ -8,13 +8,18 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity;
+import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity_;
 import com.tadamski.arij.issue.worklog.resource.Worklog;
 import com.tadamski.arij.issue.worklog.resource.WorklogList;
 import com.tadamski.arij.issue.worklog.resource.WorklogService;
@@ -35,6 +40,24 @@ public class WorklogsFragment extends SherlockListFragment {
     WorklogService worklogService;
     @ViewById(R.id.loading)
     View loadingIndicator;
+    private LoginInfo actualLoginInfo;
+    private String actualIssueKey;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.worklog_menu, menu);
+    }
+
+    @OptionsItem(R.id.menu_item_log_work)
+    void onLogWorkClicked() {
+        NewWorklogActivity_.intent(getActivity()).issueKey(actualIssueKey).loginInfo(actualLoginInfo).startForResult(NewWorklogActivity.REQUEST_CODE_LOG);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +70,8 @@ public class WorklogsFragment extends SherlockListFragment {
     }
 
     void loadWorklogs(LoginInfo loginInfo, String issueKey, WorklogList worklogList) {
+        this.actualLoginInfo = loginInfo;
+        this.actualIssueKey = issueKey;
         if (worklogList == null) {
             loadWorklogsAsync(loginInfo, issueKey);
             loadingIndicator.setVisibility(View.VISIBLE);

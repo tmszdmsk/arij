@@ -16,4 +16,9 @@
             android:title="@string/start_work"
             android:showAsAction="ifRoom|withText"
             />
+    <item
+            android:id="@+id/menu_item_assign_to_me"
+            android:title="Assign to me"
+            android:showAsAction="ifRoom|withText"
+            />
 </menu>

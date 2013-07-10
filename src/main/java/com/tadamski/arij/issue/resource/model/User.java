@@ -13,6 +13,11 @@ public class User implements Serializable {
     private boolean active;
     //avatarUrls-> 16x16, 24x24, 32x32, 48x48;
 
+
+    public User(String name) {
+        this.name = name;
+    }
+
     public String getSelf() {
         return self;
     }

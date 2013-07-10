@@ -5,29 +5,39 @@
 package com.tadamski.arij.issue.single.activity.single.view;
 
 import android.app.NotificationManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.comments.activity.CommentsActivity_;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.resource.model.Resolution;
+import com.tadamski.arij.issue.resource.model.User;
+import com.tadamski.arij.issue.resource.model.updates.ChangeAssigneeUpdate;
 import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
+import com.tadamski.arij.issue.worklog.list.WorklogsActivity_;
+import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @author tmszdmsk
@@ -42,11 +52,27 @@ public class IssueFragment extends SherlockFragment {
     NotificationManager notificationManager;
     @ViewById(R.id.loading)
     View loadingIndicator;
-    LoginInfo actualLoginInfo;
+    private LoginInfo actualLoginInfo;
+    private String actualIssueKey;
+    private Issue loadedIssue;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.issue_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     public void loadIssue(String issueKey, LoginInfo loginInfo) {
+        this.loadedIssue = null;
+        this.actualIssueKey = issueKey;
         this.actualLoginInfo = loginInfo;
-        loadingIndicator.setVisibility(View.VISIBLE);
+        enableLoadingIndicator();
         loadIssueInBackground(issueKey, loginInfo);
     }
 
@@ -58,12 +84,15 @@ public class IssueFragment extends SherlockFragment {
 
     @UiThread
     void onLoadFinished(final Issue issue) {
-        loadingIndicator.setVisibility(View.GONE);
+        loadedIssue = issue;
+        disableLoadingIndicator();
         Log.d(TAG, "loader finished");
+
         IssuePropertyGroup basicGroup = getIssueDetailsProperties(issue);
         IssuePropertyGroup peopleGroup = getIssuePeopleProperties(issue);
         IssuePropertyGroup datesGroup = getIssueDateProperties(issue);
         LinearLayout view = (LinearLayout) this.getView().findViewWithTag("layout");
+        view.removeAllViews();
         final TextView description = new TextView(getActivity());
         description.setText(issue.getDescription());
         final IssuePropertyGroupViewFactory viewFactory = new IssuePropertyGroupViewFactory();
@@ -80,6 +109,52 @@ public class IssueFragment extends SherlockFragment {
         if (getActivity() instanceof IssueLoadedListener) {
             ((IssueLoadedListener) getActivity()).issueLoaded(issue);
         }
+    }
+
+    @OptionsItem(R.id.menu_item_comments)
+    void onCommentsClicked() {
+        CommentsActivity_.intent(getActivity())
+                .issueKey(actualIssueKey).loginInfo(actualLoginInfo)
+                .commentsList(loadedIssue == null ? null : loadedIssue.getComments())
+                .start();
+    }
+
+    @OptionsItem(R.id.menu_item_worklog)
+    void onWorklogClicked() {
+        WorklogsActivity_.intent(getActivity())
+                .issueKey(actualIssueKey)
+                .loginInfo(actualLoginInfo)
+                .worklogList(loadedIssue == null ? null : loadedIssue.getWorklog())
+                .start();
+    }
+
+    @OptionsItem(R.id.menu_item_start_work)
+    void onStartWorkClicked() {
+        if (loadedIssue != null)
+            NewWorklogNotification.create(getActivity().getApplicationContext(), loadedIssue, new Date(), actualLoginInfo);
+    }
+
+    @OptionsItem(R.id.menu_item_assign_to_me)
+    void onAssignToMeClicked() {
+        enableLoadingIndicator();
+        assignToMeAsync();
+    }
+
+    @Background
+    void assignToMeAsync() {
+        issueService.updateIssue(actualLoginInfo, actualIssueKey, new ChangeAssigneeUpdate(new User(actualLoginInfo.getUsername())));
+        loadIssue(actualIssueKey, actualLoginInfo);
+        disableLoadingIndicator();
+    }
+
+    @UiThread
+    void disableLoadingIndicator() {
+        loadingIndicator.setVisibility(View.GONE);
+    }
+
+    @UiThread
+    void enableLoadingIndicator() {
+        loadingIndicator.setVisibility(View.VISIBLE);
     }
 
     private IssuePropertyGroup getIssueDetailsProperties(Issue issue) {
