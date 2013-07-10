@@ -5,13 +5,15 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Selection;
-import android.view.View;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.base.Strings;
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.Click;
@@ -39,8 +41,6 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @ViewById(R.id.url_edit_text)
     EditText urlEditText;
-    @ViewById(R.id.add_account_default_postfix_button)
-    Button defaultPostfixButton;
     @ViewById(R.id.login_edit_text)
     EditText loginEditText;
     @ViewById(R.id.password_edit_text)
@@ -70,19 +70,18 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         EasyTracker.getInstance().activityStop(this);
     }
 
-    @Click(R.id.add_account_default_postfix_button)
-    void changeDefaultHostnamePostfix() {
-        int initialLength = urlEditText.getText().length();
-        String postFix = defaultPostfixButton.getText().toString();
-        defaultPostfixButton.setVisibility(View.GONE);
-        urlEditText.append(postFix);
-        Selection.setSelection(urlEditText.getText(), initialLength);
+    @AfterViews
+    void initListeners() {
+        OnDoneImeAction onDoneImeAction = new OnDoneImeAction();
+        urlEditText.setOnEditorActionListener(onDoneImeAction);
+        loginEditText.setOnEditorActionListener(onDoneImeAction);
+        passwordEditText.setOnEditorActionListener(onDoneImeAction);
     }
 
     @Click(R.id.login_button)
     void login() {
         EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_button_pushed", null, null);
-        String url = getBaseUrl();
+        String url = urlEditText.getText().toString();
         String login = loginEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         if (validate()) {
@@ -95,14 +94,6 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     @UiThread
     void setLoginButtonState(boolean enabled) {
         loginButton.setEnabled(enabled);
-    }
-
-    String getBaseUrl() {
-        if (defaultPostfixButton.getVisibility() == View.VISIBLE) {
-            return urlEditText.getText().toString() + defaultPostfixButton.getText().toString();
-        } else {
-            return urlEditText.getText().toString();
-        }
     }
 
     private CheckResult checkServer(LoginInfo loginInfo) {
@@ -165,7 +156,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     private boolean validate() {
         boolean seemsValid = true;
         //url
-        String url = getBaseUrl();
+        String url = urlEditText.getText().toString();
         try {
             new URL("http://" + url);
             urlEditText.setError(null);
@@ -205,6 +196,19 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
             this.code = code;
             this.reason = reason;
         }
+    }
+
+    private class OnDoneImeAction implements TextView.OnEditorActionListener {
+
+        @Override
+        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                login();
+                return true;
+            }
+            return false;
+        }
+
     }
 
 

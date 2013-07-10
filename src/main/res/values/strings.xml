@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ariJ</string>
-    <string name="sample_url">example</string>
+    <string name="sample_url">example.atlassian.net</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="login_button">Login now</string>

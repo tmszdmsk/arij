@@ -8,10 +8,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/url_layout"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp">
+            android:layout_alignLeft="@+id/login_edit_text"
+            android:layout_alignRight="@+id/login_edit_text">
 
-        <TextView
+    <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_account_url_prefix"
@@ -31,11 +31,6 @@
             <requestFocus/>
         </EditText>
 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_account_url_default_hostname"
-                android:id="@+id/add_account_default_postfix_button"/>
     </LinearLayout>
 
 
@@ -46,11 +41,11 @@
             android:ems="10"
             android:hint="@string/login"
             android:inputType="textPersonName"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/url_layout"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp"
+            android:layout_centerHorizontal="true"
+            android:minWidth="300dp"/>
 
     <EditText
             android:id="@+id/password_edit_text"
@@ -61,11 +56,9 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/login_edit_text"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_alignLeft="@+id/login_edit_text"
+            android:layout_alignRight="@+id/login_edit_text">
     </EditText>
 
 
@@ -75,10 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/password_edit_text"
             android:text="@string/login_button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_alignLeft="@+id/login_edit_text"
+            android:layout_alignRight="@+id/login_edit_text"/>
 
 </RelativeLayout>
 
