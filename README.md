@@ -19,6 +19,7 @@ Current state
 * allows to start work on issue with timer and log that work later
 * comments view/add
 * worklog view/add
+* assigning tasks to logged in user
 
 In progress
 ===
@@ -26,8 +27,9 @@ In progress
 
 Features planned
 ===
-* assigning tasks to logged in user
+* user favourite filters
 * transition between issue states (starting work, stopping it, resolving)
+* handling of custom fields
 * opening links pointing to jira in application (that will be tricky ;)
 * plugin for jira to support Google Cloud Messaging to send push notifications
 * tbc
