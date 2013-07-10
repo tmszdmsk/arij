@@ -16,6 +16,13 @@
             android:layout_above="@+id/linearLayout"
             android:stackFromBottom="true" android:transcriptMode="normal"/>
 
+    <TextView
+            android:id="@id/android:empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No comments"
+            android:layout_centerInParent="true"/>
+
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
