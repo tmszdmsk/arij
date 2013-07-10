@@ -1,10 +1,7 @@
 package com.tadamski.arij.util.retrofit;
 
-import com.tadamski.arij.util.rest.exceptions.ForbiddenException;
+import com.tadamski.arij.util.rest.exceptions.HttpException;
 import com.tadamski.arij.util.rest.exceptions.NetworkException;
-import com.tadamski.arij.util.rest.exceptions.NotFoundException;
-import com.tadamski.arij.util.rest.exceptions.ServerErrorException;
-import com.tadamski.arij.util.rest.exceptions.UnauthorizedException;
 
 import retrofit.ErrorHandler;
 import retrofit.RetrofitError;
@@ -18,17 +15,9 @@ public class JiraErrorHandler implements ErrorHandler {
         if (retrofitError.isNetworkError()) {
             throw new NetworkException(retrofitError);
         } else {
-            switch (retrofitError.getResponse().getStatus()) {
-                case 401:
-                    throw new UnauthorizedException(retrofitError);
-                case 403:
-                    throw new ForbiddenException(retrofitError);
-                case 404:
-                    throw new NotFoundException(retrofitError);
-                case 500:
-                    throw new ServerErrorException(retrofitError);
-            }
+            //unfortunately Jira API is very inconsitnently using http error codes to communicate problems. What given error code means
+            //has to be determined in use case(rest resource endpoint) context
+            throw new HttpException(retrofitError.getResponse().getStatus(), retrofitError.getResponse().getReason(), retrofitError);
         }
-        throw retrofitError;
     }
 }
