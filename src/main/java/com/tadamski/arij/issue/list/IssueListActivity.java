@@ -107,7 +107,7 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
 
     @Override
     public void onOpenIssueRequest(String issueKey) {
-        if (issueFragment == null) {
+        if (issueFragment == null || !issueFragment.isInLayout()) {
             IssueActivity_.intent(this).issueKey(issueKey).loginInfo(loginInfo).start();
         } else {
             issueFragment.loadIssue(issueKey, loginInfo);
