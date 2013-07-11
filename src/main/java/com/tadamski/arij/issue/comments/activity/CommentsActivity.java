@@ -14,10 +14,10 @@ import com.tadamski.arij.issue.comments.resource.CommentsList;
  * Created by tmszdmsk on 07.07.13.
  */
 @EActivity(R.layout.comments)
-public class CommentsActivity extends SherlockFragmentActivity {
+public class CommentsActivity extends SherlockFragmentActivity implements CommentsFragment.CommentsFragmentListener {
 
     public static final int REQUEST_SHOW_COMMENTS = 1235;
-    public static final int RESULT_ADDED = 12;
+    public static final int RESULT_UPDATE = 12;
 
     @Extra
     String issueKey;
@@ -39,5 +39,10 @@ public class CommentsActivity extends SherlockFragmentActivity {
             commentsFragment.loadComments(loginInfo, issueKey, commentsList);
             loaded = true;
         }
+    }
+
+    @Override
+    public void onNewCommentSent() {
+        setResult(RESULT_UPDATE);
     }
 }

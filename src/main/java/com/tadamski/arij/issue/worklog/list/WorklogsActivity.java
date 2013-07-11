@@ -18,6 +18,8 @@ import com.tadamski.arij.issue.worklog.resource.WorklogList;
 @EActivity(R.layout.worklogs)
 public class WorklogsActivity extends SherlockFragmentActivity {
 
+    public static final int REQUEST_WORKLOG = 35345;
+    public static final int RESULT_UPDATED = 23;
     @Extra
     String issueKey;
     @Extra
@@ -31,15 +33,17 @@ public class WorklogsActivity extends SherlockFragmentActivity {
 
     @OnActivityResult(NewWorklogActivity.REQUEST_CODE_LOG)
     void onWorkLogged(int resultCode) {
-        if (resultCode == NewWorklogActivity.RESULT_OK)
+        if (resultCode == NewWorklogActivity.RESULT_OK) {
             worklogsFragment.loadWorklogs(loginInfo, issueKey, null); //null for workloglist because we want them to be reloaded
+            setResult(RESULT_UPDATED);
+        }
     }
 
     @AfterViews
     void loadWorklogs() {
+        getSupportActionBar().setTitle(issueKey);
+        getSupportActionBar().setSubtitle(getString(R.string.worklog));
         if (!loaded) {
-            getSupportActionBar().setTitle(issueKey);
-            getSupportActionBar().setSubtitle(getString(R.string.worklog));
             worklogsFragment.loadWorklogs(loginInfo, issueKey, worklogList);
             loaded = true;
         }

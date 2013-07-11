@@ -4,6 +4,7 @@
  */
 package com.tadamski.arij.issue.single.activity.single.view;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ import com.tadamski.arij.issue.resource.model.updates.ChangeAssigneeUpdate;
 import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
+import com.tadamski.arij.issue.worklog.list.WorklogsActivity;
 import com.tadamski.arij.issue.worklog.list.WorklogsActivity_;
 import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
 import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView;
@@ -61,6 +63,7 @@ public class IssueFragment extends SherlockFragment {
     private String actualIssueKey;
     private Issue loadedIssue;
     private View view;
+    private IssueFragmentListener issueFragmentListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,16 @@ public class IssueFragment extends SherlockFragment {
     void loadIssueInBackground(String issueKey, LoginInfo loginInfo) {
         Issue loadedIssue = issueService.getIssue(loginInfo, issueKey);
         onLoadFinished(loadedIssue);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof IssueFragmentListener) {
+            this.issueFragmentListener = (IssueFragmentListener) activity;
+        } else {
+            throw new IllegalArgumentException("activity must implement " + IssueFragmentListener.class.getName());
+        }
     }
 
     @UiThread
@@ -132,10 +145,7 @@ public class IssueFragment extends SherlockFragment {
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createMultipropertiesView(datesGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        if (getActivity() instanceof IssueLoadedListener) {
-            ((IssueLoadedListener) getActivity()).issueLoaded(issue);
-        }
+        issueFragmentListener.issueLoaded(issue);
     }
 
     @OptionsItem(R.id.menu_item_comments)
@@ -152,7 +162,7 @@ public class IssueFragment extends SherlockFragment {
                 .issueKey(actualIssueKey)
                 .loginInfo(actualLoginInfo)
                 .worklogList(loadedIssue == null ? null : loadedIssue.getWorklog())
-                .start();
+                .startForResult(WorklogsActivity.REQUEST_WORKLOG);
     }
 
     @OptionsItem(R.id.menu_item_start_work)
@@ -166,7 +176,6 @@ public class IssueFragment extends SherlockFragment {
         enableLoadingIndicator();
         assignToMeAsync();
     }
-
 
     @Background
     void assignToMeAsync() {
@@ -216,7 +225,7 @@ public class IssueFragment extends SherlockFragment {
         return datesGroup;
     }
 
-    public interface IssueLoadedListener {
+    public interface IssueFragmentListener {
         public void issueLoaded(Issue issue);
     }
 }

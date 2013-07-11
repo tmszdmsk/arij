@@ -1,5 +1,6 @@
 package com.tadamski.arij.issue.comments.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,12 +42,12 @@ public class CommentsFragment extends SherlockListFragment {
     Button sendButton;
     @ViewById(R.id.comment_text)
     TextView commentText;
-
     @ViewById(R.id.loading)
     View loadingIndicator;
     private LoginInfo actualLoginInfo;
     private String actualIssueKey;
     private CommentsListAdapter listAdapter;
+    private CommentsFragmentListener commentsFragmentListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,16 @@ public class CommentsFragment extends SherlockListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.comments_fragment, container, true);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof CommentsFragmentListener) {
+            commentsFragmentListener = (CommentsFragmentListener) activity;
+        } else {
+            throw new IllegalArgumentException("activity should implement " + CommentsFragmentListener.class.getName());
+        }
     }
 
     public void loadComments(LoginInfo loginInfo, String issueKey, CommentsList commentsList) {
@@ -120,7 +131,7 @@ public class CommentsFragment extends SherlockListFragment {
 
     @UiThread
     void addSentComment(Comment comment) {
-        getActivity().setResult(CommentsActivity.RESULT_ADDED);
+        commentsFragmentListener.onNewCommentSent();
         listAdapter.add(comment);
     }
 
@@ -128,5 +139,8 @@ public class CommentsFragment extends SherlockListFragment {
         return !commentText.getText().toString().trim().isEmpty();
     }
 
+    public interface CommentsFragmentListener {
+        void onNewCommentSent();
+    }
 
 }

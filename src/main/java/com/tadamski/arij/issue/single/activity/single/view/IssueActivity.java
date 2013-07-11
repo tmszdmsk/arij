@@ -12,9 +12,10 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.activity.CommentsActivity;
 import com.tadamski.arij.issue.resource.model.Issue;
+import com.tadamski.arij.issue.worklog.list.WorklogsActivity;
 
 @EActivity(R.layout.issue)
-public class IssueActivity extends SherlockFragmentActivity implements IssueFragment.IssueLoadedListener {
+public class IssueActivity extends SherlockFragmentActivity implements IssueFragment.IssueFragmentListener {
 
     private static final String TAG = IssueActivity.class.getName();
     @Extra
@@ -48,8 +49,15 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     }
 
     @OnActivityResult(CommentsActivity.REQUEST_SHOW_COMMENTS)
-    public void onCommentsClosed(int result) {
-        if (result == CommentsActivity.RESULT_ADDED) {
+    void onCommentsUpdated(int result) {
+        if (result == CommentsActivity.RESULT_UPDATE) {
+            issueFragment.loadIssue(issueKey, loginInfo);
+        }
+    }
+
+    @OnActivityResult(WorklogsActivity.REQUEST_WORKLOG)
+    void onWorklogUpdated(int result) {
+        if (result == WorklogsActivity.RESULT_UPDATED) {
             issueFragment.loadIssue(issueKey, loginInfo);
         }
     }
