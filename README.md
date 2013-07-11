@@ -51,5 +51,5 @@ MIT, details [here](http://github.com/tmszdmsk/arij/blob/master/LICENSE)
 
 Thanks
 ===
-* to [Cogision](http://cogision.com) - me employer, company standing behind [UsabilityTools.com](http://usabilitytools.com) - all commits sent as "t.adamski" were created during "10% of work time for research". 
+* to [Cogision](http://cogision.com) - me employer, company standing behind [UsabilityTools.com](http://usabilitytools.com) - almost all commits sent 8-12.07.2013 were created during "10% of work time for self development". 
 * to [Atlassian](http://atlassian.com) - for opensource license for OnDemand Jira
