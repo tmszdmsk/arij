@@ -1,5 +1,6 @@
 package com.tadamski.arij.issue.list;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListAdapter;
@@ -12,7 +13,6 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
-import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 @EFragment(R.layout.issue_list_fragment)
 public class IssueListFragment extends SherlockListFragment {
 
+    IssueListFragmentListener issueListFragmentListener;
 
     @Bean
     IssueService issueService;
@@ -35,6 +36,16 @@ public class IssueListFragment extends SherlockListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (getActivity() instanceof IssueListFragmentListener) {
+            issueListFragmentListener = (IssueListFragmentListener) getActivity();
+        } else {
+            throw new IllegalArgumentException("activity must implement " + IssueListFragmentListener.class.getName());
+        }
     }
 
     public void executeJql(String jql, LoginInfo account) {
@@ -47,6 +58,10 @@ public class IssueListFragment extends SherlockListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Issue item = (Issue) getListAdapter().getItem(position);
-        IssueActivity_.intent(getActivity()).issueKey(item.getKey()).loginInfo(account).start();
+        issueListFragmentListener.onOpenIssueRequest(item.getKey());
+    }
+
+    public interface IssueListFragmentListener {
+        void onOpenIssueRequest(String issueKey);
     }
 }

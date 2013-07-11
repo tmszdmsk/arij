@@ -22,13 +22,18 @@ import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
 import com.tadamski.arij.issue.resource.IssueService;
+import com.tadamski.arij.issue.resource.model.Issue;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
+import com.tadamski.arij.issue.single.activity.single.view.IssueFragment;
 
 @EActivity(R.layout.issue_list_activity)
-public class IssueListActivity extends SherlockFragmentActivity {
+public class IssueListActivity extends SherlockFragmentActivity implements IssueListFragment.IssueListFragmentListener, IssueFragment.IssueFragmentListener {
 
     private final String TAG = IssueListActivity.class.getName();
-    @FragmentById(R.id.fragment)
-    IssueListFragment fragment;
+    @FragmentById(R.id.issue_list_fragment)
+    IssueListFragment issueListFragment;
+    @FragmentById(R.id.issue_fragment)
+    IssueFragment issueFragment;
     @ViewById(R.id.drawer)
     ListView filtersListView;
     @ViewById(R.id.drawer_layout)
@@ -90,7 +95,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
     void loadFilterInFragment(int position) {
         selectedFilterPosition = position;
         Filter filter = (Filter) filtersListView.getItemAtPosition(position);
-        fragment.executeJql(filter.jql, loginInfo);
+        issueListFragment.executeJql(filter.jql, loginInfo);
     }
 
     void setActivityPropertiesFromFilter(int position) {
@@ -100,5 +105,17 @@ public class IssueListActivity extends SherlockFragmentActivity {
         drawerLayout.closeDrawer(filtersListView);
     }
 
+    @Override
+    public void onOpenIssueRequest(String issueKey) {
+        if (issueFragment == null) {
+            IssueActivity_.intent(this).issueKey(issueKey).loginInfo(loginInfo).start();
+        } else {
+            issueFragment.loadIssue(issueKey, loginInfo);
+        }
+    }
 
+    @Override
+    public void issueLoaded(Issue issue) {
+
+    }
 }

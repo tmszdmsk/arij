@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -10,16 +8,25 @@
         tools:context=".IssueListActivity_">
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
         <fragment
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:name="com.tadamski.arij.issue.list.IssueListFragment_"
                 android:id="@+id/issue_list_fragment"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_weight="1"/>
+
+        <fragment
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:name="com.tadamski.arij.issue.single.activity.single.view.IssueFragment_"
+                android:id="@+id/issue_fragment"
+                android:layout_gravity="center"
+                android:layout_weight="2"/>
     </LinearLayout>
 
     <ListView
