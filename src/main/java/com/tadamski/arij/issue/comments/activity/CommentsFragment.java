@@ -120,6 +120,7 @@ public class CommentsFragment extends SherlockListFragment {
 
     @UiThread
     void addSentComment(Comment comment) {
+        getActivity().setResult(CommentsActivity.RESULT_ADDED);
         listAdapter.add(comment);
     }
 

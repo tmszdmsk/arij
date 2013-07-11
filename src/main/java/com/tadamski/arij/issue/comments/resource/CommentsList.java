@@ -12,8 +12,23 @@ import java.util.List;
  */
 public class CommentsList implements Serializable {
     List<Comment> comments;
+    long startAt;
+    long maxResults;
+    long total;
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public long getStartAt() {
+        return startAt;
+    }
+
+    public long getMaxResults() {
+        return maxResults;
+    }
+
+    public long getTotal() {
+        return total;
     }
 }

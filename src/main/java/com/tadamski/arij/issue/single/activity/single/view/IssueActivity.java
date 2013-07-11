@@ -7,8 +7,10 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
+import com.googlecode.androidannotations.annotations.OnActivityResult;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.comments.activity.CommentsActivity;
 import com.tadamski.arij.issue.resource.model.Issue;
 
 @EActivity(R.layout.issue)
@@ -42,6 +44,13 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
         if (!loaded) {
             issueFragment.loadIssue(issueKey, loginInfo);
             loaded = true;
+        }
+    }
+
+    @OnActivityResult(CommentsActivity.REQUEST_SHOW_COMMENTS)
+    public void onCommentsClosed(int result) {
+        if (result == CommentsActivity.RESULT_ADDED) {
+            issueFragment.loadIssue(issueKey, loginInfo);
         }
     }
 

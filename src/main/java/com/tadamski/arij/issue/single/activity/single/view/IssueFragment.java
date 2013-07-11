@@ -23,7 +23,10 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.comments.activity.CommentsActivity;
 import com.tadamski.arij.issue.comments.activity.CommentsActivity_;
+import com.tadamski.arij.issue.comments.lastcommentview.LastCommentView;
+import com.tadamski.arij.issue.comments.lastcommentview.LastCommentView_;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.resource.model.Resolution;
@@ -114,6 +117,15 @@ public class IssueFragment extends SherlockFragment {
         TimeTrackingSummaryView timeTrackingSummaryView = TimeTrackingSummaryView_.build(getActivity());
         timeTrackingSummaryView.setTimeTracking(issue.getTimeTracking());
         view.addView(viewFactory.createCustomViewGroup("Time tracking", timeTrackingSummaryView, getActivity()));
+        LastCommentView lastCommentsView = LastCommentView_.build(getActivity());
+        lastCommentsView.setCommentsList(issue.getComments());
+        lastCommentsView.setShowCommentsCallback(new LastCommentView.ShowCommentsCallback() {
+            @Override
+            public void onShowComments() {
+                onCommentsClicked();
+            }
+        });
+        view.addView(viewFactory.createCustomViewGroup("Comments", lastCommentsView, getActivity()));
         view.addView(viewFactory.createMultipropertiesView(basicGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createMultipropertiesView(peopleGroup, getActivity()),
@@ -131,7 +143,7 @@ public class IssueFragment extends SherlockFragment {
         CommentsActivity_.intent(getActivity())
                 .issueKey(actualIssueKey).loginInfo(actualLoginInfo)
                 .commentsList(loadedIssue == null ? null : loadedIssue.getComments())
-                .start();
+                .startForResult(CommentsActivity.REQUEST_SHOW_COMMENTS);
     }
 
     @OptionsItem(R.id.menu_item_worklog)
@@ -154,6 +166,7 @@ public class IssueFragment extends SherlockFragment {
         enableLoadingIndicator();
         assignToMeAsync();
     }
+
 
     @Background
     void assignToMeAsync() {

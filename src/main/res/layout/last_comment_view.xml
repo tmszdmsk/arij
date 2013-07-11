@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
+
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="25 older comments"
+            android:id="@+id/show_more_comments"
+            android:background="#f5f5f5"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:textColor="#ff0099cc"/>
+
+    <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/comments_list_elem"
+            android:id="@+id/include"
+            android:layout_below="@+id/show_more_comments"
+            android:layout_alignParentLeft="true"/>
+
+</RelativeLayout>

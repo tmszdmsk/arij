@@ -16,6 +16,9 @@ import com.tadamski.arij.issue.comments.resource.CommentsList;
 @EActivity(R.layout.comments)
 public class CommentsActivity extends SherlockFragmentActivity {
 
+    public static final int REQUEST_SHOW_COMMENTS = 1235;
+    public static final int RESULT_ADDED = 12;
+
     @Extra
     String issueKey;
     @Extra
