@@ -34,6 +34,8 @@ import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGro
 import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
 import com.tadamski.arij.issue.worklog.list.WorklogsActivity_;
 import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
+import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView;
+import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView_;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -109,12 +111,16 @@ public class IssueFragment extends SherlockFragment {
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createSingleTextView("Description", issue.getDescription(), getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        TimeTrackingSummaryView timeTrackingSummaryView = TimeTrackingSummaryView_.build(getActivity());
+        timeTrackingSummaryView.setTimeTracking(issue.getTimeTracking());
+        view.addView(viewFactory.createCustomViewGroup("Time tracking", timeTrackingSummaryView, getActivity()));
         view.addView(viewFactory.createMultipropertiesView(basicGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createMultipropertiesView(peopleGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.addView(viewFactory.createMultipropertiesView(datesGroup, getActivity()),
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
         if (getActivity() instanceof IssueLoadedListener) {
             ((IssueLoadedListener) getActivity()).issueLoaded(issue);
         }

@@ -16,7 +16,7 @@ import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGro
 public class IssuePropertyGroupViewFactory {
 
     public View createMultipropertiesView(IssuePropertyGroup issuePropertyGroup, Context ctx) {
-        LayoutInflater layoutInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = LayoutInflater.from(ctx);
         View view = layoutInflater.inflate(R.layout.issue_property_group, null);
         TextView groupName = (TextView) view.findViewById(R.id.issue_property_group_name);
         groupName.setText(issuePropertyGroup.getName());
@@ -26,6 +26,16 @@ public class IssuePropertyGroupViewFactory {
             propertiesLayout.addView(propertyView);
         }
         return view;
+    }
+
+    public View createCustomViewGroup(String name, View customView, Context ctx) {
+        LayoutInflater layoutInflater = LayoutInflater.from(ctx);
+        View propertyGroupView = layoutInflater.inflate(R.layout.issue_property_group, null);
+        TextView groupName = (TextView) propertyGroupView.findViewById(R.id.issue_property_group_name);
+        groupName.setText(name);
+        ViewGroup propertiesLayout = (ViewGroup) propertyGroupView.findViewById(R.id.issue_property_group_properties_layout);
+        propertiesLayout.addView(customView);
+        return propertyGroupView;
     }
 
     public View createSingleTextView(String name, String content, Context ctx) {

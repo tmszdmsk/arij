@@ -82,6 +82,10 @@ public class Issue {
         return fields.comment;
     }
 
+    public TimeTracking getTimeTracking() {
+        return fields.timetracking;
+    }
+
     private class Fields {
         String summary;
         String description;
@@ -97,6 +101,7 @@ public class Issue {
         Date resolutiondate;
         WorklogList worklog;
         CommentsList comment;
+        TimeTracking timetracking;
     }
 
 }
