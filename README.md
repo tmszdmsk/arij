@@ -23,13 +23,13 @@ Current state
 In progress
 ===
 * tablets support (tablet branch)
-
+* homescreen/lockscreen widget (homescreen-widget branch)
 
 Features planned
 ===
 * user favourite filters
 * user defined filters
-* homescreen widget
+* dashclock provider
 * transition between issue states (starting work, stopping it, resolving)
 * handling of custom fields
 * edition of all issue fields
