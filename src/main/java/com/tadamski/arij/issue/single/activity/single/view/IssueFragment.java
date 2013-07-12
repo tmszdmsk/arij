@@ -209,7 +209,7 @@ public class IssueFragment extends SherlockFragment {
     private IssuePropertyGroup getIssuePeopleProperties(Issue issue) {
         final ArrayList<IssueProperty> people = new ArrayList<IssueProperty>();
         people.add(new IssueProperty("assignee", "Assignee", issue.getAssignee().getDisplayName(), null));
-        people.add(new IssueProperty("reporter", "Reporter", issue.getAssignee().getDisplayName(), null));
+        people.add(new IssueProperty("reporter", "Reporter", issue.getReporter().getDisplayName(), null));
         IssuePropertyGroup peopleGroup = new IssuePropertyGroup(people, "People");
         return peopleGroup;
     }
