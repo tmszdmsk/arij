@@ -28,6 +28,8 @@ In progress
 Features planned
 ===
 * user favourite filters
+* user defined filters
+* homescreen widget
 * transition between issue states (starting work, stopping it, resolving)
 * handling of custom fields
 * edition of all issue fields
