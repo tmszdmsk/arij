@@ -39,6 +39,26 @@ public class LoginInfo implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LoginInfo loginInfo = (LoginInfo) o;
+
+        if (!baseUrl.equals(loginInfo.baseUrl)) return false;
+        if (!username.equals(loginInfo.username)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username.hashCode();
+        result = 31 * result + baseUrl.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "LoginInfo{" + "username=" + username + ", baseUrl=" + baseUrl + '}';
     }

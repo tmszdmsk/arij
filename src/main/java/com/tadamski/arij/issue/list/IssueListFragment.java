@@ -11,8 +11,10 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,8 @@ public class IssueListFragment extends SherlockListFragment {
 
     @Bean
     IssueService issueService;
-    private LoginInfo account;
+    Filter actualFilter;
+    private LoginInfo actualLoginInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,15 @@ public class IssueListFragment extends SherlockListFragment {
         setRetainInstance(true);
     }
 
+    public void executeFilter(Filter filter, LoginInfo loginInfo) {
+        if (!filter.equals(this.actualFilter) || !loginInfo.equals(this.actualLoginInfo)) {
+            this.actualFilter = filter;
+            this.actualLoginInfo = loginInfo;
+            IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue>(), 1, filter.jql);
+            ListAdapter issueListAdapter = new EndlessIssueListAdapter(issueService, getActivity(), adapter, loginInfo);
+            setListAdapter(issueListAdapter);
+        }
+    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -48,10 +60,10 @@ public class IssueListFragment extends SherlockListFragment {
         }
     }
 
-    public void executeJql(String jql, LoginInfo account) {
-        this.account = account;
+    public void executeJql(String jql, LoginInfo actualLoginInfo) {
+        this.actualLoginInfo = actualLoginInfo;
         IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue>(), 1, jql);
-        ListAdapter issueListAdapter = new EndlessIssueListAdapter(issueService, getActivity(), adapter, account);
+        ListAdapter issueListAdapter = new EndlessIssueListAdapter(issueService, getActivity(), adapter, actualLoginInfo);
         setListAdapter(issueListAdapter);
     }
 
