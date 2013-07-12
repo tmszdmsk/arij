@@ -1,11 +1,14 @@
 package com.tadamski.arij.issue.comments.activity;
 
+import android.support.v4.app.NavUtils;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
+import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.resource.CommentsList;
@@ -33,6 +36,7 @@ public class CommentsActivity extends SherlockFragmentActivity implements Commen
 
     @AfterViews
     void loadComments() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(issueKey);
         getSupportActionBar().setSubtitle(getString(R.string.comments));
         if (!loaded) {
@@ -44,5 +48,10 @@ public class CommentsActivity extends SherlockFragmentActivity implements Commen
     @Override
     public void onNewCommentSent() {
         setResult(RESULT_UPDATE);
+    }
+
+    @OptionsItem(android.R.id.home)
+    void homeSelected() {
+        NavUtils.navigateUpFromSameTask(this);
     }
 }

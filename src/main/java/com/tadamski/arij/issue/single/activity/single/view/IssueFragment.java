@@ -130,6 +130,12 @@ public class IssueFragment extends SherlockFragment {
         TimeTrackingSummaryView timeTrackingSummaryView = TimeTrackingSummaryView_.build(getActivity());
         timeTrackingSummaryView.setTimeTracking(issue.getTimeTracking());
         view.addView(viewFactory.createCustomViewGroup("Time tracking", timeTrackingSummaryView, getActivity()));
+        view.addView(viewFactory.createMultipropertiesView(basicGroup, getActivity()),
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        view.addView(viewFactory.createMultipropertiesView(peopleGroup, getActivity()),
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        view.addView(viewFactory.createMultipropertiesView(datesGroup, getActivity()),
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         LastCommentView lastCommentsView = LastCommentView_.build(getActivity());
         lastCommentsView.setCommentsList(issue.getComments());
         lastCommentsView.setShowCommentsCallback(new LastCommentView.ShowCommentsCallback() {
@@ -139,16 +145,9 @@ public class IssueFragment extends SherlockFragment {
             }
         });
         view.addView(viewFactory.createCustomViewGroup("Comments", lastCommentsView, getActivity()));
-        view.addView(viewFactory.createMultipropertiesView(basicGroup, getActivity()),
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        view.addView(viewFactory.createMultipropertiesView(peopleGroup, getActivity()),
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        view.addView(viewFactory.createMultipropertiesView(datesGroup, getActivity()),
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         issueFragmentListener.issueLoaded(issue);
     }
 
-    @OptionsItem(R.id.menu_item_comments)
     void onCommentsClicked() {
         CommentsActivity_.intent(getActivity())
                 .issueKey(actualIssueKey).loginInfo(actualLoginInfo)

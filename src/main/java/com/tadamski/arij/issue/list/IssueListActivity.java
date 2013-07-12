@@ -3,6 +3,7 @@ package com.tadamski.arij.issue.list;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -13,7 +14,7 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
-import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
+import com.googlecode.androidannotations.annotations.InstanceState;
 import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
@@ -38,8 +39,8 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     ListView filtersListView;
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @NonConfigurationInstance
-    int selectedFilterPosition = -1;
+    @InstanceState
+    Integer selectedFilterPosition = -1;
     @Bean
     IssueService issueService;
     @Extra
@@ -71,13 +72,12 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     @AfterViews
     void initDrawer() {
         final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
+        filtersListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         filtersListView.setAdapter(filtersListAdapter);
         filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                filtersListView.setItemChecked(i, true);
                 loadFilterInFragment(i);
-                setActivityPropertiesFromFilter(i);
             }
         });
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
@@ -86,16 +86,16 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
-        if (selectedFilterPosition == -1) {
-            loadFilterInFragment(0);
-        }
-        setActivityPropertiesFromFilter(selectedFilterPosition);
+        if (selectedFilterPosition == -1)
+            selectedFilterPosition = 0;
+        loadFilterInFragment(selectedFilterPosition);
     }
 
     void loadFilterInFragment(int position) {
         selectedFilterPosition = position;
         Filter filter = (Filter) filtersListView.getItemAtPosition(position);
-        issueListFragment.executeJql(filter.jql, loginInfo);
+        issueListFragment.executeFilter(filter, loginInfo);
+        setActivityPropertiesFromFilter(position);
     }
 
     void setActivityPropertiesFromFilter(int position) {
