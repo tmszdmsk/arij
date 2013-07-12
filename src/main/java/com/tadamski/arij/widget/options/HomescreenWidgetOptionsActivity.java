@@ -6,11 +6,13 @@ import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.Extra;
+import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.AccountsService;
@@ -57,12 +59,10 @@ public class HomescreenWidgetOptionsActivity extends SherlockActivity {
         data.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         LoginInfo selectedAccount = (LoginInfo) accountsSpinner.getSelectedItem();
         Filter selectedFilter = (Filter) filtersSpinner.getSelectedItem();
-        data.putExtra(WidgetOptions.ACCOUNT_NAME, selectedAccount.getUsername());
-        data.putExtra(WidgetOptions.FILTER_NAME, selectedFilter.name);
-        data.putExtra(WidgetOptions.FILTER_JQL, selectedFilter.jql);
+        WidgetOptions options = new WidgetOptions(this, appWidgetId);
+        options.set(selectedFilter.name,selectedFilter.jql,selectedAccount.getUsername());
         setResult(RESULT_OK, data);
         finish();
     }
-
 
 }

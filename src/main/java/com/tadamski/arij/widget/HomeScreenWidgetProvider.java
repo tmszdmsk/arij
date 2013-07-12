@@ -36,8 +36,6 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context ctx, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        WidgetOptions options = new WidgetOptions(ctx, appWidgetId);
-        options.set(newOptions);
         IssuesResultList issues = getIssues(ctx, appWidgetId);
         RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.homescreen_widget);
         remoteViews.setTextViewText(R.id.text, issues.getTotal()+"");
