@@ -11,23 +11,44 @@
         <activity
                 android:name=".account.activity.AccountSelectorActivity_"
                 android:theme="@style/Theme.Sherlock.Light">
-        <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
                 android:name=".issue.list.IssueListActivity_"
-                android:theme="@style/Theme.Sherlock.Light"/>
+                android:theme="@style/Theme.Sherlock.Light"
+                android:launchMode="singleTop">
+        </activity>
         <activity
                 android:name=".issue.single.activity.single.view.IssueActivity_"
-                android:theme="@style/Theme.Sherlock.Light"/>
+                android:theme="@style/Theme.Sherlock.Light"
+                android:parentActivityName=".issue.list.IssueListActivity_"
+                android:launchMode="singleTop">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".issue.list.IssueListActivity_"/>
+        </activity>
         <activity
                 android:name=".issue.comments.activity.CommentsActivity_"
-                android:theme="@style/Theme.Sherlock.Light"/>
+                android:theme="@style/Theme.Sherlock.Light"
+                android:parentActivityName=".issue.single.activity.single.view.IssueActivity_">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".issue.single.activity.single.view.IssueActivity_"/>
+        </activity>
         <activity
                 android:name=".issue.worklog.list.WorklogsActivity_"
-                android:theme="@style/Theme.Sherlock.Light"/>
+                android:theme="@style/Theme.Sherlock.Light"
+                android:parentActivityName=".issue.single.activity.single.view.IssueActivity_">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".issue.single.activity.single.view.IssueActivity_"/>
+        </activity>
         <activity
                 android:name=".account.activity.AddNewAccountActivity_"
                 android:theme="@style/Theme.Sherlock.Light.NoActionBar"
@@ -35,7 +56,6 @@
         <activity
                 android:name=".issue.worklog.newlog.activity.NewWorklogActivity_"
                 android:theme="@style/Theme.Sherlock.Light"/>
-
         <service
                 android:exported="true"
                 android:name=".account.authenticator.AuthenticationService">
@@ -46,15 +66,13 @@
                     android:name="android.accounts.AccountAuthenticator"
                     android:resource="@xml/authenticator"/>
         </service>
-
-
         <!-- Used for install referral measurement-->
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
         <receiver
                 android:exported="true"
                 android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver">
-        <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            <intent-filter>
+            <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
     </application>

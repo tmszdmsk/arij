@@ -1,5 +1,7 @@
 package com.tadamski.arij.issue.single.activity.single.view;
 
+import android.support.v4.app.NavUtils;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -8,6 +10,7 @@ import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
 import com.googlecode.androidannotations.annotations.OnActivityResult;
+import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.activity.CommentsActivity;
@@ -42,10 +45,16 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     @AfterViews
     void init() {
         getSupportActionBar().setTitle(issueKey);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (!loaded) {
             issueFragment.loadIssue(issueKey, loginInfo);
             loaded = true;
         }
+    }
+
+    @OptionsItem(android.R.id.home)
+    void homeSelected() {
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     @OnActivityResult(CommentsActivity.REQUEST_SHOW_COMMENTS)
