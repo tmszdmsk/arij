@@ -70,6 +70,7 @@ public class IssueFragment extends SherlockFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
+        setMenuVisibility(false);
     }
 
     @Override
@@ -112,6 +113,7 @@ public class IssueFragment extends SherlockFragment {
     @UiThread
     void onLoadFinished(final Issue issue) {
         loadedIssue = issue;
+        setMenuVisibility(true);
         disableLoadingIndicator();
         Log.d(TAG, "loader finished");
 
