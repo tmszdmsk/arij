@@ -66,6 +66,26 @@
                     android:name="android.accounts.AccountAuthenticator"
                     android:resource="@xml/authenticator"/>
         </service>
+
+        <!-- Homescreen widget -->
+        <receiver
+                android:icon="@drawable/ic_launcher"
+                android:label="Homescreen widget"
+                android:name=".widget.HomeScreenWidgetProvider" >
+            <intent-filter >
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/homescreen_widget" />
+        </receiver>
+        <activity android:name=".widget.options.HomescreenWidgetOptionsActivity_"
+                  android:theme="@style/Theme.Sherlock.Light">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
         <!-- Used for install referral measurement-->
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
         <receiver
@@ -86,5 +106,5 @@
 
     <uses-sdk
             android:minSdkVersion="10"
-            android:targetSdkVersion="16"/>
+            android:targetSdkVersion="17"/>
 </manifest>

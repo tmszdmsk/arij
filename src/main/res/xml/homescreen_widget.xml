@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:initialLayout="@layout/homescreen_widget"
+                    android:minHeight="72dp"
+                    android:minWidth="72dp"
+                    android:updatePeriodMillis="1800000"
+                    android:resizeMode="horizontal|vertical"
+                    android:configure="com.tadamski.arij.widget.options.HomescreenWidgetOptionsActivity_"
+                    android:widgetCategory="keyguard|home_screen">
+
+</appwidget-provider>

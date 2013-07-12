@@ -1,5 +1,7 @@
 package com.tadamski.arij.issue.list.filters;
 
+import com.googlecode.androidannotations.annotations.EBean;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import java.util.List;
  * Time: 19:13
  * To change this template use File | Settings | File Templates.
  */
+@EBean
 public class DefaultFilters {
 
     public List<Filter> getFilterList() {
