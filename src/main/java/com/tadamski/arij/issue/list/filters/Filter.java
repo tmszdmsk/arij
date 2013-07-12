@@ -17,4 +17,21 @@ public class Filter {
         this.name = name;
         this.jql = jql;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Filter filter = (Filter) o;
+
+        if (jql != null ? !jql.equals(filter.jql) : filter.jql != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return jql != null ? jql.hashCode() : 0;
+    }
 }

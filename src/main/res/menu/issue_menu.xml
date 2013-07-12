@@ -14,11 +14,6 @@
     <item
             android:id="@+id/menu_item_assign_to_me"
             android:title="Assign to me"
-            android:showAsAction="ifRoom|withText"
-            />
-    <item
-            android:id="@+id/menu_item_comments"
-            android:title="@string/comments"
-            android:showAsAction="ifRoom|withText"
+            android:showAsAction="ifRoom|withText|collapseActionView"
             />
 </menu>
