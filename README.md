@@ -22,16 +22,17 @@ Current state
 
 In progress
 ===
-* opening links pointing to jira in application (that will be tricky ;)
+* tablets support (tablet branch)
+
 
 Features planned
 ===
 * user favourite filters
 * transition between issue states (starting work, stopping it, resolving)
 * handling of custom fields
-* tablets support
 * edition of all issue fields
 * plugin for jira to support Google Cloud Messaging to send push notifications
+* opening links pointing to jira in application (that will be tricky ;)
 * tbc
 
 How to build
