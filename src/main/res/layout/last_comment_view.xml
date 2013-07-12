@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="25 older comments"
             android:id="@+id/show_more_comments"
-            android:background="#f5f5f5"
+            android:background="#d8d8d8"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:textColor="#ff0099cc"
             android:layout_below="@+id/include"/>
