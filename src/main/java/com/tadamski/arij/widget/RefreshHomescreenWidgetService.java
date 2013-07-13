@@ -25,23 +25,21 @@ import java.util.Collections;
  * Created by tmszdmsk on 13.07.13.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-@EService
 public class RefreshHomescreenWidgetService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        return new HomescreenWidgetRemoteViewsFactory(this, appWidgetId);
+        return new HomescreenWidgetRemoteViewsFactory(this.getApplicationContext(), intent);
     }
 
-    private static class HomescreenWidgetRemoteViewsFactory implements RemoteViewsFactory {
-        private final Context ctx;
-        private final int appWidgetId;
+    private static class HomescreenWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+        private  Context ctx;
+        private  int appWidgetId;
         IssuesResultList issues;
 
-        public HomescreenWidgetRemoteViewsFactory(Context ctx, int appWidgetId) {
+        public HomescreenWidgetRemoteViewsFactory(Context ctx, Intent intent) {
             this.ctx = ctx;
-            this.appWidgetId = appWidgetId;
+            this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
         @Override

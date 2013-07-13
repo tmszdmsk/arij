@@ -4,10 +4,12 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.actionbarsherlock.R;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.widget.options.WidgetOptions;
 
 /**
@@ -30,10 +32,10 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
     void startRefreshService(Context ctx, AppWidgetManager appWidgetManager, int appWidgetId) {
         RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.homescreen_widget);
         remoteViews.setTextViewText(R.id.filter_name, new WidgetOptions(ctx, appWidgetId).getFilterName());
-        Intent intent = new Intent(ctx, RefreshHomescreenWidgetService_.class);
+        Intent intent = new Intent(ctx, RefreshHomescreenWidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         remoteViews.setRemoteAdapter(R.id.list, intent);
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list);
     }
 }
