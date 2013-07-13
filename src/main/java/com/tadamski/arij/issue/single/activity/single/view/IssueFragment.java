@@ -41,6 +41,7 @@ import com.tadamski.arij.issue.worklog.list.WorklogsActivity_;
 import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
 import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView;
 import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView_;
+import com.tadamski.arij.util.analytics.Tracker;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -168,12 +169,14 @@ public class IssueFragment extends SherlockFragment {
 
     @OptionsItem(R.id.menu_item_start_work)
     void onStartWorkClicked() {
+        Tracker.sendEvent("IssueFragment", "startWorkClicked", null, null);
         if (loadedIssue != null)
             NewWorklogNotification.create(getActivity().getApplicationContext(), loadedIssue, new Date(), actualLoginInfo);
     }
 
     @OptionsItem(R.id.menu_item_assign_to_me)
     void onAssignToMeClicked() {
+        Tracker.sendEvent("IssueFragment", "assignToMeClicked", null, null);
         enableLoadingIndicator();
         assignToMeAsync();
     }

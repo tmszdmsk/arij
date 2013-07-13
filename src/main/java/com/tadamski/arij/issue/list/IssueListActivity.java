@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
@@ -23,6 +22,7 @@ import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
 import com.tadamski.arij.issue.resource.IssueService;
+import com.tadamski.arij.util.analytics.Tracker;
 
 @EActivity(R.layout.issue_list_activity)
 public class IssueListActivity extends SherlockFragmentActivity {
@@ -45,14 +45,14 @@ public class IssueListActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onStart() {
-        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStart(this);
+        super.onStart();
+        Tracker.activityStart(this);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStop(this);
+        super.onStop();
+        Tracker.activityStop(this);
     }
 
     @OptionsItem(android.R.id.home)
@@ -72,6 +72,7 @@ public class IssueListActivity extends SherlockFragmentActivity {
         filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Tracker.sendEvent("Filters", "filterSelected", getFilter(i).name, null);
                 loadFilterInFragment(i);
             }
         });
@@ -88,13 +89,17 @@ public class IssueListActivity extends SherlockFragmentActivity {
 
     void loadFilterInFragment(int position) {
         selectedFilterPosition = position;
-        Filter filter = (Filter) filtersListView.getItemAtPosition(position);
+        Filter filter = getFilter(position);
         fragment.executeFilter(filter, loginInfo);
         setActivityPropertiesFromFilter(position);
     }
 
+    private Filter getFilter(int position) {
+        return (Filter) filtersListView.getItemAtPosition(position);
+    }
+
     void setActivityPropertiesFromFilter(int position) {
-        Filter filter = (Filter) filtersListView.getItemAtPosition(position);
+        Filter filter = getFilter(position);
         getSupportActionBar().setTitle(filter.name);
         filtersListView.setItemChecked(position, true);
         drawerLayout.closeDrawer(filtersListView);

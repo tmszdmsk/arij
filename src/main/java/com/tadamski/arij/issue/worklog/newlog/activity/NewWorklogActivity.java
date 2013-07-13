@@ -2,7 +2,6 @@ package com.tadamski.arij.issue.worklog.newlog.activity;
 
 import android.support.v4.app.FragmentActivity;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
@@ -10,6 +9,7 @@ import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.util.analytics.Tracker;
 
 import java.util.Date;
 
@@ -34,14 +34,14 @@ public class NewWorklogActivity extends FragmentActivity implements NewWorklogFr
 
     @Override
     protected void onStart() {
-        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStart(this);
+        super.onStart();
+        Tracker.activityStart(this);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStop(this);
+        super.onStop();
+        Tracker.activityStop(this);
     }
 
     @AfterViews
