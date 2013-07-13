@@ -23,11 +23,13 @@ Current state
 In progress
 ===
 * tablets support (tablet branch)
-
+* homescreen/lockscreen widget (homescreen-widget branch)
 
 Features planned
 ===
 * user favourite filters
+* user defined filters
+* dashclock provider
 * transition between issue states (starting work, stopping it, resolving)
 * handling of custom fields
 * edition of all issue fields
@@ -35,13 +37,13 @@ Features planned
 * opening links pointing to jira in application (that will be tricky ;)
 * tbc
 
-How to build
+How to build [![Build Status](https://travis-ci.org/tmszdmsk/arij.png?branch=master)](https://travis-ci.org/tmszdmsk/arij)
 ===
-I usually care about as little external(non easy-maven-downloadable) dependencies as possible, so it shouldn't be a problem.
+I care about pom's so it shouldn't be a problem.
 Just make sure that your ANDROID_HOME environment variable is set properly.
 
 ```bash
-mvn validate install
+mvn validate && mvn install
 ``` 
 and magic should happen ;)
 If not - [create an issue](http://github.com/tmszdmsk/arij/issues/new) or write an [e-mail](mailto:tomasz.adamski@gmail.com)
