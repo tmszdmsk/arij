@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.actionbarsherlock.R;
+import com.tadamski.arij.widget.options.WidgetOptions;
 
 /**
  * Created by t.adamski on 7/12/13.
@@ -28,6 +29,7 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
 
     void startRefreshService(Context ctx, AppWidgetManager appWidgetManager, int appWidgetId) {
         RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.homescreen_widget);
+        remoteViews.setTextViewText(R.id.filter_name, new WidgetOptions(ctx, appWidgetId).getFilterName());
         Intent intent = new Intent(ctx, RefreshHomescreenWidgetService_.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         remoteViews.setRemoteAdapter(R.id.list, intent);

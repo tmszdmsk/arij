@@ -66,7 +66,7 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
-            RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.issue_list_elem);
+            RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.homescreen_widget_elem);
             remoteViews.setTextViewText(R.id.issue_summary, issues.getIssues().get(position).getSummary());
             return remoteViews;
         }
@@ -99,6 +99,10 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
             String filterJql = options.getFilterJql();
             IssuesResultList result = issueService.search(loginInfo, new SearchParams(filterJql, 0, 20));
             return result;
+        }
+
+        String getFilterName(Context ctx, int appWidgetId) {
+             return new WidgetOptions(ctx, appWidgetId).getFilterName();
         }
 
         LoginInfo getLoginInfo(Context ctx, String accountName) {
