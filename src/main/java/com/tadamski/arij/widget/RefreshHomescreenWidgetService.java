@@ -1,56 +1,109 @@
 package com.tadamski.arij.widget;
 
-import android.app.IntentService;
+import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.widget.RemoteViews;
+import android.widget.RemoteViewsService;
 
 import com.actionbarsherlock.R;
-import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EService;
 import com.tadamski.arij.account.LoginInfoFactory;
 import com.tadamski.arij.account.LoginInfoFactory_;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.resource.IssueService;
+import com.tadamski.arij.issue.resource.IssueService_;
 import com.tadamski.arij.issue.resource.issue.IssuesResultList;
+import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.resource.search.SearchParams;
 import com.tadamski.arij.widget.options.WidgetOptions;
+
+import java.util.Collections;
 
 /**
  * Created by tmszdmsk on 13.07.13.
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 @EService
-public class RefreshHomescreenWidgetService extends IntentService {
-
-    @Bean
-    IssueService issueService;
-
-    public RefreshHomescreenWidgetService() {
-        super(RefreshHomescreenWidgetService.class.getName());
-    }
+public class RefreshHomescreenWidgetService extends RemoteViewsService {
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -AppWidgetManager.INVALID_APPWIDGET_ID);
-        IssuesResultList issues = getIssues(this, appWidgetId);
-        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.homescreen_widget);
-        remoteViews.setTextViewText(R.id.text, issues.getTotal() + "");
-        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+    public RemoteViewsFactory onGetViewFactory(Intent intent) {
+        final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        return new HomescreenWidgetRemoteViewsFactory(this, appWidgetId);
     }
 
-    IssuesResultList getIssues(Context ctx, int appWidgetId) {
-        WidgetOptions options = new WidgetOptions(ctx, appWidgetId);
-        LoginInfo loginInfo = getLoginInfo(ctx, options.getAccountName());
-        String filterName = options.getFilterName();
-        String filterJql = options.getFilterJql();
-        IssuesResultList result = issueService.search(loginInfo, new SearchParams(filterJql, 0, 20));
-        return result;
-    }
+    private static class HomescreenWidgetRemoteViewsFactory implements RemoteViewsFactory {
+        private final Context ctx;
+        private final int appWidgetId;
+        IssuesResultList issues;
 
-    LoginInfo getLoginInfo(Context ctx, String accountName) {
-        LoginInfoFactory loginInfoFactory = LoginInfoFactory_.getInstance_(ctx);
-        return loginInfoFactory.getLoginInfoFromAccountManager(accountName);
+        public HomescreenWidgetRemoteViewsFactory(Context ctx, int appWidgetId) {
+            this.ctx = ctx;
+            this.appWidgetId = appWidgetId;
+        }
+
+        @Override
+        public void onCreate() {
+            issues = new IssuesResultList(0, 0, Collections.<Issue>emptyList());
+        }
+
+        @Override
+        public void onDataSetChanged() {
+            issues = getIssues(ctx, appWidgetId);
+        }
+
+        @Override
+        public void onDestroy() {
+
+        }
+
+        @Override
+        public int getCount() {
+            return issues.getIssues().size();
+        }
+
+        @Override
+        public RemoteViews getViewAt(int position) {
+            RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.issue_list_elem);
+            remoteViews.setTextViewText(R.id.issue_summary, issues.getIssues().get(position).getSummary());
+            return remoteViews;
+        }
+
+        @Override
+        public RemoteViews getLoadingView() {
+            return null;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 1;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return false;
+        }
+
+        IssuesResultList getIssues(Context ctx, int appWidgetId) {
+            IssueService_ issueService = IssueService_.getInstance_(ctx);
+            WidgetOptions options = new WidgetOptions(ctx, appWidgetId);
+            LoginInfo loginInfo = getLoginInfo(ctx, options.getAccountName());
+            String filterName = options.getFilterName();
+            String filterJql = options.getFilterJql();
+            IssuesResultList result = issueService.search(loginInfo, new SearchParams(filterJql, 0, 20));
+            return result;
+        }
+
+        LoginInfo getLoginInfo(Context ctx, String accountName) {
+            LoginInfoFactory loginInfoFactory = LoginInfoFactory_.getInstance_(ctx);
+            return loginInfoFactory.getLoginInfoFromAccountManager(accountName);
+        }
     }
 }
