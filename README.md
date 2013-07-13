@@ -9,7 +9,7 @@ Download
 ===
 [![Google play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](http://play.google.com/store/apps/details?id=com.tadamski.arij)
 
-or [compile it yourself](https://github.com/tmszdmsk/arij/blob/master/README.md#how-to-build)
+or [compile it yourself](https://github.com/tmszdmsk/arij/blob/master/README.md#how-to-build-)
 
 Current state
 ===

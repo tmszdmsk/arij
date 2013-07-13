@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="9"
-          android:versionName="1.0.0.20130604-2219"
-          package="com.tadamski.arij">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="10" android:versionName="1.1.0" package="com.tadamski.arij">
 
     <application
             android:icon="@drawable/ic_launcher"

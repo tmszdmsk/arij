@@ -7,12 +7,13 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EViewGroup;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.comments.resource.Comment;
 import com.tadamski.arij.issue.comments.resource.CommentsList;
+import com.tadamski.arij.util.analytics.Tracker;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -47,19 +48,14 @@ public class LastCommentView extends RelativeLayout {
         super(context, attrs, defStyle);
     }
 
-    @AfterViews
-    void initCommentsCallback() {
-        showMoreComments.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getShowMoreCallback().onShowComments();
-            }
-        });
+    @Click(R.id.show_more_comments)
+    void onShowMoreCommentsClick() {
+        Tracker.sendEvent("LastCommentView", "showMoreCommnts", null, null);
+        getShowMoreCallback().onShowComments();
     }
 
     public void setShowCommentsCallback(ShowCommentsCallback showCommentsCallback) {
         this.showCommentsCallback = showCommentsCallback;
-
     }
 
     private ShowCommentsCallback getShowMoreCallback() {

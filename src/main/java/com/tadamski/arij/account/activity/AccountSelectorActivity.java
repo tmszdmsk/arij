@@ -18,6 +18,7 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListActivity_;
+import com.tadamski.arij.util.analytics.Tracker;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -45,15 +46,14 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
 
     @Override
     protected void onStart() {
-        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStart(this);
+        super.onStart();
+        Tracker.activityStart(this);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStop(this);
-
+        super.onStop();
+        Tracker.activityStop(this);
     }
 
     @Override

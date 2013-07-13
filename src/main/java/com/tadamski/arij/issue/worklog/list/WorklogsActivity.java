@@ -14,6 +14,7 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity;
 import com.tadamski.arij.issue.worklog.resource.WorklogList;
+import com.tadamski.arij.util.analytics.Tracker;
 
 /**
  * Created by tmszdmsk on 07.07.13.
@@ -33,6 +34,18 @@ public class WorklogsActivity extends SherlockFragmentActivity {
     WorklogsFragment worklogsFragment;
     @NonConfigurationInstance
     boolean loaded = false;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracker.activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Tracker.activityStop(this);
+    }
 
     @OnActivityResult(NewWorklogActivity.REQUEST_CODE_LOG)
     void onWorkLogged(int resultCode) {

@@ -26,6 +26,7 @@ import com.tadamski.arij.R;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.account.service.LoginService;
+import com.tadamski.arij.util.analytics.Tracker;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -60,14 +61,14 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @Override
     protected void onStart() {
-        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStart(this);
+        super.onStart();
+        Tracker.activityStart(this);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStop(this);
+        super.onStop();
+        Tracker.activityStop(this);
     }
 
     @AfterViews
@@ -80,7 +81,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @Click(R.id.login_button)
     void login() {
-        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_button_pushed", null, null);
+        Tracker.sendEvent("AddNewAccountActivity", "login_button_pushed", null, null);
         String url = urlEditText.getText().toString();
         String login = loginEditText.getText().toString();
         String password = passwordEditText.getText().toString();
@@ -137,13 +138,13 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @UiThread
     void ifCredentialsConfirmed(LoginInfo credentials) {
-        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_success", null, null);
+        Tracker.sendEvent("AddNewAccountActivity", "login_success", null, null);
         createAccountAndFinish(credentials);
     }
 
     @UiThread
     void ifCredentialsInvalid() {
-        EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "login_failed_invalid_credentials", null, null);
+        Tracker.sendEvent("AddNewAccountActivity", "login_failed_invalid_credentials", null, null);
         loginEditText.setError(invalidLoginCredentials);
     }
 
