@@ -1,34 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>ariJ by tmszdmsk</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>ariJ by tmszdmsk</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
+    <div class="wrapper">
+      <header>
         <h1>ariJ</h1>
-        <h2></h2>
-        <a href="https://github.com/tmszdmsk/arij" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+        <p></p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+        <p class="view"><a href="https://github.com/tmszdmsk/arij">View the Project on GitHub <small>tmszdmsk/arij</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/tmszdmsk/arij/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/tmszdmsk/arij/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/tmszdmsk/arij">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
 <a name="arij---another-really-interesting-jira-" class="anchor" href="#arij---another-really-interesting-jira-"><span class="octicon octicon-link"></span></a>ariJ - <strong>a</strong>nother <strong>r</strong>eally <strong>i</strong>nteresting <strong>J</strong>ira </h1>
 
 <p>...client for Android. Yes, I came up with this acronym right now.</p>
@@ -41,62 +41,79 @@ well formed codebase, at least at the beginning.</p>
 
 <p><a href="http://play.google.com/store/apps/details?id=com.tadamski.arij"><img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" alt="Google play"></a></p>
 
-<p>or <a href="https://github.com/tmszdmsk/arij/blob/master/README.md#how-to-build">compile it yourself</a></p>
+<p>or <a href="https://github.com/tmszdmsk/arij/blob/master/README.md#how-to-build-">compile it yourself</a></p>
 
 <h1>
 <a name="current-state" class="anchor" href="#current-state"><span class="octicon octicon-link"></span></a>Current state</h1>
 
 <ul>
 <li>multiple accounts support</li>
-<li>presents list issues assigned to logged in user</li>
-<li>screen with basic informations about issue</li>
+<li>4 predefined filters to display issues</li>
+<li>comments view/add</li>
+<li>worklog view/add</li>
 <li>allows to start work on issue with timer and log that work later</li>
+<li>assigning tasks to logged in user</li>
+</ul><h1>
+<a name="in-progress" class="anchor" href="#in-progress"><span class="octicon octicon-link"></span></a>In progress</h1>
+
+<ul>
+<li>tablets support (tablet branch)</li>
+<li>homescreen/lockscreen widget (homescreen-widget branch)</li>
 </ul><h1>
 <a name="features-planned" class="anchor" href="#features-planned"><span class="octicon octicon-link"></span></a>Features planned</h1>
 
 <ul>
-<li>assigning tasks to logged in user</li>
+<li>user favourite filters</li>
+<li>user defined filters</li>
+<li>dashclock provider</li>
 <li>transition between issue states (starting work, stopping it, resolving)</li>
-<li>comments view/add</li>
-<li>worklog view/add</li>
-<li>multiple filters</li>
+<li>handling of custom fields</li>
+<li>edition of all issue fields</li>
 <li>plugin for jira to support Google Cloud Messaging to send push notifications</li>
-<li>tbd</li>
+<li>opening links pointing to jira in application (that will be tricky ;)</li>
+<li>tbc</li>
 </ul><h1>
-<a name="how-to-build" class="anchor" href="#how-to-build"><span class="octicon octicon-link"></span></a>How to build</h1>
+<a name="how-to-build-" class="anchor" href="#how-to-build-"><span class="octicon octicon-link"></span></a>How to build <a href="https://travis-ci.org/tmszdmsk/arij"><img src="https://travis-ci.org/tmszdmsk/arij.png?branch=master" alt="Build Status"></a>
+</h1>
 
-<p>I usually care about as little external(non easy-maven-downloadable) dependencies as possible, so it shouldn't be a problem.
+<p>I care about pom's so it shouldn't be a problem.
 Just make sure that your ANDROID_HOME environment variable is set properly.</p>
 
-<div class="highlight"><pre>mvn install
+<div class="highlight"><pre>mvn validate <span class="o">&amp;&amp;</span> mvn install
 </pre></div>
 
 <p>and magic should happen ;)
-If not, <a href="http://github.com/tmszdmsk/arij/issues/new">create an issue</a> or write an <a href="mailto:tomasz.adamski@gmail.com">e-mail</a></p>
+If not - <a href="http://github.com/tmszdmsk/arij/issues/new">create an issue</a> or write an <a href="mailto:tomasz.adamski@gmail.com">e-mail</a></p>
 
 <h1>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
 
 <p>MIT, details <a href="http://github.com/tmszdmsk/arij/blob/master/LICENSE">here</a></p>
-        </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/tmszdmsk/arij/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/tmszdmsk/arij/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+<h1>
+<a name="thanks" class="anchor" href="#thanks"><span class="octicon octicon-link"></span></a>Thanks</h1>
 
-          <p class="repo-owner"><a href="https://github.com/tmszdmsk/arij"></a> is maintained by <a href="https://github.com/tmszdmsk">tmszdmsk</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<ul>
+<li>to <a href="http://cogision.com">Cogision</a> - me employer, company standing behind <a href="http://usabilitytools.com">UsabilityTools.com</a> - almost all commits sent 8-12.07.2013 were created during "10% of work time for self development". </li>
+<li>to <a href="http://atlassian.com">Atlassian</a> - for opensource license for OnDemand Jira</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/tmszdmsk">tmszdmsk</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-140251-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
 
-  
   </body>
 </html>
