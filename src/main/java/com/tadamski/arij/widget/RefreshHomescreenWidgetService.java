@@ -66,6 +66,9 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
         public RemoteViews getViewAt(int position) {
             RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.homescreen_widget_elem);
             remoteViews.setTextViewText(R.id.issue_summary, issues.getIssues().get(position).getSummary());
+            Intent intent = new Intent();
+            intent.putExtra(HomeScreenWidgetProvider.LIST_ITEM_EXTRA_ISSUE_KEY, issues.getIssues().get(position).getKey());
+            remoteViews.setOnClickFillInIntent(R.id.issue_summary, intent);
             return remoteViews;
         }
 
