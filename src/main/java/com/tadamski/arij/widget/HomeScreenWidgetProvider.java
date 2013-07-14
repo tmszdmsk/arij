@@ -11,6 +11,10 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.actionbarsherlock.R;
+import com.tadamski.arij.account.LoginInfoFactory;
+import com.tadamski.arij.account.LoginInfoFactory_;
+import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.widget.options.WidgetOptions;
 
 /**
@@ -36,10 +40,18 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(ACTION_LIST_CLICK)) {
-            String extra = intent.getStringExtra(LIST_ITEM_EXTRA_ISSUE_KEY);
-            Toast.makeText(context, "item clicked "+extra, Toast.LENGTH_SHORT).show();
+            String issueKey = intent.getStringExtra(LIST_ITEM_EXTRA_ISSUE_KEY);
+            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            WidgetOptions options = new WidgetOptions(context, appWidgetId);
+            LoginInfo loginInfo = getLoginInfo(context, options.getAccountName());
+            IssueActivity_.intent(context).issueKey(issueKey).loginInfo(loginInfo).flags(Intent.FLAG_ACTIVITY_NEW_TASK).start();
         } else
             super.onReceive(context, intent);
+    }
+
+    LoginInfo getLoginInfo(Context ctx, String accountName) {
+        LoginInfoFactory loginInfoFactory = LoginInfoFactory_.getInstance_(ctx);
+        return loginInfoFactory.getLoginInfoFromAccountManager(accountName);
     }
 
     void startRefreshService(Context ctx, AppWidgetManager appWidgetManager, int appWidgetId) {
