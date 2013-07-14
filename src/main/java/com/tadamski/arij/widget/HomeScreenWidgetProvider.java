@@ -1,5 +1,6 @@
 package com.tadamski.arij.widget;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -7,13 +8,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.actionbarsherlock.R;
 import com.tadamski.arij.account.LoginInfoFactory;
 import com.tadamski.arij.account.LoginInfoFactory_;
+import com.tadamski.arij.account.activity.AccountSelectorActivity_;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.list.IssueListActivity_;
 import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.widget.options.WidgetOptions;
 
@@ -44,7 +48,11 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             WidgetOptions options = new WidgetOptions(context, appWidgetId);
             LoginInfo loginInfo = getLoginInfo(context, options.getAccountName());
-            IssueActivity_.intent(context).issueKey(issueKey).loginInfo(loginInfo).flags(Intent.FLAG_ACTIVITY_NEW_TASK).start();
+            TaskStackBuilder.create(context)
+                    .addNextIntent(AccountSelectorActivity_.intent(context).get())
+                    .addNextIntent(IssueListActivity_.intent(context).loginInfo(loginInfo).get())
+                    .addNextIntent(IssueActivity_.intent(context).loginInfo(loginInfo).issueKey(issueKey).get())
+                    .startActivities();
         } else
             super.onReceive(context, intent);
     }
