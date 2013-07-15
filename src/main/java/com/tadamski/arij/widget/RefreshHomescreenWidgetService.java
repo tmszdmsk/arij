@@ -68,7 +68,7 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
             remoteViews.setTextViewText(R.id.issue_summary, issues.getIssues().get(position).getSummary());
             Intent intent = new Intent();
             intent.putExtra(HomeScreenWidgetProvider.LIST_ITEM_EXTRA_ISSUE_KEY, issues.getIssues().get(position).getKey());
-            remoteViews.setOnClickFillInIntent(R.id.issue_summary, intent);
+            remoteViews.setOnClickFillInIntent(R.id.item, intent);
             return remoteViews;
         }
 
