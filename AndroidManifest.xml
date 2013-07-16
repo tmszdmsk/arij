@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="10" android:versionName="1.1.0" package="com.tadamski.arij">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionCode="10"
+          android:versionName="1.1.0"
+          package="com.tadamski.arij">
 
     <application
             android:icon="@drawable/ic_launcher"
@@ -7,9 +10,10 @@
             android:name=".Application">
         <activity
                 android:name=".account.activity.AccountSelectorActivity_"
-                android:theme="@style/Theme.Sherlock.Light">
+                android:theme="@style/Theme.Sherlock.Light"
+                >
             <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -53,6 +57,7 @@
         <activity
                 android:name=".issue.worklog.newlog.activity.NewWorklogActivity_"
                 android:theme="@style/Theme.Sherlock.Light"/>
+
         <service
                 android:exported="true"
                 android:name=".account.authenticator.AuthenticationService">
@@ -68,19 +73,24 @@
         <receiver
                 android:icon="@drawable/ic_launcher"
                 android:label="Homescreen widget"
-                android:name=".widget.HomeScreenWidgetProvider" >
-            <intent-filter >
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                android:name=".widget.HomeScreenWidgetProvider"
+                android:enabled="@bool/homescreen_widget_enabled">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
                     android:name="android.appwidget.provider"
-                    android:resource="@xml/homescreen_widget" />
+                    android:resource="@xml/homescreen_widget"/>
         </receiver>
-        <service android:name=".widget.RefreshHomescreenWidgetService"
-                android:permission="android.permission.BIND_REMOTEVIEWS"/>
-        <activity android:name=".widget.options.HomescreenWidgetOptionsActivity_"
-                  android:theme="@style/Theme.Sherlock.Light">
+        <service
+                android:name=".widget.RefreshHomescreenWidgetService"
+                android:permission="android.permission.BIND_REMOTEVIEWS"
+                android:enabled="@bool/homescreen_widget_enabled"/>
+        <activity
+                android:name=".widget.options.HomescreenWidgetOptionsActivity_"
+                android:theme="@style/Theme.Sherlock.Light"
+                android:enabled="@bool/homescreen_widget_enabled">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
@@ -91,7 +101,7 @@
                 android:exported="true"
                 android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver">
             <intent-filter>
-            <action android:name="com.android.vending.INSTALL_REFERRER"/>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
     </application>

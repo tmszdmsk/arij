@@ -24,7 +24,7 @@ import java.util.Collections;
 /**
  * Created by tmszdmsk on 13.07.13.
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class RefreshHomescreenWidgetService extends RemoteViewsService {
 
     @Override

@@ -1,5 +1,6 @@
 package com.tadamski.arij.widget;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,6 +8,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
@@ -24,6 +26,7 @@ import com.tadamski.arij.widget.options.WidgetOptions;
 /**
  * Created by t.adamski on 7/12/13.
  */
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class HomeScreenWidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_LIST_CLICK = "com.tadamski.arij.homescreenwidget.list.click";
