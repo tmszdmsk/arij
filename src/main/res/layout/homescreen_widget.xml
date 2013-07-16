@@ -37,6 +37,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="center_horizontal|top"
-            android:layout_below="@+id/homescreen_widget_top_bar"/>
+            android:layout_below="@+id/homescreen_widget_top_bar"
+            android:divider="#cdcdcd"
+            android:dividerHeight="1dp"/>
 
 </RelativeLayout>
