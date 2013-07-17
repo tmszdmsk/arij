@@ -27,19 +27,20 @@ import com.tadamski.arij.util.analytics.Tracker;
 @EActivity(R.layout.issue_list_activity)
 public class IssueListActivity extends SherlockFragmentActivity {
 
-    private final String TAG = IssueListActivity.class.getName();
     @FragmentById(R.id.fragment)
     IssueListFragment fragment;
     @ViewById(R.id.drawer)
     ListView filtersListView;
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @InstanceState
-    Integer selectedFilterPosition = -1;
     @Bean
     IssueService issueService;
     @Extra
     LoginInfo loginInfo;
+    @Extra
+    Filter selectedFilter;
+    @InstanceState
+    Filter filterFromInstance;
     ActionBarDrawerToggle drawerToggle;
     DefaultFilters filters = new DefaultFilters();
 
@@ -72,8 +73,9 @@ public class IssueListActivity extends SherlockFragmentActivity {
         filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Tracker.sendEvent("Filters", "filterSelected", getFilter(i).name, null);
-                loadFilterInFragment(i);
+                Filter filter = (Filter) adapterView.getItemAtPosition(i);
+                Tracker.sendEvent("Filters", "filterSelected", filter.name, null);
+                loadFilterInFragment(filter);
             }
         });
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
@@ -82,27 +84,32 @@ public class IssueListActivity extends SherlockFragmentActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
-        if (selectedFilterPosition == -1)
-            selectedFilterPosition = 0;
-        loadFilterInFragment(selectedFilterPosition);
+        if (filterFromInstance != null) {
+            selectedFilter = filterFromInstance;
+        } else if (selectedFilter == null) {
+            selectedFilter = filters.getFilterList().get(0);
+        }
+        loadFilterInFragment(selectedFilter);
     }
 
-    void loadFilterInFragment(int position) {
-        selectedFilterPosition = position;
-        Filter filter = getFilter(position);
-        fragment.executeFilter(filter, loginInfo);
-        setActivityPropertiesFromFilter(position);
+    void loadFilterInFragment(Filter selectedFilter) {
+        fragment.executeFilter(selectedFilter, loginInfo);
+        setActivityPropertiesFromFilter(selectedFilter);
     }
 
-    private Filter getFilter(int position) {
-        return (Filter) filtersListView.getItemAtPosition(position);
-    }
-
-    void setActivityPropertiesFromFilter(int position) {
-        Filter filter = getFilter(position);
-        getSupportActionBar().setTitle(filter.name);
-        filtersListView.setItemChecked(position, true);
+    void setActivityPropertiesFromFilter(Filter selectedFilter) {
+        getSupportActionBar().setTitle(selectedFilter.name);
+        filtersListView.setItemChecked(getFilterPosition(selectedFilter), true);
         drawerLayout.closeDrawer(filtersListView);
+    }
+
+    Integer getFilterPosition(Filter filter) {
+        for (int i = 0; i < filtersListView.getAdapter().getCount(); i++) {
+            if (filter.equals(filtersListView.getAdapter().getItem(i))) {
+                return i;
+            }
+        }
+        return null;
     }
 
 

@@ -50,10 +50,11 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
             String issueKey = intent.getStringExtra(LIST_ITEM_EXTRA_ISSUE_KEY);
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             WidgetOptions options = new WidgetOptions(context, appWidgetId);
+            Filter filter = DefaultFilters_.getInstance_(context).getFilter(options.getFilterId());
             LoginInfo loginInfo = getLoginInfo(context, options.getAccountName());
             TaskStackBuilder.create(context)
                     .addNextIntent(AccountSelectorActivity_.intent(context).get())
-                    .addNextIntent(IssueListActivity_.intent(context).loginInfo(loginInfo).get())
+                    .addNextIntent(IssueListActivity_.intent(context).loginInfo(loginInfo).selectedFilter(filter).get())
                     .addNextIntent(IssueActivity_.intent(context).loginInfo(loginInfo).issueKey(issueKey).get())
                     .startActivities();
         } else
@@ -77,8 +78,18 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
             onListClickIntent.setAction(HomeScreenWidgetProvider.ACTION_LIST_CLICK);
             onListClickIntent.setData(Uri.parse(onListClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
             onListClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent onListItemPendingIntent = PendingIntent.getBroadcast(ctx, 0, onListClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent onListItemPendingIntent = PendingIntent.getBroadcast(ctx, appWidgetId, onListClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setPendingIntentTemplate(R.id.list, onListItemPendingIntent);
+
+            Intent accountsIntent = AccountSelectorActivity_.intent(ctx).get();
+            accountsIntent.setData(Uri.parse(accountsIntent.toUri(Intent.URI_INTENT_SCHEME)));
+            Intent issueListIntent = IssueListActivity_.intent(ctx).loginInfo(getLoginInfo(ctx, options.getAccountName())).selectedFilter(filter).get();
+            issueListIntent.setData(Uri.parse(issueListIntent.toUri(Intent.URI_INTENT_SCHEME)));
+            PendingIntent openIssueList = TaskStackBuilder.create(ctx)
+                    .addNextIntent(accountsIntent)
+                    .addNextIntent(issueListIntent)
+                    .getPendingIntent(appWidgetId, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.homescreen_widget_top_bar, openIssueList);
 
             Intent intent = new Intent(ctx, RefreshHomescreenWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);

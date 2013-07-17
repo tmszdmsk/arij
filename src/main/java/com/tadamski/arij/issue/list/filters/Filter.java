@@ -1,13 +1,14 @@
 package com.tadamski.arij.issue.list.filters;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: tmszdmsk
  * Date: 26.06.13
  * Time: 19:12
- * To change this template use File | Settings | File Templates.
  */
-public class Filter {
+public class Filter implements Serializable{
 
     public String id;
     public String name;
@@ -26,13 +27,13 @@ public class Filter {
 
         Filter filter = (Filter) o;
 
-        if (jql != null ? !jql.equals(filter.jql) : filter.jql != null) return false;
+        if (!id.equals(filter.id)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return jql != null ? jql.hashCode() : 0;
+        return id.hashCode();
     }
 }
