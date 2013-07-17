@@ -14,6 +14,7 @@ import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.AccountsService;
+import com.tadamski.arij.account.activity.AccountListAdapter;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
@@ -41,11 +42,8 @@ public class HomescreenWidgetOptionsActivity extends SherlockActivity {
     @AfterViews
     void initAccountsList() {
         List<LoginInfo> availableAccounts = accountsService.getAvailableAccounts();
-        ArrayAdapter<LoginInfoWrapper> adapter = new ArrayAdapter<LoginInfoWrapper>(this, android.R.layout.simple_list_item_1);
-        accountsSpinner.setAdapter(adapter);
-        for(LoginInfo loginInfo : availableAccounts){
-            adapter.add(new LoginInfoWrapper(loginInfo));
-        }
+        AccountListAdapter accountListAdapter = new AccountListAdapter(this, availableAccounts);
+        accountsSpinner.setAdapter(accountListAdapter);
     }
 
     @AfterViews
@@ -62,7 +60,7 @@ public class HomescreenWidgetOptionsActivity extends SherlockActivity {
     void addHomescreenWidget() {
         Intent data = new Intent();
         data.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        LoginInfo selectedAccount = ((LoginInfoWrapper) accountsSpinner.getSelectedItem()).loginInfo;
+        LoginInfo selectedAccount = ((LoginInfo) accountsSpinner.getSelectedItem());
         Filter selectedFilter = ((FilterWrapper) filtersSpinner.getSelectedItem()).filter;
         WidgetOptions options = new WidgetOptions(this, appWidgetId);
         options.set(selectedFilter.id, selectedAccount.getUsername());
@@ -70,18 +68,6 @@ public class HomescreenWidgetOptionsActivity extends SherlockActivity {
         finish();
     }
 
-    private static class LoginInfoWrapper {
-        private LoginInfo loginInfo;
-
-        LoginInfoWrapper(LoginInfo loginInfo) {
-            this.loginInfo = loginInfo;
-        }
-
-        @Override
-        public String toString() {
-            return loginInfo.getUsername() + "@" + loginInfo.getBaseURL();
-        }
-    }
     private static class FilterWrapper {
         private Filter filter;
 

@@ -5,20 +5,19 @@
                 android:layout_height="match_parent">
 
     <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/accounts"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:spinnerMode="dialog"/>
+            android:spinnerMode="dropdown"
+            />
 
     <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/filters"
             android:layout_below="@+id/accounts"
-            android:layout_alignParentLeft="true"
-            android:spinnerMode="dialog"/>
+            android:spinnerMode="dropdown"
+            />
 
     <Button
             android:layout_width="wrap_content"
