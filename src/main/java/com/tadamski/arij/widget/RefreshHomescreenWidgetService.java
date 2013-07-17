@@ -9,10 +9,11 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.actionbarsherlock.R;
-import com.googlecode.androidannotations.annotations.EService;
 import com.tadamski.arij.account.LoginInfoFactory;
 import com.tadamski.arij.account.LoginInfoFactory_;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.issue.list.filters.DefaultFilters_;
+import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.resource.IssueService_;
 import com.tadamski.arij.issue.resource.issue.IssuesResultList;
 import com.tadamski.arij.issue.resource.model.Issue;
@@ -27,15 +28,16 @@ import java.util.Collections;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class RefreshHomescreenWidgetService extends RemoteViewsService {
 
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new HomescreenWidgetRemoteViewsFactory(this.getApplicationContext(), intent);
     }
 
     private static class HomescreenWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-        private  Context ctx;
-        private  int appWidgetId;
         IssuesResultList issues;
+        private Context ctx;
+        private int appWidgetId;
 
         public HomescreenWidgetRemoteViewsFactory(Context ctx, Intent intent) {
             this.ctx = ctx;
@@ -100,20 +102,21 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
         IssuesResultList getIssues(Context ctx, int appWidgetId) {
             IssueService_ issueService = IssueService_.getInstance_(ctx);
             WidgetOptions options = new WidgetOptions(ctx, appWidgetId);
-            LoginInfo loginInfo = getLoginInfo(ctx, options.getAccountName());
-            String filterName = options.getFilterName();
-            String filterJql = options.getFilterJql();
-            IssuesResultList result = issueService.search(loginInfo, new SearchParams(filterJql, 0, 20));
+            LoginInfo loginInfo = getLoginInfo(ctx, options);
+            Filter filter = getFilter(ctx, options);
+            IssuesResultList result = issueService.search(loginInfo, new SearchParams(filter.jql, 0, 20));
             return result;
         }
 
-        String getFilterName(Context ctx, int appWidgetId) {
-             return new WidgetOptions(ctx, appWidgetId).getFilterName();
+        LoginInfo getLoginInfo(Context ctx, WidgetOptions options) {
+            LoginInfoFactory loginInfoFactory = LoginInfoFactory_.getInstance_(ctx);
+            return loginInfoFactory.getLoginInfoFromAccountManager(options.getAccountName());
         }
 
-        LoginInfo getLoginInfo(Context ctx, String accountName) {
-            LoginInfoFactory loginInfoFactory = LoginInfoFactory_.getInstance_(ctx);
-            return loginInfoFactory.getLoginInfoFromAccountManager(accountName);
+        Filter getFilter(Context ctx, WidgetOptions options) {
+            String filterId = options.getFilterId();
+            return DefaultFilters_.getInstance_(ctx).getFilter(filterId);
         }
+
     }
 }

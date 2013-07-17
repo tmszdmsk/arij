@@ -2,21 +2,18 @@ package com.tadamski.arij.widget.options;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.Extra;
-import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.AccountsService;
-import com.tadamski.arij.account.activity.AccountListAdapter;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
@@ -42,27 +39,60 @@ public class HomescreenWidgetOptionsActivity extends SherlockActivity {
     DefaultFilters defaultFilters;
 
     @AfterViews
-    void initAccountsList(){
+    void initAccountsList() {
         List<LoginInfo> availableAccounts = accountsService.getAvailableAccounts();
-        accountsSpinner.setAdapter(new AccountListAdapter(this, availableAccounts));
+        ArrayAdapter<LoginInfoWrapper> adapter = new ArrayAdapter<LoginInfoWrapper>(this, android.R.layout.simple_list_item_1);
+        accountsSpinner.setAdapter(adapter);
+        for(LoginInfo loginInfo : availableAccounts){
+            adapter.add(new LoginInfoWrapper(loginInfo));
+        }
     }
 
     @AfterViews
-    void initFiltersList(){
+    void initFiltersList() {
         List<Filter> filterList = defaultFilters.getFilterList();
-        filtersSpinner.setAdapter(new FiltersListAdapter(this,filterList));
+        ArrayAdapter<FilterWrapper> adapter = new ArrayAdapter<FilterWrapper>(this, android.R.layout.simple_list_item_1);
+        filtersSpinner.setAdapter(adapter);
+        for(Filter filter : filterList){
+            adapter.add(new FilterWrapper(filter));
+        }
     }
 
     @Click(R.id.add_homescreen_widget_button)
-    void addHomescreenWidget(){
+    void addHomescreenWidget() {
         Intent data = new Intent();
         data.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        LoginInfo selectedAccount = (LoginInfo) accountsSpinner.getSelectedItem();
-        Filter selectedFilter = (Filter) filtersSpinner.getSelectedItem();
+        LoginInfo selectedAccount = ((LoginInfoWrapper) accountsSpinner.getSelectedItem()).loginInfo;
+        Filter selectedFilter = ((FilterWrapper) filtersSpinner.getSelectedItem()).filter;
         WidgetOptions options = new WidgetOptions(this, appWidgetId);
-        options.set(selectedFilter.name,selectedFilter.jql,selectedAccount.getUsername());
+        options.set(selectedFilter.id, selectedAccount.getUsername());
         setResult(RESULT_OK, data);
         finish();
+    }
+
+    private static class LoginInfoWrapper {
+        private LoginInfo loginInfo;
+
+        LoginInfoWrapper(LoginInfo loginInfo) {
+            this.loginInfo = loginInfo;
+        }
+
+        @Override
+        public String toString() {
+            return loginInfo.getUsername() + "@" + loginInfo.getBaseURL();
+        }
+    }
+    private static class FilterWrapper {
+        private Filter filter;
+
+        FilterWrapper(Filter filter) {
+            this.filter = filter;
+        }
+
+        @Override
+        public String toString() {
+            return filter.name;
+        }
     }
 
 }

@@ -9,11 +9,12 @@ package com.tadamski.arij.issue.list.filters;
  */
 public class Filter {
 
+    public String id;
     public String name;
-    public String description;
     public String jql;
 
-    public Filter(String name, String jql) {
+    public Filter(String id, String name, String jql) {
+        this.id = id;
         this.name = name;
         this.jql = jql;
     }
