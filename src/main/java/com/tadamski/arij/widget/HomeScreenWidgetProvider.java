@@ -30,6 +30,7 @@ import com.tadamski.arij.widget.options.WidgetOptions;
 public class HomeScreenWidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_LIST_CLICK = "com.tadamski.arij.homescreenwidget.list.click";
+    public static final String ACTION_REFRESH = "com.tadamski.arij.homescreenwidget.list.refresh";
     public static final String LIST_ITEM_EXTRA_ISSUE_KEY = "issueKey";
 
     @Override
@@ -57,6 +58,9 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
                     .addNextIntent(IssueListActivity_.intent(context).loginInfo(loginInfo).selectedFilter(filter).get())
                     .addNextIntent(IssueActivity_.intent(context).loginInfo(loginInfo).issueKey(issueKey).get())
                     .startActivities();
+        } else if (intent.getAction().equals(ACTION_REFRESH)) {
+            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.list);
         } else
             super.onReceive(context, intent);
     }
@@ -74,28 +78,47 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
             Filter filter = DefaultFilters_.getInstance_(ctx).getFilter(filterId);
             remoteViews.setTextViewText(R.id.filter_name, filter.name);
 
-            Intent onListClickIntent = new Intent(ctx, HomeScreenWidgetProvider.class);
-            onListClickIntent.setAction(HomeScreenWidgetProvider.ACTION_LIST_CLICK);
-            onListClickIntent.setData(Uri.parse(onListClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
-            onListClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent onListItemPendingIntent = PendingIntent.getBroadcast(ctx, appWidgetId, onListClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setPendingIntentTemplate(R.id.list, onListItemPendingIntent);
-
-            Intent accountsIntent = AccountSelectorActivity_.intent(ctx).get();
-            accountsIntent.setData(Uri.parse(accountsIntent.toUri(Intent.URI_INTENT_SCHEME)));
-            Intent issueListIntent = IssueListActivity_.intent(ctx).loginInfo(getLoginInfo(ctx, options.getAccountName())).selectedFilter(filter).get();
-            issueListIntent.setData(Uri.parse(issueListIntent.toUri(Intent.URI_INTENT_SCHEME)));
-            PendingIntent openIssueList = TaskStackBuilder.create(ctx)
-                    .addNextIntent(accountsIntent)
-                    .addNextIntent(issueListIntent)
-                    .getPendingIntent(appWidgetId, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.homescreen_widget_top_bar, openIssueList);
-
-            Intent intent = new Intent(ctx, RefreshHomescreenWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-            remoteViews.setRemoteAdapter(R.id.list, intent);
+            remoteViews.setPendingIntentTemplate(R.id.list, createListItemClickPendingIntent(ctx, appWidgetId));
+            remoteViews.setOnClickPendingIntent(R.id.homescreen_widget_top_bar, createOpenFilterPendingIntent(ctx, appWidgetId, options, filter));
+            remoteViews.setOnClickPendingIntent(R.id.refresh, createRefreshPendingIntent(ctx, appWidgetId));
+            remoteViews.setRemoteAdapter(R.id.list, createRemoteAdapterIntent(ctx, appWidgetId));
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+
         }
     }
+
+    private PendingIntent createListItemClickPendingIntent(Context ctx, int appWidgetId) {
+        Intent onListClickIntent = new Intent(ctx, HomeScreenWidgetProvider.class);
+        onListClickIntent.setAction(HomeScreenWidgetProvider.ACTION_LIST_CLICK);
+        onListClickIntent.setData(Uri.parse(onListClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        onListClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        return PendingIntent.getBroadcast(ctx, appWidgetId, onListClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private PendingIntent createOpenFilterPendingIntent(Context ctx, int appWidgetId, WidgetOptions options, Filter filter) {
+        Intent accountsIntent = AccountSelectorActivity_.intent(ctx).get();
+        accountsIntent.setData(Uri.parse(accountsIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        Intent issueListIntent = IssueListActivity_.intent(ctx).loginInfo(getLoginInfo(ctx, options.getAccountName())).selectedFilter(filter).get();
+        issueListIntent.setData(Uri.parse(issueListIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        return TaskStackBuilder.create(ctx)
+                .addNextIntent(accountsIntent)
+                .addNextIntent(issueListIntent)
+                .getPendingIntent(appWidgetId, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private Intent createRemoteAdapterIntent(Context ctx, int appWidgetId) {
+        Intent intent = new Intent(ctx, RefreshHomescreenWidgetService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        return intent;
+    }
+
+    private PendingIntent createRefreshPendingIntent(Context ctx, int appWidgetId) {
+        Intent refreshIntent = new Intent(ctx, HomeScreenWidgetProvider.class);
+        refreshIntent.setAction(ACTION_REFRESH);
+        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        refreshIntent.setData(Uri.parse(refreshIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        return PendingIntent.getBroadcast(ctx, appWidgetId, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
 }

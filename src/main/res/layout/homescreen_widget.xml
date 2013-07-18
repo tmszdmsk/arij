@@ -14,8 +14,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/homescreen_widget_background_top"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
+            >
 
         <TextView
                 android:layout_width="wrap_content"
@@ -25,7 +24,17 @@
                 android:id="@+id/filter_name"
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"/>
+
+        <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/refresh"
+                android:src="@drawable/ic_action_refresh"
+                android:background="@android:color/transparent"/>
 
     </LinearLayout>
 
