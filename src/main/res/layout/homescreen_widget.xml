@@ -20,7 +20,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse"
-                android:text="Large Text"
                 android:id="@+id/filter_name"
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"

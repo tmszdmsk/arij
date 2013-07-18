@@ -77,13 +77,11 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
             String filterId = options.getFilterId();
             Filter filter = DefaultFilters_.getInstance_(ctx).getFilter(filterId);
             remoteViews.setTextViewText(R.id.filter_name, filter.name);
-
             remoteViews.setPendingIntentTemplate(R.id.list, createListItemClickPendingIntent(ctx, appWidgetId));
             remoteViews.setOnClickPendingIntent(R.id.homescreen_widget_top_bar, createOpenFilterPendingIntent(ctx, appWidgetId, options, filter));
             remoteViews.setOnClickPendingIntent(R.id.refresh, createRefreshPendingIntent(ctx, appWidgetId));
             remoteViews.setRemoteAdapter(R.id.list, createRemoteAdapterIntent(ctx, appWidgetId));
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-
         }
     }
 
