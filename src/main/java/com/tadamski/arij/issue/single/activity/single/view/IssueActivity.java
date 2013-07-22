@@ -1,6 +1,8 @@
 package com.tadamski.arij.issue.single.activity.single.view;
 
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -29,6 +31,14 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     IssueFragment issueFragment;
     @NonConfigurationInstance
     boolean loaded = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD) > 0) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
+    }
 
     @Override
     protected void onStart() {
