@@ -72,7 +72,7 @@
         <!-- Homescreen widget -->
         <receiver
                 android:icon="@drawable/ic_launcher"
-                android:label="Homescreen widget"
+                android:label="@string/homescreen_widget_name"
                 android:name=".widget.HomeScreenWidgetProvider"
                 android:enabled="@bool/homescreen_widget_enabled">
             <intent-filter>

@@ -9,11 +9,11 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp">
 
-<TextView
+    <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text="Issue title"
             android:id="@+id/comment_text"
             android:layout_gravity="left|center_vertical"
             android:layout_marginLeft="0dp"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Tomasz Adamski"
+            android:text="author.name"
             android:id="@+id/comment_author_name"
             android:layout_alignParentRight="false"
             android:layout_alignParentLeft="true"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="yesterday"
+            android:text="2 days ago"
             android:id="@+id/comment_date"
             android:layout_below="@+id/comment_text"
             android:layout_alignParentLeft="true"

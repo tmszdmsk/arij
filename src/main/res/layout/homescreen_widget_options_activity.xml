@@ -22,7 +22,7 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add widget"
+            android:text="@string/add_widget"
             android:id="@+id/add_homescreen_widget_button"
             android:layout_below="@+id/filters"
             android:layout_centerHorizontal="true"/>
