@@ -22,6 +22,7 @@ import com.tadamski.arij.issue.list.IssueListActivity_;
 import com.tadamski.arij.issue.list.filters.DefaultFilters_;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
+import com.tadamski.arij.util.analytics.Tracker;
 import com.tadamski.arij.widget.options.WidgetOptions;
 
 /**
@@ -36,6 +37,7 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context ctx, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Tracker.sendEvent("HomescreenWidget", "automatic refresh", null, appWidgetIds.length + 0L);
         for (int appWidgetId : appWidgetIds) {
             startRefreshService(ctx, appWidgetManager, appWidgetId);
         }
@@ -60,9 +62,11 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
                     .addNextIntent(IssueActivity_.intent(context).loginInfo(loginInfo).issueKey(issueKey).
                             flags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD).get())
                     .startActivities();
+            Tracker.sendEvent("HomescreenWidget", "item opened", null, null);
         } else if (intent.getAction().equals(ACTION_REFRESH)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             startRefreshService(context, AppWidgetManager.getInstance(context), appWidgetId);
+            Tracker.sendEvent("HomescreenWidget", "manual refresh", null, null);
         } else
             super.onReceive(context, intent);
     }
