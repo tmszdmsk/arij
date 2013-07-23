@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="10"
-          android:versionName="1.1.0"
+          android:versionCode="11"
+          android:versionName="1.2.0"
           package="com.tadamski.arij">
 
     <application
@@ -10,42 +10,41 @@
             android:name=".Application">
         <activity
                 android:name=".account.activity.AccountSelectorActivity_"
-                android:theme="@style/Theme.Sherlock.Light"
-                >
-            <intent-filter>
+                android:theme="@style/Theme.Sherlock.Light">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
+                android:launchMode="singleTop"
                 android:name=".issue.list.IssueListActivity_"
-                android:theme="@style/Theme.Sherlock.Light"
-                android:launchMode="singleTop">
+                android:theme="@style/Theme.Sherlock.Light">
         </activity>
         <activity
+                android:launchMode="singleTop"
                 android:name=".issue.single.activity.single.view.IssueActivity_"
-                android:theme="@style/Theme.Sherlock.Light"
                 android:parentActivityName=".issue.list.IssueListActivity_"
-                android:launchMode="singleTop">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
+                android:theme="@style/Theme.Sherlock.Light">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".issue.list.IssueListActivity_"/>
         </activity>
         <activity
                 android:name=".issue.comments.activity.CommentsActivity_"
-                android:theme="@style/Theme.Sherlock.Light"
-                android:parentActivityName=".issue.single.activity.single.view.IssueActivity_">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
+                android:parentActivityName=".issue.single.activity.single.view.IssueActivity_"
+                android:theme="@style/Theme.Sherlock.Light">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".issue.single.activity.single.view.IssueActivity_"/>
         </activity>
         <activity
                 android:name=".issue.worklog.list.WorklogsActivity_"
-                android:theme="@style/Theme.Sherlock.Light"
-                android:parentActivityName=".issue.single.activity.single.view.IssueActivity_">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
+                android:parentActivityName=".issue.single.activity.single.view.IssueActivity_"
+                android:theme="@style/Theme.Sherlock.Light">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".issue.single.activity.single.view.IssueActivity_"/>
@@ -71,11 +70,11 @@
 
         <!-- Homescreen widget -->
         <receiver
+                android:enabled="@bool/homescreen_widget_enabled"
                 android:icon="@drawable/ic_launcher"
                 android:label="@string/homescreen_widget_name"
-                android:name=".widget.HomeScreenWidgetProvider"
-                android:enabled="@bool/homescreen_widget_enabled">
-            <intent-filter>
+                android:name=".widget.HomeScreenWidgetProvider">
+        <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
@@ -84,14 +83,14 @@
                     android:resource="@xml/homescreen_widget"/>
         </receiver>
         <service
+                android:enabled="@bool/homescreen_widget_enabled"
                 android:name=".widget.RefreshHomescreenWidgetService"
-                android:permission="android.permission.BIND_REMOTEVIEWS"
-                android:enabled="@bool/homescreen_widget_enabled"/>
+                android:permission="android.permission.BIND_REMOTEVIEWS"/>
         <activity
+                android:enabled="@bool/homescreen_widget_enabled"
                 android:name=".widget.options.HomescreenWidgetOptionsActivity_"
-                android:theme="@style/Theme.Sherlock.Light"
-                android:enabled="@bool/homescreen_widget_enabled">
-            <intent-filter>
+                android:theme="@style/Theme.Sherlock.Light">
+        <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>

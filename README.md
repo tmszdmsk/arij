@@ -19,16 +19,17 @@ Current state
 * worklog view/add
 * allows to start work on issue with timer and log that work later
 * assigning tasks to logged in user
+* homescreen & lockscreen widget with selected jql query filter results
 
 In progress
 ===
+* user favourite filters
+* user defined filters
 * tablets support (tablet branch)
-* homescreen/lockscreen widget (homescreen-widget branch)
+
 
 Features planned
 ===
-* user favourite filters
-* user defined filters
 * dashclock provider
 * transition between issue states (starting work, stopping it, resolving)
 * handling of custom fields
