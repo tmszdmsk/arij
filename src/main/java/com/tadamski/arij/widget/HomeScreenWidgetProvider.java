@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.RemoteViews;
 
 import com.actionbarsherlock.R;
-import com.tadamski.arij.BuildConfig;
 import com.tadamski.arij.account.LoginInfoFactory;
 import com.tadamski.arij.account.LoginInfoFactory_;
 import com.tadamski.arij.account.activity.AccountSelectorActivity_;
@@ -24,9 +23,6 @@ import com.tadamski.arij.issue.list.filters.DefaultFilters_;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.widget.options.WidgetOptions;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by t.adamski on 7/12/13.
@@ -66,7 +62,7 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
                     .startActivities();
         } else if (intent.getAction().equals(ACTION_REFRESH)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-            AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.list);
+            startRefreshService(context, AppWidgetManager.getInstance(context), appWidgetId);
         } else
             super.onReceive(context, intent);
     }
@@ -87,8 +83,6 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.homescreen_widget_top_bar, createOpenFilterPendingIntent(ctx, appWidgetId, options, filter));
             remoteViews.setOnClickPendingIntent(R.id.refresh, createRefreshPendingIntent(ctx, appWidgetId));
             remoteViews.setRemoteAdapter(R.id.list, createRemoteAdapterIntent(ctx, appWidgetId));
-            if (BuildConfig.DEBUG)
-                remoteViews.setTextViewText(R.id.debug, new SimpleDateFormat().format(new Date()));
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }

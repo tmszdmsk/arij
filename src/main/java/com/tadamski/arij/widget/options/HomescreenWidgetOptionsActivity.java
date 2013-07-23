@@ -2,6 +2,7 @@ package com.tadamski.arij.widget.options;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -18,7 +19,7 @@ import com.tadamski.arij.account.activity.AccountListAdapter;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
-import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
+import com.tadamski.arij.widget.HomeScreenWidgetProvider;
 
 import java.util.List;
 
@@ -65,6 +66,11 @@ public class HomescreenWidgetOptionsActivity extends SherlockActivity {
         WidgetOptions options = new WidgetOptions(this, appWidgetId);
         options.set(selectedFilter.id, selectedAccount.getUsername());
         setResult(RESULT_OK, data);
+        Intent refreshIntent = new Intent(this, HomeScreenWidgetProvider.class);
+        refreshIntent.setAction(HomeScreenWidgetProvider.ACTION_REFRESH);
+        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        refreshIntent.setData(Uri.parse(refreshIntent.toUri(Intent.URI_INTENT_SCHEME)));
+        sendBroadcast(refreshIntent);
         finish();
     }
 

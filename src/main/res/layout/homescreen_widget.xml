@@ -16,6 +16,13 @@
             android:background="@drawable/homescreen_widget_background_top"
             >
 
+        <ImageView
+                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_launcher"
+                />
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -25,15 +32,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:layout_weight="1"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/debug"
-                android:layout_gravity="center_vertical"/>
+                />
 
         <ImageButton
                 android:layout_width="48dp"
