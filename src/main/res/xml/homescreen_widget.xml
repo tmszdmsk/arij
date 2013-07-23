@@ -9,6 +9,7 @@
                     android:updatePeriodMillis="1800000"
                     android:resizeMode="horizontal|vertical"
                     android:configure="com.tadamski.arij.widget.options.HomescreenWidgetOptionsActivity_"
-                    android:widgetCategory="keyguard|home_screen">
+                    android:widgetCategory="keyguard|home_screen"
+                    android:previewImage="@drawable/homscreen_widget_preview">
 
 </appwidget-provider>
