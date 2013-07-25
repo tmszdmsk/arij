@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="11"
-          android:versionName="1.2.0"
+          android:versionCode="12"
+          android:versionName="1.2.1"
           package="com.tadamski.arij">
 
     <application
@@ -11,7 +11,7 @@
         <activity
                 android:name=".account.activity.AccountSelectorActivity_"
                 android:theme="@style/Theme.Sherlock.Light">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
@@ -26,7 +26,7 @@
                 android:name=".issue.single.activity.single.view.IssueActivity_"
                 android:parentActivityName=".issue.list.IssueListActivity_"
                 android:theme="@style/Theme.Sherlock.Light">
-        <!-- Parent activity meta-data to support 4.0 and lower -->
+            <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".issue.list.IssueListActivity_"/>
@@ -35,7 +35,7 @@
                 android:name=".issue.comments.activity.CommentsActivity_"
                 android:parentActivityName=".issue.single.activity.single.view.IssueActivity_"
                 android:theme="@style/Theme.Sherlock.Light">
-        <!-- Parent activity meta-data to support 4.0 and lower -->
+            <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".issue.single.activity.single.view.IssueActivity_"/>
@@ -44,7 +44,7 @@
                 android:name=".issue.worklog.list.WorklogsActivity_"
                 android:parentActivityName=".issue.single.activity.single.view.IssueActivity_"
                 android:theme="@style/Theme.Sherlock.Light">
-        <!-- Parent activity meta-data to support 4.0 and lower -->
+            <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".issue.single.activity.single.view.IssueActivity_"/>
@@ -74,7 +74,7 @@
                 android:icon="@drawable/ic_launcher"
                 android:label="@string/homescreen_widget_name"
                 android:name=".widget.HomeScreenWidgetProvider">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
@@ -90,7 +90,7 @@
                 android:enabled="@bool/homescreen_widget_enabled"
                 android:name=".widget.options.HomescreenWidgetOptionsActivity_"
                 android:theme="@style/Theme.Sherlock.Light">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>

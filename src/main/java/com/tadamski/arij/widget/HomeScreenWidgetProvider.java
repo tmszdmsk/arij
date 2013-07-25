@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.WindowManager;
 import android.widget.RemoteViews;
@@ -41,11 +40,6 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             startRefreshService(ctx, appWidgetManager, appWidgetId);
         }
-    }
-
-    @Override
-    public void onAppWidgetOptionsChanged(Context ctx, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        startRefreshService(ctx, appWidgetManager, appWidgetId);
     }
 
     @Override
@@ -88,6 +82,7 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.refresh, createRefreshPendingIntent(ctx, appWidgetId));
             remoteViews.setRemoteAdapter(R.id.list, createRemoteAdapterIntent(ctx, appWidgetId));
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list);
         }
     }
 
