@@ -4,7 +4,10 @@ import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -51,7 +54,11 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            issues = getIssues(ctx, appWidgetId);
+            ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            if(activeNetworkInfo !=null && activeNetworkInfo.isConnected()){
+                    issues = getIssues(ctx, appWidgetId);
+            }
         }
 
         @Override
