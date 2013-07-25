@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tadamski</groupId>
     <artifactId>arij</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.1</version>
     <packaging>apk</packaging>
     <name>arij</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <android.sdk.path>${env.ANDROID_HOME}</android.sdk.path>
-        <android.sdk.platform>16</android.sdk.platform>
+        <android.sdk.platform>17</android.sdk.platform>
         <android.sdk.platform.version>4.1.1.4</android.sdk.platform.version>
         <android.maven.plugin.version>3.6.0</android.maven.plugin.version>
         <debug>true</debug>
@@ -128,7 +128,7 @@
                                 </goals>
                                 <configuration>
                                     <manifest>
-                                        <versionName>${project.version}.${maven.build.timestamp}</versionName>
+                                        <versionName>${project.version}</versionName>
                                         <versionCodeAutoIncrement>true</versionCodeAutoIncrement>
                                     </manifest>
                                 </configuration>

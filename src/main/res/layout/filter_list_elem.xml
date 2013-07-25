@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/filter_name"
             android:gravity="center_vertical"
-            android:text="Assigned to me"
+            android:text="Sample filter"
             android:focusable="false"
             android:clickable="false"
             android:textSize="@dimen/worklog_new_issue_key_title_font_size"/>

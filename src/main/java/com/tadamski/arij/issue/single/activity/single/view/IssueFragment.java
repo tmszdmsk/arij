@@ -41,6 +41,7 @@ import com.tadamski.arij.issue.worklog.list.WorklogsActivity_;
 import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
 import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView;
 import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView_;
+import com.tadamski.arij.util.analytics.Tracker;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class IssueFragment extends SherlockFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
+        setMenuVisibility(false);
     }
 
     @Override
@@ -112,6 +114,7 @@ public class IssueFragment extends SherlockFragment {
     @UiThread
     void onLoadFinished(final Issue issue) {
         loadedIssue = issue;
+        setMenuVisibility(true);
         disableLoadingIndicator();
         Log.d(TAG, "loader finished");
 
@@ -166,12 +169,14 @@ public class IssueFragment extends SherlockFragment {
 
     @OptionsItem(R.id.menu_item_start_work)
     void onStartWorkClicked() {
+        Tracker.sendEvent("IssueFragment", "startWorkClicked", null, null);
         if (loadedIssue != null)
             NewWorklogNotification.create(getActivity().getApplicationContext(), loadedIssue, new Date(), actualLoginInfo);
     }
 
     @OptionsItem(R.id.menu_item_assign_to_me)
     void onAssignToMeClicked() {
+        Tracker.sendEvent("IssueFragment", "assignToMeClicked", null, null);
         enableLoadingIndicator();
         assignToMeAsync();
     }
@@ -207,7 +212,7 @@ public class IssueFragment extends SherlockFragment {
     private IssuePropertyGroup getIssuePeopleProperties(Issue issue) {
         final ArrayList<IssueProperty> people = new ArrayList<IssueProperty>();
         people.add(new IssueProperty("assignee", "Assignee", issue.getAssignee().getDisplayName(), null));
-        people.add(new IssueProperty("reporter", "Reporter", issue.getAssignee().getDisplayName(), null));
+        people.add(new IssueProperty("reporter", "Reporter", issue.getReporter().getDisplayName(), null));
         IssuePropertyGroup peopleGroup = new IssuePropertyGroup(people, "People");
         return peopleGroup;
     }

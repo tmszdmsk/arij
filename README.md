@@ -9,7 +9,7 @@ Download
 ===
 [![Google play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](http://play.google.com/store/apps/details?id=com.tadamski.arij)
 
-or [compile it yourself](https://github.com/tmszdmsk/arij/blob/master/README.md#how-to-build)
+or [compile it yourself](https://github.com/tmszdmsk/arij/blob/master/README.md#how-to-build-)
 
 Current state
 ===
@@ -19,15 +19,18 @@ Current state
 * worklog view/add
 * allows to start work on issue with timer and log that work later
 * assigning tasks to logged in user
+* homescreen & lockscreen widget with selected jql query filter results
 
 In progress
 ===
+* user favourite filters
+* user defined filters
 * tablets support (tablet branch)
 
 
 Features planned
 ===
-* user favourite filters
+* dashclock provider
 * transition between issue states (starting work, stopping it, resolving)
 * handling of custom fields
 * edition of all issue fields
@@ -35,13 +38,13 @@ Features planned
 * opening links pointing to jira in application (that will be tricky ;)
 * tbc
 
-How to build
+How to build [![Build Status](https://travis-ci.org/tmszdmsk/arij.png?branch=master)](https://travis-ci.org/tmszdmsk/arij)
 ===
-I usually care about as little external(non easy-maven-downloadable) dependencies as possible, so it shouldn't be a problem.
+I care about pom's so it shouldn't be a problem.
 Just make sure that your ANDROID_HOME environment variable is set properly.
 
 ```bash
-mvn validate install
+mvn validate && mvn install
 ``` 
 and magic should happen ;)
 If not - [create an issue](http://github.com/tmszdmsk/arij/issues/new) or write an [e-mail](mailto:tomasz.adamski@gmail.com)

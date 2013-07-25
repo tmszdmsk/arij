@@ -20,7 +20,7 @@
             android:id="@id/android:empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No work logged"
+            android:text="@string/no_work_logged"
             android:layout_centerInParent="true"/>
 
     <include layout="@layout/loading_indicator"/>

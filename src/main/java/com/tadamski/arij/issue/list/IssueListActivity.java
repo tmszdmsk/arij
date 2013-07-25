@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
@@ -26,6 +25,8 @@ import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.issue.single.activity.single.view.IssueFragment;
+import com.tadamski.arij.util.analytics.Tracker;
+
 
 @EActivity(R.layout.issue_list_activity)
 public class IssueListActivity extends SherlockFragmentActivity implements IssueListFragment.IssueListFragmentListener, IssueFragment.IssueFragmentListener {
@@ -39,25 +40,27 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     ListView filtersListView;
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @InstanceState
-    Integer selectedFilterPosition = -1;
     @Bean
     IssueService issueService;
     @Extra
     LoginInfo loginInfo;
+    @Extra
+    Filter selectedFilter;
+    @InstanceState
+    Filter filterFromInstance;
     ActionBarDrawerToggle drawerToggle;
     DefaultFilters filters = new DefaultFilters();
 
     @Override
     protected void onStart() {
-        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStart(this);
+        super.onStart();
+        Tracker.activityStart(this);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStop(this);
+        super.onStop();
+        Tracker.activityStop(this);
     }
 
     @OptionsItem(android.R.id.home)
@@ -77,7 +80,9 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
         filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                loadFilterInFragment(i);
+                Filter filter = (Filter) adapterView.getItemAtPosition(i);
+                Tracker.sendEvent("Filters", "filterSelected", filter.name, null);
+                loadFilterInFragment(filter);
             }
         });
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
@@ -86,22 +91,22 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
-        if (selectedFilterPosition == -1)
-            selectedFilterPosition = 0;
-        loadFilterInFragment(selectedFilterPosition);
+        if (filterFromInstance != null) {
+            selectedFilter = filterFromInstance;
+        } else if (selectedFilter == null) {
+            selectedFilter = filters.getFilterList().get(0);
+        }
+        loadFilterInFragment(selectedFilter);
     }
 
-    void loadFilterInFragment(int position) {
-        selectedFilterPosition = position;
-        Filter filter = (Filter) filtersListView.getItemAtPosition(position);
-        issueListFragment.executeFilter(filter, loginInfo);
-        setActivityPropertiesFromFilter(position);
+    void loadFilterInFragment(Filter selectedFilter) {
+        issueListFragment.executeFilter(selectedFilter, loginInfo);
+        setActivityPropertiesFromFilter(selectedFilter);
     }
 
-    void setActivityPropertiesFromFilter(int position) {
-        Filter filter = (Filter) filtersListView.getItemAtPosition(position);
-        getSupportActionBar().setTitle(filter.name);
-        filtersListView.setItemChecked(position, true);
+    void setActivityPropertiesFromFilter(Filter selectedFilter) {
+        getSupportActionBar().setTitle(selectedFilter.name);
+        filtersListView.setItemChecked(getFilterPosition(selectedFilter), true);
         drawerLayout.closeDrawer(filtersListView);
     }
 
@@ -112,6 +117,15 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
         } else {
             issueFragment.loadIssue(issueKey, loginInfo);
         }
+    }
+
+    Integer getFilterPosition(Filter filter) {
+        for (int i = 0; i < filtersListView.getAdapter().getCount(); i++) {
+            if (filter.equals(filtersListView.getAdapter().getItem(i))) {
+                return i;
+            }
+        }
+        return null;
     }
 
     @Override

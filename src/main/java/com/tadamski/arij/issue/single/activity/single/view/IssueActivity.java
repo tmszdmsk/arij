@@ -1,9 +1,10 @@
 package com.tadamski.arij.issue.single.activity.single.view;
 
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
@@ -16,6 +17,7 @@ import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.activity.CommentsActivity;
 import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.worklog.list.WorklogsActivity;
+import com.tadamski.arij.util.analytics.Tracker;
 
 @EActivity(R.layout.issue)
 public class IssueActivity extends SherlockFragmentActivity implements IssueFragment.IssueFragmentListener {
@@ -31,15 +33,23 @@ public class IssueActivity extends SherlockFragmentActivity implements IssueFrag
     boolean loaded = false;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD) > 0) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
+    }
+
+    @Override
     protected void onStart() {
-        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStart(this);
+        super.onStart();
+        Tracker.activityStart(this);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
-        EasyTracker.getInstance().activityStop(this);
+        super.onStop();
+        Tracker.activityStop(this);
     }
 
     @AfterViews

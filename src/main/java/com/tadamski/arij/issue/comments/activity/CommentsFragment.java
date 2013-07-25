@@ -23,6 +23,7 @@ import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.resource.Comment;
 import com.tadamski.arij.issue.comments.resource.CommentsList;
 import com.tadamski.arij.issue.comments.resource.CommentsService;
+import com.tadamski.arij.util.analytics.Tracker;
 
 import java.util.List;
 
@@ -117,6 +118,7 @@ public class CommentsFragment extends SherlockListFragment {
     @Click(R.id.send_button)
     void sendComment() {
         if (shouldSendButtonBeEnabled()) {
+            Tracker.sendEvent("CommentsFragment", "sendComment", null, null);
             sendComment(commentText.getText().toString());
             commentText.setText("");
         }

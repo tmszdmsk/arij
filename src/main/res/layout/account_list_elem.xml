@@ -24,7 +24,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="t.adamski"
+                android:text="account.name"
                 android:id="@+id/username"
                 android:textSize="24dp"
                 android:layout_alignParentLeft="true"
@@ -37,7 +37,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="http://oapp.cpu2.cogision.pl:8080/"
+                android:text="https://example.com:8080/jira"
                 android:id="@+id/jira_url"
                 android:layout_alignLeft="@+id/username"
                 android:layout_below="@+id/username"
