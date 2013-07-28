@@ -20,6 +20,7 @@ import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.resource.IssueService_;
 import com.tadamski.arij.issue.resource.issue.IssuesResultList;
 import com.tadamski.arij.issue.resource.model.Issue;
+import com.tadamski.arij.issue.resource.model.User;
 import com.tadamski.arij.issue.resource.search.SearchParams;
 import com.tadamski.arij.widget.options.WidgetOptions;
 
@@ -79,7 +80,12 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
             remoteViews.setTextViewText(R.id.issue_key, issue.getKey());
             remoteViews.setTextViewText(R.id.issue_type, issue.getIssueType().getName());
             remoteViews.setTextViewText(R.id.issue_priority, issue.getPriority().getName());
-            remoteViews.setTextViewText(R.id.issue_assignee, issue.getAssignee().getDisplayName());
+            User assignee = issue.getAssignee();
+            if (assignee == null) {
+                remoteViews.setTextViewText(R.id.issue_assignee, ctx.getString(com.tadamski.arij.R.string.unassigned));
+            } else {
+                remoteViews.setTextViewText(R.id.issue_assignee, assignee.getDisplayName());
+            }
             Intent intent = new Intent();
             intent.putExtra(HomeScreenWidgetProvider.LIST_ITEM_EXTRA_ISSUE_KEY, issue.getKey());
             remoteViews.setOnClickFillInIntent(R.id.item, intent);

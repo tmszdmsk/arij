@@ -25,5 +25,6 @@
     <string name="send_comment_label">SEND</string>
     <string name="add_widget">Add widget</string>
     <string name="no_work_logged">No work logged</string>
+    <string name="unassigned">Unassigned</string>
 
 </resources>
