@@ -11,10 +11,8 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
-import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 
 import java.util.ArrayList;
 
@@ -31,7 +29,7 @@ public class IssueListFragment extends SherlockListFragment {
 
     @Bean
     IssueService issueService;
-    Filter actualFilter;
+    String actualJql;
     Listener listener;
     private LoginInfo actualLoginInfo;
 
@@ -57,11 +55,11 @@ public class IssueListFragment extends SherlockListFragment {
         setRetainInstance(true);
     }
 
-    public void executeFilter(Filter filter, LoginInfo loginInfo) {
-        if (!filter.equals(this.actualFilter) || !loginInfo.equals(this.actualLoginInfo)) {
-            this.actualFilter = filter;
+    public void executeFilter(String jql, LoginInfo loginInfo) {
+        if (!jql.equals(this.actualJql) || !loginInfo.equals(this.actualLoginInfo)) {
+            this.actualJql = jql;
             this.actualLoginInfo = loginInfo;
-            IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue>(), 1, filter.jql);
+            IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue>(), 1, jql);
             ListAdapter issueListAdapter = new EndlessIssueListAdapter(issueService, getActivity(), adapter, loginInfo);
             setListAdapter(issueListAdapter);
         }

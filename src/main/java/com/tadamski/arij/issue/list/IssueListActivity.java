@@ -103,7 +103,7 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     }
 
     void loadFilterInFragment(Filter selectedFilter) {
-        fragment.executeFilter(selectedFilter, loginInfo);
+        fragment.executeFilter(selectedFilter.jql, loginInfo);
         setActivityPropertiesFromFilter(selectedFilter);
     }
 

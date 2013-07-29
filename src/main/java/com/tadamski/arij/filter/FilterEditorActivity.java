@@ -8,7 +8,6 @@ import com.googlecode.androidannotations.annotations.FragmentById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListFragment;
-import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.resource.model.Issue;
 
 /**
@@ -34,7 +33,7 @@ public class FilterEditorActivity extends SherlockFragmentActivity implements Fi
         if (issueListFragment.isHidden()) {
             getSupportFragmentManager().beginTransaction().show(issueListFragment).commit();
         }
-        issueListFragment.executeFilter(new Filter(jql, "dsa", jql), loginInfo);
+        issueListFragment.executeFilter(jql, loginInfo);
     }
 
     @Override
