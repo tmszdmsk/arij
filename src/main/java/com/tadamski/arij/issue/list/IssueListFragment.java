@@ -1,5 +1,6 @@
 package com.tadamski.arij.issue.list;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListAdapter;
@@ -31,7 +32,24 @@ public class IssueListFragment extends SherlockListFragment {
     @Bean
     IssueService issueService;
     Filter actualFilter;
+    Listener listener;
     private LoginInfo actualLoginInfo;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof Listener) {
+            listener = (Listener) activity;
+        } else {
+            throw new IllegalArgumentException("Activity has to implement Listener interface");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +70,10 @@ public class IssueListFragment extends SherlockListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Issue item = (Issue) getListAdapter().getItem(position);
-        IssueActivity_.intent(getActivity()).issueKey(item.getKey()).loginInfo(actualLoginInfo).start();
+        listener.onIssueElementClick(item);
+    }
+
+    public interface Listener {
+        void onIssueElementClick(Issue issue);
     }
 }

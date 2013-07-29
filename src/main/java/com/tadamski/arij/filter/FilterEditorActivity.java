@@ -8,14 +8,14 @@ import com.googlecode.androidannotations.annotations.FragmentById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListFragment;
-import com.tadamski.arij.issue.list.IssueListFragment_;
 import com.tadamski.arij.issue.list.filters.Filter;
+import com.tadamski.arij.issue.resource.model.Issue;
 
 /**
  * Created by tmszdmsk on 29.07.13.
  */
 @EActivity(R.layout.filter_editor_activity)
-public class FilterEditorActivity extends SherlockFragmentActivity implements FilterEditorFragment.Listener {
+public class FilterEditorActivity extends SherlockFragmentActivity implements FilterEditorFragment.Listener, IssueListFragment.Listener {
 
     @FragmentById(R.id.fragment)
     FilterEditorFragment filterEditorFragment;
@@ -25,13 +25,20 @@ public class FilterEditorActivity extends SherlockFragmentActivity implements Fi
     LoginInfo loginInfo;
 
     @AfterViews
-    void hideTestResults(){
+    void hideTestResults() {
         getSupportFragmentManager().beginTransaction().hide(issueListFragment).commit();
     }
 
     @Override
     public void testButtonClicked(String jql) {
-        getSupportFragmentManager().beginTransaction().show(issueListFragment).addToBackStack("true").commit();
-        issueListFragment.executeFilter(new Filter(jql,"dsa", jql), loginInfo);
+        if (issueListFragment.isHidden()) {
+            getSupportFragmentManager().beginTransaction().show(issueListFragment).commit();
+        }
+        issueListFragment.executeFilter(new Filter(jql, "dsa", jql), loginInfo);
+    }
+
+    @Override
+    public void onIssueElementClick(Issue issue) {
+        //do nothing, it's only readonly list
     }
 }

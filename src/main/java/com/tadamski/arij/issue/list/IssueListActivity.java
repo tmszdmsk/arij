@@ -24,11 +24,13 @@ import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
 import com.tadamski.arij.issue.resource.IssueService;
+import com.tadamski.arij.issue.resource.model.Issue;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.util.analytics.Tracker;
 
 @EActivity(R.layout.issue_list_activity)
 @OptionsMenu(R.menu.issue_list_menu)
-public class IssueListActivity extends SherlockFragmentActivity {
+public class IssueListActivity extends SherlockFragmentActivity implements IssueListFragment.Listener {
 
     @FragmentById(R.id.fragment)
     IssueListFragment fragment;
@@ -121,4 +123,8 @@ public class IssueListActivity extends SherlockFragmentActivity {
     }
 
 
+    @Override
+    public void onIssueElementClick(Issue issue) {
+        IssueActivity_.intent(this).issueKey(issue.getKey()).loginInfo(loginInfo).start();
+    }
 }
