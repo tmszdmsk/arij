@@ -94,6 +94,15 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
+
+        <!-- Filter editor -->
+        <activity
+                android:name=".filter.FilterEditorActivity_"
+                android:theme="@style/Theme.Sherlock.Light"
+                >
+
+        </activity>
+
         <!-- Used for install referral measurement-->
         <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
         <receiver

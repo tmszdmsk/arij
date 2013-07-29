@@ -15,9 +15,11 @@ import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.InstanceState;
 import com.googlecode.androidannotations.annotations.OptionsItem;
+import com.googlecode.androidannotations.annotations.OptionsMenu;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
+import com.tadamski.arij.filter.FilterEditorActivity_;
 import com.tadamski.arij.issue.list.filters.DefaultFilters;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
@@ -25,6 +27,7 @@ import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.util.analytics.Tracker;
 
 @EActivity(R.layout.issue_list_activity)
+@OptionsMenu(R.menu.issue_list_menu)
 public class IssueListActivity extends SherlockFragmentActivity {
 
     @FragmentById(R.id.fragment)
@@ -63,6 +66,11 @@ public class IssueListActivity extends SherlockFragmentActivity {
         } else {
             drawerLayout.openDrawer(filtersListView);
         }
+    }
+
+    @OptionsItem(R.id.add_filter)
+    void addFilter(){
+        FilterEditorActivity_.intent(this).loginInfo(loginInfo).start();
     }
 
     @AfterViews
