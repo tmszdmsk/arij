@@ -102,6 +102,7 @@ public class IssueListDrawerFragment extends Fragment {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     listener.onQuickSearch(v.getText().toString());
                     queryEditText.clearFocus();
+                    Tracker.sendEvent("QuickSearch", "search", null, queryEditText.getText().length() + 0L);
                     return true;
                 }
                 return false;
