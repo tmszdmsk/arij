@@ -59,7 +59,7 @@ public class IssueListFragment extends SherlockListFragment {
         if (!jql.equals(this.actualJql) || !loginInfo.equals(this.actualLoginInfo)) {
             this.actualJql = jql;
             this.actualLoginInfo = loginInfo;
-            IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue>(), 1, jql);
+            IssueListAdapter adapter = new IssueListAdapter(getActivity(), new ArrayList<Issue>(), jql);
             ListAdapter issueListAdapter = new EndlessIssueListAdapter(issueService, getActivity(), adapter, loginInfo);
             setListAdapter(issueListAdapter);
         }

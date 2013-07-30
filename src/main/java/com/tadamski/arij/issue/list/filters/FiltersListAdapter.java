@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class FiltersListAdapter extends BaseAdapter {
 
-
     private Context ctx;
     private List<Filter> filters;
 

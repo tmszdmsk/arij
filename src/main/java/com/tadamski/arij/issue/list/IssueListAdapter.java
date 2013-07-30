@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.resource.model.Issue;
 
@@ -16,23 +17,17 @@ public class IssueListAdapter extends BaseAdapter {
 
     private static final DateFormat DATE_TIME_INSTANCE = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     private final List<Issue> issues;
-    private long totalNumberOfIssues;
-    private String jql;
     private final LayoutInflater layoutInflater;
+    private String jql;
 
-    public IssueListAdapter(Context ctx, List<Issue> init, long totalNumberOfIssues, String jql) {
+    public IssueListAdapter(Context ctx, List<Issue> init, String jql) {
         this.issues = init;
-        this.totalNumberOfIssues = totalNumberOfIssues;
         this.jql = jql;
         this.layoutInflater = LayoutInflater.from(ctx);
     }
 
     public String getJql() {
         return jql;
-    }
-
-    public long getTotalNumberOfIssues() {
-        return totalNumberOfIssues;
     }
 
     public List<Issue> getIssues() {

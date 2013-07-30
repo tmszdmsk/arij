@@ -205,6 +205,15 @@ abstract public class EndlessAdapter extends AdapterWrapper {
     }
 
     @Override
+    public long getItemId(int position) {
+        if (position >= super.getCount()) {
+            return -1L;
+        }
+
+        return (super.getItemId(position));
+    }
+
+    @Override
     public boolean areAllItemsEnabled() {
         return (false);
     }
