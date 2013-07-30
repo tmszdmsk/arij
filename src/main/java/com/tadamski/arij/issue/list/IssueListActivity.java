@@ -111,8 +111,12 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     }
 
     private void executeQuery(String query) {
-        issueListFragment.executeFilter("text ~ \"" + query + "\"", loginInfo);
+        issueListFragment.executeFilter("text ~ \"" + escapeQuery(query) + "\"", loginInfo);
         getSupportActionBar().setTitle(getString(R.string.quick_search_activity_title_prefix) + query);
+    }
+
+    private String escapeQuery(String query) {
+        return query.replaceAll("\"", "\\\\\\\\\\\\\"");
     }
 
     @Override
