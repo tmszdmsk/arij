@@ -9,7 +9,7 @@
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Quick search"
+            android:hint="@string/quick_search"
             android:imeOptions="actionSearch"
             android:singleLine="true"
             />
@@ -17,7 +17,7 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filters"
+            android:text="@string/filters"
             style="?android:attr/listSeparatorTextViewStyle"
             />
 

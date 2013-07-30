@@ -27,5 +27,7 @@
     <string name="no_work_logged">No work logged</string>
     <string name="unassigned">Unassigned</string>
     <string name="quick_search_activity_title_prefix">Search:</string>
+    <string name="quick_search">Quick search</string>
+    <string name="filters">Filters</string>
 
 </resources>
