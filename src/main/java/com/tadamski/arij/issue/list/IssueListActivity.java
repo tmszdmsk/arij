@@ -41,7 +41,9 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     @Extra
     Filter selectedFilter;
     @InstanceState
-    Filter filterFromInstance;
+    Filter instanceFilter;
+    @InstanceState
+    String instanceQuery;
 
     @Override
     protected void onStart() {
@@ -76,8 +78,11 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     }
 
     void initSelectedFilter() {
-        if (filterFromInstance != null) {
-            initWithFilter(filterFromInstance);
+        if (instanceFilter != null) {
+            initWithFilter(instanceFilter);
+        } else if (instanceQuery != null) {
+            drawerFragment.selectQuery(instanceQuery);
+            executeQuery(instanceQuery);
         } else if (selectedFilter != null) {
             initWithFilter(selectedFilter);
         } else {
@@ -99,15 +104,21 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
 
     @Override
     public void onQuickSearch(String query) {
-        this.filterFromInstance = null;
-        issueListFragment.executeFilter("text ~ \"" + query + "\"", loginInfo);
-        getSupportActionBar().setTitle("Search: " + query);
+        this.instanceFilter = null;
+        this.instanceQuery = query;
+        executeQuery(query);
         drawerLayout.closeDrawer(drawer);
+    }
+
+    private void executeQuery(String query) {
+        issueListFragment.executeFilter("text ~ \"" + query + "\"", loginInfo);
+        getSupportActionBar().setTitle(getString(R.string.quick_search_activity_title_prefix) + query);
     }
 
     @Override
     public void onFilterSelected(Filter filter) {
-        this.filterFromInstance = filter;
+        this.instanceQuery = null;
+        this.instanceFilter = filter;
         issueListFragment.executeFilter(filter.jql, loginInfo);
         getSupportActionBar().setTitle(filter.name);
         drawerLayout.closeDrawer(drawer);

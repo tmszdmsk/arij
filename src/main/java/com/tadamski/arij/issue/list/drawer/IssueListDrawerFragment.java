@@ -44,12 +44,11 @@ public class IssueListDrawerFragment extends Fragment {
     private Listener listener;
 
     public void selectFilter(Filter filter) {
-        Integer filterPosition = getFilterPosition(filter);
-        if (filterPosition == null) {
-            throw new IllegalArgumentException("filter not found on filter list");
-        }
         queryEditText.setText("");
-        filterList.setItemChecked(filterPosition, true);
+    }
+
+    public void selectQuery(String query) {
+        queryEditText.setText(query);
     }
 
     public Filter getDefaultFilter() {
@@ -90,7 +89,6 @@ public class IssueListDrawerFragment extends Fragment {
                 Filter filter = (Filter) adapterView.getItemAtPosition(i);
                 Tracker.sendEvent("Filters", "filterSelected", filter.name, null);
                 queryEditText.setText("");
-                filterList.clearChoices();
                 listener.onFilterSelected(filter);
             }
         });
@@ -104,21 +102,17 @@ public class IssueListDrawerFragment extends Fragment {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     listener.onQuickSearch(v.getText().toString());
                     queryEditText.clearFocus();
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     return true;
                 }
                 return false;
             }
         });
-    }
-
-    Integer getFilterPosition(Filter filter) {
-        for (int i = 0; i < filterList.getAdapter().getCount(); i++) {
-            if (filter.equals(filterList.getAdapter().getItem(i))) {
-                return i;
+        queryEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
-        }
-        return null;
+        });
     }
 
     public interface Listener {
