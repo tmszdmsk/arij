@@ -6,16 +6,19 @@ import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.InstanceState;
 import com.googlecode.androidannotations.annotations.OptionsItem;
+import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.drawer.IssueListDrawerFragment;
+import com.tadamski.arij.issue.list.drawer.QuerySearch;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
@@ -106,8 +109,21 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     public void onQuickSearch(String query) {
         this.instanceFilter = null;
         this.instanceQuery = query;
-        executeQuery(query);
+        doUglyQuerySearch(query);
         drawerLayout.closeDrawer(drawer);
+    }
+
+    @Background
+    void doUglyQuerySearch(String query) {
+        QuerySearch querySearch = new QuerySearch();
+        String jql = querySearch.getJql(query, loginInfo);
+        afterUglyQuerySearch(query, jql);
+    }
+
+    @UiThread
+    void afterUglyQuerySearch(String query, String jql) {
+        issueListFragment.executeFilter(jql, loginInfo);
+        getSupportActionBar().setTitle(query);
     }
 
     private void executeQuery(String query) {
