@@ -19,7 +19,6 @@
     <string name="close">Close</string>
     <string name="remove_account">Remove account</string>
     <string name="add_account_url_prefix">http(s)://</string>
-    <string name="add_account_url_default_hostname">.atlassian.net</string>
     <string name="worklog_time_spent_label">Time spent:</string>
     <string name="homescreen_widget_name">ariJ - filter results</string>
     <string name="send_comment_label">SEND</string>
