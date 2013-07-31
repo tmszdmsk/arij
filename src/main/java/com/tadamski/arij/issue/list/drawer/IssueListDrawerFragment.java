@@ -10,13 +10,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.TextChange;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.list.filters.DefaultFilters;
@@ -39,6 +42,8 @@ public class IssueListDrawerFragment extends Fragment {
     InputMethodManager inputMethodManager;
     @ViewById(R.id.search_edit_text)
     EditText queryEditText;
+    @ViewById(R.id.search_edit_text_clear_button)
+    ImageButton queryClearButton;
     @ViewById(R.id.filters_list)
     ListView filterList;
     private Listener listener;
@@ -96,6 +101,7 @@ public class IssueListDrawerFragment extends Fragment {
 
     @AfterViews
     void initQuickSearch() {
+
         queryEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -114,6 +120,20 @@ public class IssueListDrawerFragment extends Fragment {
                 if (!hasFocus) inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
+        showOrHideClearButton();
+    }
+
+    @TextChange(R.id.search_edit_text)
+    void showOrHideClearButton() {
+        if (queryEditText.getText().length() > 0)
+            queryClearButton.setVisibility(View.VISIBLE);
+        else queryClearButton.setVisibility(View.GONE);
+
+    }
+
+    @Click(R.id.search_edit_text_clear_button)
+    void clearSearchBox() {
+        queryEditText.setText("");
     }
 
     public interface Listener {

@@ -5,14 +5,30 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <EditText
-            android:id="@+id/search_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="@string/quick_search"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
-            />
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/quick_search"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:paddingRight="44dp"
+                />
+
+        <ImageButton
+                android:id="@+id/search_edit_text_clear_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/ic_edittext_clear"/>
+
+    </FrameLayout>
 
     <TextView
             android:layout_width="match_parent"
