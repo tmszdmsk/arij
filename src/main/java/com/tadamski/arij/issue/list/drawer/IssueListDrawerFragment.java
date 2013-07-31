@@ -106,9 +106,7 @@ public class IssueListDrawerFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    listener.onQuickSearch(v.getText().toString());
-                    queryEditText.clearFocus();
-                    Tracker.sendEvent("QuickSearch", "search", null, queryEditText.getText().length() + 0L);
+                    quickSearch();
                     return true;
                 }
                 return false;
@@ -120,7 +118,23 @@ public class IssueListDrawerFragment extends Fragment {
                 if (!hasFocus) inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
+        queryEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    quickSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
         showOrHideClearButton();
+    }
+
+    private void quickSearch() {
+        listener.onQuickSearch(queryEditText.getText().toString());
+        queryEditText.clearFocus();
+        Tracker.sendEvent("QuickSearch", "search", null, queryEditText.getText().length() + 0L);
     }
 
     @TextChange(R.id.search_edit_text)
