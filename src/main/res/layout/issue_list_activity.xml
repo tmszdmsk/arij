@@ -22,11 +22,19 @@
                 android:layout_gravity="center"/>
     </LinearLayout>
 
-    <ListView
-            android:id="@+id/drawer"
+    <FrameLayout
             android:layout_width="240dp"
             android:layout_height="match_parent"
+            android:id="@+id/drawer"
+            android:background="#FFFFFFFF"
             android:layout_gravity="start"
-            android:background="#FFF"
-            android:choiceMode="singleChoice"/>
+            >
+
+        <fragment
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:name="com.tadamski.arij.issue.list.drawer.IssueListDrawerFragment_"
+                android:id="@+id/drawer_fragment"/>
+    </FrameLayout>
+
 </android.support.v4.widget.DrawerLayout>

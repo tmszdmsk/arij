@@ -8,15 +8,6 @@
               android:focusable="false"
               android:clickable="false">
 
-    <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton"
-            android:layout_gravity="left|center_vertical"
-            android:checked="false"
-            android:clickable="false"
-            android:focusable="false"/>
-
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,5 +16,8 @@
             android:text="Sample filter"
             android:focusable="false"
             android:clickable="false"
-            android:textSize="@dimen/worklog_new_issue_key_title_font_size"/>
+            android:textSize="@dimen/worklog_new_issue_key_title_font_size"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"/>
+
 </LinearLayout>

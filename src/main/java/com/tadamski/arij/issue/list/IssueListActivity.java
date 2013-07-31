@@ -3,9 +3,6 @@ package com.tadamski.arij.issue.list;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -18,21 +15,25 @@ import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
-import com.tadamski.arij.issue.list.filters.DefaultFilters;
+import com.tadamski.arij.issue.list.drawer.IssueListDrawerFragment;
 import com.tadamski.arij.issue.list.filters.Filter;
-import com.tadamski.arij.issue.list.filters.FiltersListAdapter;
 import com.tadamski.arij.issue.resource.IssueService;
+import com.tadamski.arij.issue.resource.model.Issue;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.util.analytics.Tracker;
 
 @EActivity(R.layout.issue_list_activity)
-public class IssueListActivity extends SherlockFragmentActivity {
+public class IssueListActivity extends SherlockFragmentActivity implements IssueListFragment.Listener, IssueListDrawerFragment.Listener {
 
     @FragmentById(R.id.fragment)
-    IssueListFragment fragment;
-    @ViewById(R.id.drawer)
-    ListView filtersListView;
+    IssueListFragment issueListFragment;
+    @FragmentById(R.id.drawer_fragment)
+    IssueListDrawerFragment drawerFragment;
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @ViewById(R.id.drawer)
+    View drawer;
+    ActionBarDrawerToggle drawerToggle;
     @Bean
     IssueService issueService;
     @Extra
@@ -40,14 +41,15 @@ public class IssueListActivity extends SherlockFragmentActivity {
     @Extra
     Filter selectedFilter;
     @InstanceState
-    Filter filterFromInstance;
-    ActionBarDrawerToggle drawerToggle;
-    DefaultFilters filters = new DefaultFilters();
+    Filter instanceFilter;
+    @InstanceState
+    String instanceQuery;
 
     @Override
     protected void onStart() {
         super.onStart();
         Tracker.activityStart(this);
+        initSelectedFilter();
     }
 
     @Override
@@ -58,59 +60,71 @@ public class IssueListActivity extends SherlockFragmentActivity {
 
     @OptionsItem(android.R.id.home)
     void drawer() {
-        if (drawerLayout.isDrawerOpen(filtersListView)) {
-            drawerLayout.closeDrawer(filtersListView);
+        if (drawerLayout.isDrawerOpen(drawer)) {
+            drawerLayout.closeDrawer(drawer);
         } else {
-            drawerLayout.openDrawer(filtersListView);
+            drawerLayout.openDrawer(drawer);
         }
     }
 
     @AfterViews
     void initDrawer() {
-        final FiltersListAdapter filtersListAdapter = new FiltersListAdapter(this, filters.getFilterList());
-        filtersListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        filtersListView.setAdapter(filtersListAdapter);
-        filtersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Filter filter = (Filter) adapterView.getItemAtPosition(i);
-                Tracker.sendEvent("Filters", "filterSelected", filter.name, null);
-                loadFilterInFragment(filter);
-            }
-        });
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_drawer,
                 R.string.open, R.string.close);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
-        if (filterFromInstance != null) {
-            selectedFilter = filterFromInstance;
-        } else if (selectedFilter == null) {
-            selectedFilter = filters.getFilterList().get(0);
+    }
+
+    void initSelectedFilter() {
+        if (instanceFilter != null) {
+            initWithFilter(instanceFilter);
+        } else if (instanceQuery != null) {
+            drawerFragment.selectQuery(instanceQuery);
+            executeQuery(instanceQuery);
+        } else if (selectedFilter != null) {
+            initWithFilter(selectedFilter);
+        } else {
+            Filter defaultFilter = drawerFragment.getDefaultFilter();
+            initWithFilter(defaultFilter);
         }
-        loadFilterInFragment(selectedFilter);
     }
 
-    void loadFilterInFragment(Filter selectedFilter) {
-        fragment.executeFilter(selectedFilter, loginInfo);
-        setActivityPropertiesFromFilter(selectedFilter);
+    private void initWithFilter(Filter filter) {
+        drawerFragment.selectFilter(filter);
+        issueListFragment.executeFilter(filter.jql, loginInfo);
+        getSupportActionBar().setTitle(filter.name);
     }
 
-    void setActivityPropertiesFromFilter(Filter selectedFilter) {
-        getSupportActionBar().setTitle(selectedFilter.name);
-        filtersListView.setItemChecked(getFilterPosition(selectedFilter), true);
-        drawerLayout.closeDrawer(filtersListView);
+    @Override
+    public void onIssueElementClick(Issue issue) {
+        IssueActivity_.intent(this).issueKey(issue.getKey()).loginInfo(loginInfo).start();
     }
 
-    Integer getFilterPosition(Filter filter) {
-        for (int i = 0; i < filtersListView.getAdapter().getCount(); i++) {
-            if (filter.equals(filtersListView.getAdapter().getItem(i))) {
-                return i;
-            }
-        }
-        return null;
+    @Override
+    public void onQuickSearch(String query) {
+        this.instanceFilter = null;
+        this.instanceQuery = query;
+        executeQuery(query);
+        drawerLayout.closeDrawer(drawer);
     }
 
+    private void executeQuery(String query) {
+        issueListFragment.executeFilter("text ~ \"" + escapeQuery(query) + "\"", loginInfo);
+        getSupportActionBar().setTitle(getString(R.string.quick_search_activity_title_prefix) + query);
+    }
 
+    private String escapeQuery(String query) {
+        return query.replaceAll("\"", "\\\\\\\\\\\\\"");
+    }
+
+    @Override
+    public void onFilterSelected(Filter filter) {
+        this.instanceQuery = null;
+        this.instanceFilter = filter;
+        issueListFragment.executeFilter(filter.jql, loginInfo);
+        getSupportActionBar().setTitle(filter.name);
+        drawerLayout.closeDrawer(drawer);
+    }
 }
