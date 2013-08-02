@@ -18,7 +18,7 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.drawer.IssueListDrawerFragment;
-import com.tadamski.arij.issue.list.drawer.QuerySearch;
+import com.tadamski.arij.issue.list.drawer.QuickSearch;
 import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
@@ -85,7 +85,7 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
             initWithFilter(instanceFilter);
         } else if (instanceQuery != null) {
             drawerFragment.selectQuery(instanceQuery);
-            executeQuery(instanceQuery);
+            //TODO: drop it?
         } else if (selectedFilter != null) {
             initWithFilter(selectedFilter);
         } else {
@@ -115,24 +115,27 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
 
     @Background
     void doUglyQuerySearch(String query) {
-        QuerySearch querySearch = new QuerySearch();
-        String jql = querySearch.getJql(query, loginInfo);
-        afterUglyQuerySearch(query, jql);
+        QuickSearch quickSearch = new QuickSearch();
+        QuickSearch.Action quickSearchAction = quickSearch.getJql(query, loginInfo);
+        afterUglyQuerySearch(query, quickSearchAction);
     }
 
     @UiThread
-    void afterUglyQuerySearch(String query, String jql) {
-        issueListFragment.executeFilter(jql, loginInfo);
+    void afterUglyQuerySearch(String query, QuickSearch.Action quickSearchAction) {
+        handleQuickSearchAction(quickSearchAction);
         getSupportActionBar().setTitle(query);
     }
 
-    private void executeQuery(String query) {
-        issueListFragment.executeFilter("text ~ \"" + escapeQuery(query) + "\"", loginInfo);
-        getSupportActionBar().setTitle(getString(R.string.quick_search_activity_title_prefix) + query);
-    }
-
-    private String escapeQuery(String query) {
-        return query.replaceAll("\"", "\\\\\\\\\\\\\"");
+    private void handleQuickSearchAction(QuickSearch.Action quickSearchAction) {
+        if (quickSearchAction instanceof QuickSearch.DoJQL) {
+            QuickSearch.DoJQL jqlAction = (QuickSearch.DoJQL) quickSearchAction;
+            issueListFragment.executeFilter(jqlAction.jql, loginInfo);
+        } else if (quickSearchAction instanceof QuickSearch.OpenIssue) {
+            QuickSearch.OpenIssue openIssueAction = (QuickSearch.OpenIssue) quickSearchAction;
+            IssueActivity_.intent(this).issueKey(openIssueAction.issueKey).loginInfo(loginInfo).start();
+        } else {
+            throw new IllegalArgumentException("cannot handle that type of quick search action: " + quickSearchAction.getClass());
+        }
     }
 
     @Override
