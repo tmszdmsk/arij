@@ -28,5 +28,6 @@
     <string name="quick_search_activity_title_prefix">Search:</string>
     <string name="quick_search">Quick search</string>
     <string name="filters">Filters</string>
+    <string name="no_issues_found">No issues found</string>
 
 </resources>

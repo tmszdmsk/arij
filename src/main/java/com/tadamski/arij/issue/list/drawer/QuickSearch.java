@@ -20,7 +20,7 @@ public class QuickSearch {
     private AuthorizationHeaderGenerator authorizationHeaderGenerator = new AuthorizationHeaderGenerator();
     public static final String TAG = "#QUICK-SEARCH#";
 
-    public Action getJql(String query, LoginInfo loginInfo) {
+    public Action perform(String query, LoginInfo loginInfo) {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) new URL(loginInfo.getBaseURL() + "/secure/QuickSearch.jspa").openConnection();
@@ -50,7 +50,8 @@ public class QuickSearch {
         Pattern singleIssuePattern = Pattern.compile(loginInfo.getBaseURL() + "/?browse/((.+)-[0-9]+)");
         Matcher singleIssueMatcher = singleIssuePattern.matcher(location);
         if (singleIssueMatcher.find()) {
-            return new OpenIssue(singleIssueMatcher.group(1));
+            String issueKey = singleIssueMatcher.group(1);
+            return new OpenIssue(issueKey);
         }
         Uri locationUri = Uri.parse(location);
         if (locationUri.getQueryParameterNames().contains("jql")) {
