@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -48,6 +50,8 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     EditText passwordEditText;
     @ViewById(R.id.login_button)
     Button loginButton;
+    @ViewById(R.id.protocol_spinner)
+    Spinner protocolSpinner;
     @StringRes(R.string.invalid_url_format)
     String invalidUrlFormat;
     @StringRes(R.string.invalid_login_empty)
@@ -79,14 +83,22 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         passwordEditText.setOnEditorActionListener(onDoneImeAction);
     }
 
+    @AfterViews
+    void initSpiner(){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.login_protocols,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        protocolSpinner.setAdapter(adapter);
+    }
+
     @Click(R.id.login_button)
     void login() {
         Tracker.sendEvent("AddNewAccountActivity", "login_button_pushed", null, null);
+        String protocol = (String) protocolSpinner.getSelectedItem();
         String url = urlEditText.getText().toString();
         String login = loginEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         if (validate()) {
-            checkCredentials(url, login, password);
+            checkCredentials(protocol, url, login, password);
         } else {
             EasyTracker.getTracker().sendEvent("AddNewAccountActivity", "validation_not_passed", null, null);
         }
@@ -111,25 +123,19 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     }
 
     @Background
-    void checkCredentials(String url, String login, String password) {
+    void checkCredentials(String protocol, String url, String login, String password) {
         try {
             setLoginButtonState(false);
-            LoginInfo possibleCredentials = new LoginInfo(login, password, "https://" + url);
+            LoginInfo possibleCredentials = new LoginInfo(login, password, protocol + url);
             CheckResult result = checkServer(possibleCredentials);
             if (result.code == 200) {
                 ifCredentialsConfirmed(possibleCredentials);
             } else if (result.code == 401) {
                 ifCredentialsInvalid();
+            } else if(result.code == 301 || result.code==302) {
+                ifCommunicationException("HTTP redirect received. Server is probably trying to force https:// protocol. Change it and try again.\n\nDetails:\nHTTP stats code: "+result.code+"\n"+result.reason);
             } else {
-                possibleCredentials = new LoginInfo(login, password, "http://" + url);
-                result = checkServer(possibleCredentials);
-                if (result.code == 200) {
-                    ifCredentialsConfirmed(possibleCredentials);
-                } else if (result.code == 401) {
-                    ifCredentialsInvalid();
-                } else {
-                    ifCommunicationException(result.code + result.reason);
-                }
+                ifCommunicationException("http code: "+result.code +"\n"+ result.reason);
             }
         } finally {
             setLoginButtonState(true);

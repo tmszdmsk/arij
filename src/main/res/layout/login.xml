@@ -11,12 +11,11 @@
             android:layout_alignLeft="@+id/login_edit_text"
             android:layout_alignRight="@+id/login_edit_text">
 
-    <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_account_url_prefix"
-                android:id="@+id/textView"
-                android:layout_marginLeft="3dp"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/protocol_spinner"
+            android:spinnerMode="dropdown" />
 
         <EditText
                 android:id="@+id/url_edit_text"
@@ -41,7 +40,7 @@
             android:ems="10"
             android:hint="@string/login"
             android:inputType="textPersonName"
-            android:layout_below="@id/url_layout"
+            android:layout_below="@+id/url_layout"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_centerHorizontal="true"
