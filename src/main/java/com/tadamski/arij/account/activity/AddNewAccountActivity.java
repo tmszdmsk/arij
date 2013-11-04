@@ -3,6 +3,7 @@ package com.tadamski.arij.account.activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -20,6 +21,7 @@ import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -64,6 +66,8 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     LoginService loginService;
     @SystemService
     AccountManager accountManager;
+    @NonConfigurationInstance
+    boolean secureHttps = true;
 
     @Override
     protected void onStart() {
@@ -128,12 +132,12 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     void checkCredentials(String protocol, String url, String login, String password) {
         try {
             setLoginButtonState(false);
-            LoginInfo possibleCredentials = new LoginInfo(login, password, protocol + url, false);
+            LoginInfo possibleCredentials = new LoginInfo(login, password, protocol + url, secureHttps);
             Response response = loginService.checkCredentials(possibleCredentials);
             ifCredentialsConfirmed(possibleCredentials);
         } catch (RetrofitError retrofitError) {
-            if (retrofitError.getCause() instanceof SSLHandshakeException) {
-                ifCommunicationException("SSLHandshake bitch!");
+            if (retrofitError.getCause() instanceof SSLHandshakeException && secureHttps) {
+               ifSelfSignedCert();
             } else if (retrofitError.isNetworkError()) {
                 ifCommunicationException("Network error: \n" + retrofitError.toString());
             } else {
@@ -150,6 +154,26 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         } finally {
             setLoginButtonState(true);
         }
+    }
+
+    @UiThread
+    void ifSelfSignedCert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Untrusted SSL Certificate");
+        builder.setMessage("It seems like the server you want to connect to is secured with untrusted (self signed?) SSL certificate. Be careful.");
+        builder.setPositiveButton("Connect anyway", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                secureHttps=false;
+                login();
+            }
+        });
+        builder.setNegativeButton("Don't connect", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.create().show();
     }
 
     @UiThread
