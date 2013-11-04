@@ -33,6 +33,8 @@ import com.tadamski.arij.util.analytics.Tracker;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.SSLHandshakeException;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -84,8 +86,8 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     }
 
     @AfterViews
-    void initSpiner(){
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.login_protocols,android.R.layout.simple_spinner_item);
+    void initSpiner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.login_protocols, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         protocolSpinner.setAdapter(adapter);
     }
@@ -126,16 +128,24 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
     void checkCredentials(String protocol, String url, String login, String password) {
         try {
             setLoginButtonState(false);
-            LoginInfo possibleCredentials = new LoginInfo(login, password, protocol + url);
-            CheckResult result = checkServer(possibleCredentials);
-            if (result.code == 200) {
-                ifCredentialsConfirmed(possibleCredentials);
-            } else if (result.code == 401) {
-                ifCredentialsInvalid();
-            } else if(result.code == 301 || result.code==302) {
-                ifCommunicationException("HTTP redirect received. Server is probably trying to force https:// protocol. Change it and try again.\n\nDetails:\nHTTP stats code: "+result.code+"\n"+result.reason);
+            LoginInfo possibleCredentials = new LoginInfo(login, password, protocol + url, false);
+            Response response = loginService.checkCredentials(possibleCredentials);
+            ifCredentialsConfirmed(possibleCredentials);
+        } catch (RetrofitError retrofitError) {
+            if (retrofitError.getCause() instanceof SSLHandshakeException) {
+                ifCommunicationException("SSLHandshake bitch!");
+            } else if (retrofitError.isNetworkError()) {
+                ifCommunicationException("Network error: \n" + retrofitError.toString());
             } else {
-                ifCommunicationException("http code: "+result.code +"\n"+ result.reason);
+                int httpCode = retrofitError.getResponse().getStatus();
+                String msg = retrofitError.toString();
+                if (httpCode == 401) {
+                    ifCredentialsInvalid();
+                } else if (httpCode == 301 || httpCode == 302) {
+                    ifCommunicationException("HTTP redirect received. Server is probably trying to force https:// protocol. Change it and try again.\n\nDetails:\nHTTP stats code: " + httpCode + "\n" + msg);
+                } else {
+                    ifCommunicationException("HTTP response: " + httpCode + "\n" + retrofitError.getResponse().getReason());
+                }
             }
         } finally {
             setLoginButtonState(true);
@@ -186,6 +196,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         Account account = new Account(credentials.getUsername(), Authenticator.ACCOUNT_TYPE);
         Bundle bundle = new Bundle();
         bundle.putString(Authenticator.INSTANCE_URL_KEY, credentials.getBaseURL().toString());
+        bundle.putBoolean(Authenticator.SECURE_HTTPS_KEY, credentials.isSecureHttps());
         accountManager.addAccountExplicitly(account, String.valueOf(credentials.getPassword()), bundle);
         final Intent intent = new Intent();
         intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, credentials.getUsername());

@@ -19,6 +19,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
     public static final String ACCOUNT_TYPE = "com.tadamski.arij.account";
     public static final String INSTANCE_URL_KEY = "instanceUrl";
+    public static final String SECURE_HTTPS_KEY = "secureHttps";
 
     private final Context context;
 

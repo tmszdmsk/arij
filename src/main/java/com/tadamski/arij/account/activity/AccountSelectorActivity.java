@@ -5,16 +5,19 @@ import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
 import android.os.Bundle;
 import android.widget.AbsListView;
+
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.ItemLongClick;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.tadamski.arij.R;
+import com.tadamski.arij.account.AccountsService;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListActivity_;
@@ -31,6 +34,8 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
 
     @SystemService
     AccountManager accountManager;
+    @Bean
+    AccountsService accountsService;
     ActionMode activeActionMode;
 
     @Override
@@ -78,19 +83,8 @@ public class AccountSelectorActivity extends SherlockListActivity implements OnA
         return super.onOptionsItemSelected(item);
     }
 
-    private List<LoginInfo> getAvailableAccount() {
-        List<LoginInfo> result = new LinkedList<LoginInfo>();
-        Account[] accountsByType = accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE);
-        for (Account account : accountsByType) {
-            String instanceUrl = accountManager.getUserData(account, Authenticator.INSTANCE_URL_KEY);
-            String password = accountManager.getPassword(account);
-            result.add(new LoginInfo(account.name, password, instanceUrl));
-        }
-        return result;
-    }
-
     private void reloadAccounts() {
-        List<LoginInfo> availableAccounts = getAvailableAccount();
+        List<LoginInfo> availableAccounts = accountsService.getAvailableAccounts();
         AccountListAdapter accountListAdapter = new AccountListAdapter(this, availableAccounts);
         setListAdapter(accountListAdapter);
     }

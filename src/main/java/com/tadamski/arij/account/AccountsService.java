@@ -24,9 +24,20 @@ public class AccountsService {
         Account[] accountsByType = accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE);
         for (Account account : accountsByType) {
             String instanceUrl = accountManager.getUserData(account, Authenticator.INSTANCE_URL_KEY);
+            String isSecureHttps = accountManager.getUserData(account, Authenticator.SECURE_HTTPS_KEY);
+            Boolean secureHttps = Boolean.valueOf(isSecureHttps == null ? "true" : isSecureHttps);
             String password = accountManager.getPassword(account);
-            result.add(new LoginInfo(account.name, password, instanceUrl));
+            result.add(new LoginInfo(account.name, password, instanceUrl, secureHttps));
         }
         return result;
+    }
+
+    public LoginInfo getAccount(String accountName) {
+        for(LoginInfo loginInfo : getAvailableAccounts()){
+            if(loginInfo.getUsername().equals(accountName)){
+                return loginInfo;
+            }
+        }
+        return null;
     }
 }

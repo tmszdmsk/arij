@@ -13,8 +13,7 @@ import android.view.WindowManager;
 import android.widget.RemoteViews;
 
 import com.actionbarsherlock.R;
-import com.tadamski.arij.account.LoginInfoFactory;
-import com.tadamski.arij.account.LoginInfoFactory_;
+import com.tadamski.arij.account.AccountsService_;
 import com.tadamski.arij.account.activity.AccountSelectorActivity_;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListActivity_;
@@ -66,8 +65,8 @@ public class HomeScreenWidgetProvider extends AppWidgetProvider {
     }
 
     LoginInfo getLoginInfo(Context ctx, String accountName) {
-        LoginInfoFactory loginInfoFactory = LoginInfoFactory_.getInstance_(ctx);
-        return loginInfoFactory.getLoginInfoFromAccountManager(accountName);
+        AccountsService_ instance_ = AccountsService_.getInstance_(ctx);
+        return instance_.getAccount(accountName);
     }
 
     void startRefreshService(Context ctx, AppWidgetManager appWidgetManager, int appWidgetId) {

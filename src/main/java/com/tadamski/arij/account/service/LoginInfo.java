@@ -16,14 +16,16 @@ public class LoginInfo implements Serializable {
     @Expose
     private String password;
     private String baseUrl;
+    private boolean secureHttps;
 
-    public LoginInfo(String username, String password, String baseUrl) {
+    public LoginInfo(String username, String password, String baseUrl, boolean secureHttps) {
         Preconditions.checkNotNull(username);
         Preconditions.checkNotNull(password);
         Preconditions.checkNotNull(baseUrl);
         this.username = username;
         this.password = password;
         this.baseUrl = baseUrl;
+        this.secureHttps = secureHttps;
     }
 
     public String getPassword() {
@@ -36,6 +38,10 @@ public class LoginInfo implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean isSecureHttps() {
+        return secureHttps;
     }
 
     @Override
@@ -60,6 +66,10 @@ public class LoginInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "LoginInfo{" + "username=" + username + ", baseUrl=" + baseUrl + '}';
+        return "LoginInfo{" +
+                "username='" + username + '\'' +
+                ", baseUrl='" + baseUrl + '\'' +
+                ", secureHttps=" + secureHttps +
+                '}';
     }
 }
