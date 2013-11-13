@@ -115,19 +115,6 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         loginButton.setEnabled(enabled);
     }
 
-    private CheckResult checkServer(LoginInfo loginInfo) {
-        try {
-            Response response = loginService.checkCredentials(loginInfo);
-            return new CheckResult(response.getStatus(), response.toString());
-        } catch (RetrofitError retrofitError) {
-            if (retrofitError.isNetworkError()) {
-                return new CheckResult(0, retrofitError.getCause().toString());
-            } else {
-                return new CheckResult(retrofitError.getResponse().getStatus(), retrofitError.toString());
-            }
-        }
-    }
-
     @Background
     void checkCredentials(String protocol, String url, String login, String password) {
         try {
@@ -139,6 +126,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
             if (retrofitError.getCause() instanceof SSLHandshakeException && secureHttps) {
                ifSelfSignedCert();
             } else if (retrofitError.isNetworkError()) {
+                Tracker.sendEvent("AddNewAccountActivity", "login_network_error", "secureHttps="+secureHttps, null);
                 ifCommunicationException("Network error: \n" + retrofitError.toString());
             } else {
                 int httpCode = retrofitError.getResponse().getStatus();
@@ -158,6 +146,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
 
     @UiThread
     void ifSelfSignedCert() {
+        Tracker.sendEvent("AddNewAccountActivity", "login_failed_self_signed_certificate", null, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Untrusted SSL Certificate");
         builder.setMessage("It seems like the server you want to connect to is secured with untrusted (self signed?) SSL certificate. Be careful.");
