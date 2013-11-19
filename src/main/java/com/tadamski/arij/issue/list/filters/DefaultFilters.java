@@ -21,6 +21,7 @@ public class DefaultFilters {
         filters.add(new Filter("localReportedByMe","Reported by me", "reporter = currentUser() ORDER BY createdDate DESC"));
         filters.add(new Filter("localAllIssues","All issues", "ORDER BY createdDate DESC"));
         filters.add(new Filter("localOpenBugz","Open bugs", "type = Bug and resolution is empty"));
+        filters.add(new Filter("localWatchedIssues", "Watched Issues", "watcher = currentUser() ORDER BY updatedDate DESC"));
         return filters;
     }
 
