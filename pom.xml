@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tadamski</groupId>
     <artifactId>arij</artifactId>
-    <version>1.3.1-SNAPSHOT</version>
+    <version>1.3.1</version>
     <packaging>apk</packaging>
     <name>arij</name>
 
@@ -15,6 +15,7 @@
         <android.sdk.platform.version>4.1.1.4</android.sdk.platform.version>
         <android.maven.plugin.version>3.6.0</android.maven.plugin.version>
         <debug>true</debug>
+        <release>false</release>
         <analytics.trackingId>UA-140251-7</analytics.trackingId>
         <analytics.appName>arij-debug</analytics.appName>
         <zipalign.skip>true</zipalign.skip>
@@ -93,6 +94,7 @@
             <id>release</id>
             <properties>
                 <debug>false</debug>
+                <release>true</release>
                 <zipalign.skip>false</zipalign.skip>
                 <analytics.appName>arij-release</analytics.appName>
             </properties>
@@ -197,6 +199,7 @@
                         <platform>${android.sdk.platform}</platform>
                         <path>${android.sdk.path}</path>
                     </sdk>
+                    <release>${release}</release>
                 </configuration>
                 <extensions>true</extensions>
             </plugin>
