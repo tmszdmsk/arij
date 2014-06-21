@@ -22,30 +22,15 @@
             android:name=".issue.single.activity.single.view.IssueActivity_"
             android:launchMode="singleTop"
             android:parentActivityName=".issue.list.IssueListActivity_"
-            android:theme="@android:style/Theme.Holo.Light">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".issue.list.IssueListActivity_" />
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light"></activity>
         <activity
             android:name=".issue.comments.activity.CommentsActivity_"
             android:parentActivityName=".issue.single.activity.single.view.IssueActivity_"
-            android:theme="@android:style/Theme.Holo.Light">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".issue.single.activity.single.view.IssueActivity_" />
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light"></activity>
         <activity
             android:name=".issue.worklog.list.WorklogsActivity_"
             android:parentActivityName=".issue.single.activity.single.view.IssueActivity_"
-            android:theme="@android:style/Theme.Holo.Light">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".issue.single.activity.single.view.IssueActivity_" />
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light"></activity>
         <activity
             android:name=".account.activity.AddNewAccountActivity_"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
