@@ -1,17 +1,4 @@
-language: java
-before_install:
-  - wget http://www.us.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz
-  - tar -zxf apache-maven-3.1.1-bin.tar.gz
-  - export MVN_HOME=`pwd`/apache-maven-3.1.1
-  - wget http://dl.google.com/android/android-sdk_r22.0.4-linux.tgz
-  - tar -zxf android-sdk_r22.0.4-linux.tgz
-  - export ANDROID_HOME=$PWD/android-sdk-linux
-  - export PATH=${MVN_HOME}/bin:${PATH}:${ANDROID_HOME}/tools
-  - mvn --version
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch
-  - echo yes | android update sdk --filter platform-tools,build-tools-17.0.0,build-tools-18.0.0,android-17,android-16,extra-android-support --no-ui --force --all > /dev/null
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-install: /bin/true # install is handled by Maven itself
-script: mvn validate && mvn clean install
+language: android
+android:
+  components:
+    - build-tools-19.1.0
