@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ariJ</string>
+    <string name="sample_url">example.atlassian.net</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="login_button">Login now</string>
+    <string name="remember_credentials">Remember</string>
+    <string name="invalid_url_format">Invalid url format</string>
+    <string name="invalid_login_empty">Login cannot be empty</string>
+    <string name="invalid_login_credentials">Login/password combination incorrect</string>
+    <string name="add_account">Add account</string>
+    <string name="comments">Comments</string>
+    <string name="worklog">Worklog</string>
+    <string name="log_work">Log work</string>
+    <string name="start_work">Start work</string>
+    <string name="no_comment">No comment</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="remove_account">Remove account</string>
+    <string name="add_account_url_prefix_secure">https://</string>
+    <string name="add_account_url_prefix_unsecure">http://</string>
+    <string name="worklog_time_spent_label">Time spent:</string>
+    <string name="homescreen_widget_name">ariJ - filter results</string>
+    <string name="send_comment_label">SEND</string>
+    <string name="add_widget">Add widget</string>
+    <string name="no_work_logged">No work logged</string>
+    <string name="unassigned">Unassigned</string>
+    <string name="quick_search_activity_title_prefix">Search:</string>
+    <string name="quick_search">Quick search</string>
+    <string name="filters">Filters</string>
+    <string name="no_issues_found">No issues found</string>
+    <string-array name="login_protocols">
+        <item>https://</item>
+        <item>http://</item>
+    </string-array>
+</resources>
