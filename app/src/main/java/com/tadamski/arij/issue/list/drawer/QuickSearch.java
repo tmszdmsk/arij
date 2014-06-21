@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
  * Created by tmszdmsk on 31.07.13.
  */
 public class QuickSearch {
-    private AuthorizationHeaderGenerator authorizationHeaderGenerator = new AuthorizationHeaderGenerator();
     public static final String TAG = "#QUICK-SEARCH#";
+    private AuthorizationHeaderGenerator authorizationHeaderGenerator = new AuthorizationHeaderGenerator();
 
     public Action perform(String query, LoginInfo loginInfo) {
         HttpURLConnection connection = null;

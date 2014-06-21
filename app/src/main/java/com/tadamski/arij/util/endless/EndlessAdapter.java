@@ -49,24 +49,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * that final call to appendInBackground().
  */
 abstract public class EndlessAdapter extends AdapterWrapper {
-    abstract protected boolean cacheInBackground() throws Exception;
-
-    abstract protected void appendCachedData();
-
     private View pendingView = null;
     private AtomicBoolean keepOnAppending = new AtomicBoolean(true);
     private Context context;
     private int pendingResource = -1;
     private boolean isSerialized = false;
     private boolean runInBackground = true;
-
     /**
      * Constructor wrapping a supplied ListAdapter
      */
     public EndlessAdapter(ListAdapter wrapped) {
         super(wrapped);
     }
-
     /**
      * Constructor wrapping a supplied ListAdapter and
      * explicitly set if there is more data that needs to be
@@ -112,6 +106,10 @@ abstract public class EndlessAdapter extends AdapterWrapper {
         this.pendingResource = pendingResource;
         this.keepOnAppending.set(keepOnAppending);
     }
+
+    abstract protected boolean cacheInBackground() throws Exception;
+
+    abstract protected void appendCachedData();
 
     public boolean isSerialized() {
         return (isSerialized);
@@ -271,7 +269,7 @@ abstract public class EndlessAdapter extends AdapterWrapper {
      * @param e           Exception that was raised by
      *                    cacheInBackground()
      * @return true if should allow retrying appending new
-     *         data, false otherwise
+     * data, false otherwise
      */
     protected boolean onException(View pendingView, Exception e) {
         Log.e("EndlessAdapter", "Exception in cacheInBackground()", e);
@@ -291,6 +289,35 @@ abstract public class EndlessAdapter extends AdapterWrapper {
         } else {
             task.execute(params);
         }
+    }
+
+    /**
+     * Inflates pending view using the pendingResource ID
+     * passed into the constructor
+     *
+     * @param parent
+     * @return inflated pending view, or null if the context
+     * passed into the pending view constructor was
+     * null.
+     */
+    protected View getPendingView(ViewGroup parent) {
+        if (context != null) {
+            LayoutInflater inflater =
+                    (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            return inflater.inflate(pendingResource, parent, false);
+        }
+
+        throw new RuntimeException(
+                "You must either override getPendingView() or supply a pending View resource via the constructor");
+    }
+
+    /**
+     * Getter method for the Context being held by the adapter
+     *
+     * @return Context
+     */
+    protected Context getContext() {
+        return (context);
     }
 
     /**
@@ -334,34 +361,5 @@ abstract public class EndlessAdapter extends AdapterWrapper {
 
             adapter.onDataReady();
         }
-    }
-
-    /**
-     * Inflates pending view using the pendingResource ID
-     * passed into the constructor
-     *
-     * @param parent
-     * @return inflated pending view, or null if the context
-     *         passed into the pending view constructor was
-     *         null.
-     */
-    protected View getPendingView(ViewGroup parent) {
-        if (context != null) {
-            LayoutInflater inflater =
-                    (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            return inflater.inflate(pendingResource, parent, false);
-        }
-
-        throw new RuntimeException(
-                "You must either override getPendingView() or supply a pending View resource via the constructor");
-    }
-
-    /**
-     * Getter method for the Context being held by the adapter
-     *
-     * @return Context
-     */
-    protected Context getContext() {
-        return (context);
     }
 }

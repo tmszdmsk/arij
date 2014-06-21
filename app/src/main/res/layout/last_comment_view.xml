@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-        >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/comments_list_elem"
-            android:id="@+id/include"
-            />
+        android:id="@+id/include"
+        layout="@layout/comments_list_elem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="25 older comments"
-            android:id="@+id/show_more_comments"
-            android:background="#d8d8d8"
-            android:textAppearance="@android:style/TextAppearance.Small"
-            android:textColor="#ff0099cc"
-            android:layout_below="@+id/include"/>
+        android:id="@+id/show_more_comments"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include"
+        android:background="#d8d8d8"
+        android:text="25 older comments"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        android:textColor="#ff0099cc" />
 
 </RelativeLayout>

@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:minHeight="60dp"
-        android:background="?activatedBackgroundIndicator">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp"
+    android:minHeight="60dp"
+    android:orientation="horizontal">
 
     <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/avatar"
-            android:layout_gravity="center_horizontal|top"
-            android:background="@drawable/avatar_placeholder"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="false"/>
+        android:id="@+id/avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal|top"
+        android:adjustViewBounds="false"
+        android:background="@drawable/avatar_placeholder"
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:padding="8dp">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="8dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="account.name"
-                android:id="@+id/username"
-                android:textSize="24dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:textStyle="bold"
-                android:singleLine="true"
-                android:ellipsize="none"
-                />
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ellipsize="none"
+            android:singleLine="true"
+            android:text="account.name"
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="https://example.com:8080/jira"
-                android:id="@+id/jira_url"
-                android:layout_alignLeft="@+id/username"
-                android:layout_below="@+id/username"
-                android:textSize="12dp"
-                android:textColor="@android:color/darker_gray"
-                android:singleLine="true"
-                android:ellipsize="marquee"
-                android:layout_marginTop="-8dp"/>
+            android:id="@+id/jira_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/username"
+            android:layout_below="@+id/username"
+            android:layout_marginTop="-8dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="https://example.com:8080/jira"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12dp" />
     </RelativeLayout>
 </LinearLayout>

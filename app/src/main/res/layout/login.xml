@@ -1,74 +1,73 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/url_layout"
-            android:layout_alignLeft="@+id/login_edit_text"
-            android:layout_alignRight="@+id/login_edit_text">
+        android:id="@+id/url_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_edit_text"
+        android:layout_alignRight="@+id/login_edit_text"
+        android:orientation="horizontal">
 
         <Spinner
+            android:id="@+id/protocol_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/protocol_spinner"
             android:spinnerMode="dropdown" />
 
         <EditText
-                android:id="@+id/url_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/sample_url"
-                android:inputType="textUri"
-                android:layout_alignParentRight="true"
-                android:layout_weight="1">
+            android:id="@+id/url_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/sample_url"
+            android:inputType="textUri">
 
-            <requestFocus/>
+            <requestFocus />
         </EditText>
 
     </LinearLayout>
 
 
     <EditText
-            android:id="@+id/login_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/login"
-            android:inputType="textPersonName"
-            android:layout_below="@+id/url_layout"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_centerHorizontal="true"
-            android:minWidth="300dp"/>
+        android:id="@+id/login_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/url_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:hint="@string/login"
+        android:inputType="textPersonName"
+        android:minWidth="300dp" />
 
     <EditText
-            android:id="@+id/password_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:layout_below="@+id/login_edit_text"
-            android:layout_alignLeft="@+id/login_edit_text"
-            android:layout_alignRight="@+id/login_edit_text">
-    </EditText>
+        android:id="@+id/password_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_edit_text"
+        android:layout_alignRight="@+id/login_edit_text"
+        android:layout_below="@+id/login_edit_text"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"></EditText>
 
 
     <Button
-            android:id="@+id/login_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/password_edit_text"
-            android:text="@string/login_button"
-            android:layout_alignLeft="@+id/login_edit_text"
-            android:layout_alignRight="@+id/login_edit_text"/>
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_edit_text"
+        android:layout_alignRight="@+id/login_edit_text"
+        android:layout_below="@+id/password_edit_text"
+        android:text="@string/login_button" />
 
 </RelativeLayout>
 

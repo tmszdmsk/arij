@@ -2,32 +2,21 @@ package com.tadamski.arij.issue.list;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.drawer.QuickSearch;
 import com.tadamski.arij.issue.resource.IssueService;
 import com.tadamski.arij.issue.resource.model.Issue;
+
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 
 import java.util.ArrayList;
 
@@ -39,7 +28,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 @EFragment
-public class IssueListFragment extends SherlockListFragment {
+public class IssueListFragment extends ListFragment {
 
 
     @Bean

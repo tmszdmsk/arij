@@ -3,26 +3,11 @@ package com.tadamski.arij.account;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginInfo;
+
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.SystemService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +21,8 @@ public class AccountsService {
     @SystemService
     AccountManager accountManager;
 
-    public List<LoginInfo> getAvailableAccounts() { List<LoginInfo> result = new LinkedList<LoginInfo>();
+    public List<LoginInfo> getAvailableAccounts() {
+        List<LoginInfo> result = new LinkedList<LoginInfo>();
         Account[] accountsByType = accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE);
         for (Account account : accountsByType) {
             String instanceUrl = accountManager.getUserData(account, Authenticator.INSTANCE_URL_KEY);
@@ -49,8 +35,8 @@ public class AccountsService {
     }
 
     public LoginInfo getAccount(String accountName) {
-        for(LoginInfo loginInfo : getAvailableAccounts()){
-            if(loginInfo.getUsername().equals(accountName)){
+        for (LoginInfo loginInfo : getAvailableAccounts()) {
+            if (loginInfo.getUsername().equals(accountName)) {
                 return loginInfo;
             }
         }

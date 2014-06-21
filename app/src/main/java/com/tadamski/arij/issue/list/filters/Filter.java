@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Date: 26.06.13
  * Time: 19:12
  */
-public class Filter implements Serializable{
+public class Filter implements Serializable {
 
     public String id;
     public String name;

@@ -24,8 +24,7 @@ dependencies {
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "com.google.guava:guava:13.0.1"
     compile "com.squareup.retrofit:retrofit:1.2.2"
-    compile "com.actionbarsherlock:actionbarsherlock:4.4.0@aar"
-    compile 'com.android.support:support-v4:18.0.+'
+    compile 'com.android.support:support-v4:19.1.+'
     compile "org.ocpsoft.prettytime:prettytime:3.0.2.Final"
 }
 
@@ -33,13 +32,6 @@ apt {
     arguments {
         androidManifestFile variant.processResources.manifestFile
         resourcePackageName 'com.tadamski.arij'
-
-        // If you're using Android NBS flavors you should use the following line instead of hard-coded packageName
-        // resourcePackageName android.defaultConfig.packageName
-
-        // You can set optional annotation processing options here, like these commented options:
-        // logLevel 'INFO'
-        // logFile '/var/log/aa.log'
     }
 }
 

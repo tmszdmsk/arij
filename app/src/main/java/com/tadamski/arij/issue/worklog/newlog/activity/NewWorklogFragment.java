@@ -10,29 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
+
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
 import com.tadamski.arij.issue.worklog.resource.Worklog;
 import com.tadamski.arij.issue.worklog.resource.WorklogService;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -160,6 +152,12 @@ public class NewWorklogFragment extends Fragment {
         }
     }
 
+    public interface WorkLoggedListener {
+        void onWorkLogged();
+
+        void onWorkDiscarded();
+    }
+
     private class DurationModifier implements View.OnClickListener {
 
         private Long amount;
@@ -188,11 +186,5 @@ public class NewWorklogFragment extends Fragment {
             startDateDate = new Date(startDateDate.getTime() + amountInSeconds * 1000);
             startDate.setText(getHumanReadableStartDate(startDateDate));
         }
-    }
-
-    public interface WorkLoggedListener {
-        void onWorkLogged();
-
-        void onWorkDiscarded();
     }
 }

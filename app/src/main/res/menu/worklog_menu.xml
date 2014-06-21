@@ -2,8 +2,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/menu_item_log_work"
-            android:title="@string/log_work"
-            android:showAsAction="ifRoom|withText"
-            />
+        android:id="@+id/menu_item_log_work"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/log_work" />
 </menu>

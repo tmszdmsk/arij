@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@android:id/list"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_above="@+id/linearLayout"
-            android:transcriptMode="normal"/>
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:transcriptMode="normal" />
 
     <TextView
-            android:id="@id/android:empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_work_logged"
-            android:layout_centerInParent="true"/>
+        android:id="@id/android:empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_work_logged" />
 
-    <include layout="@layout/loading_indicator"/>
+    <include layout="@layout/loading_indicator" />
 </RelativeLayout>

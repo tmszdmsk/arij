@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="4h"
-            android:id="@+id/time_logged"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/label_spent"
-            android:layout_marginLeft="2dp"/>
+        android:id="@+id/time_logged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@+id/label_spent"
+        android:text="4h"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progress"
-            android:layout_gravity="center"
-            android:indeterminate="false"
-            android:layout_below="@+id/time_logged"/>
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_logged"
+        android:layout_gravity="center"
+        android:indeterminate="false" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="1h 30m"
-            android:id="@+id/time_remaining"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/label_remaining"
-            android:layout_marginRight="2dp"/>
+        android:id="@+id/time_remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="2dp"
+        android:layout_toLeftOf="@+id/label_remaining"
+        android:text="1h 30m"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="spent"
-            android:id="@+id/label_spent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"/>
+        android:id="@+id/label_spent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="spent"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="remaining"
-            android:id="@+id/label_remaining"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"/>
+        android:id="@+id/label_remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="remaining"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 </RelativeLayout>

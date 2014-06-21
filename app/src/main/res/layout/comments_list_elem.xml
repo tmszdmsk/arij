@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp">
 
     <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Issue title"
-            android:id="@+id/comment_text"
-            android:layout_gravity="left|center_vertical"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_below="@+id/comment_author_name"/>
+        android:id="@+id/comment_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_author_name"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Issue title"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="author.name"
-            android:id="@+id/comment_author_name"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"/>
+        android:id="@+id/comment_author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="true"
+        android:text="author.name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="2 days ago"
-            android:id="@+id/comment_date"
-            android:layout_below="@+id/comment_text"
-            android:layout_alignParentLeft="true"
-            android:textColor="@android:color/darker_gray"/>
+        android:id="@+id/comment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/comment_text"
+        android:text="2 days ago"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/darker_gray" />
 </RelativeLayout>

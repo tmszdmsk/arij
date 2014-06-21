@@ -33,7 +33,7 @@ public class WidgetOptions {
         this.set(newOptions.getString(FILTER_ID), newOptions.getString(ACCOUNT_NAME));
     }
 
-    public boolean exists(){
-        return getFilterId()!=null && getAccountName()!=null;
+    public boolean exists() {
+        return getFilterId() != null && getAccountName() != null;
     }
 }

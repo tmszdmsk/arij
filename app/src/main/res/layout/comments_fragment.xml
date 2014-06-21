@@ -1,55 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@android:id/list"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_above="@+id/linearLayout"
-            android:stackFromBottom="true"
-            android:transcriptMode="normal"/>
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal" />
 
     <TextView
-            android:id="@id/android:empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No comments"
-            android:layout_centerInParent="true"/>
+        android:id="@id/android:empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No comments" />
 
     <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/linearLayout"
-            android:baselineAligned="false"
-            android:padding="4dp">
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:padding="4dp">
 
         <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/comment_text"
-                android:layout_weight="1"
-                android:layout_gravity="bottom"
-                />
+            android:id="@+id/comment_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textMultiLine" />
 
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:id="@+id/send_button"
-                android:src="@drawable/abs__ic_go_search_api_holo_light"
-                android:text="@string/send_comment_label"
-                android:layout_gravity="bottom"/>
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:text="@string/send_comment_label" />
     </LinearLayout>
 
-    <include layout="@layout/loading_indicator"/>
+    <include layout="@layout/loading_indicator" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.tadamski.arij.account.activity;
 
 import android.accounts.Account;
+import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -45,7 +46,7 @@ import retrofit.client.Response;
  * @author t.adamski
  */
 @EActivity(R.layout.login)
-public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity {
+public class AddNewAccountActivity extends AccountAuthenticatorActivity {
 
     @ViewById(R.id.url_edit_text)
     EditText urlEditText;
@@ -125,9 +126,9 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
             ifCredentialsConfirmed(possibleCredentials);
         } catch (RetrofitError retrofitError) {
             if (retrofitError.getCause() instanceof SSLHandshakeException && secureHttps) {
-               ifSelfSignedCert();
+                ifSelfSignedCert();
             } else if (retrofitError.isNetworkError()) {
-                Tracker.sendEvent("AddNewAccountActivity", "login_network_error", "secureHttps="+secureHttps, null);
+                Tracker.sendEvent("AddNewAccountActivity", "login_network_error", "secureHttps=" + secureHttps, null);
                 ifCommunicationException("Network error: \n" + retrofitError.toString());
             } else {
                 int httpCode = retrofitError.getResponse().getStatus();
@@ -154,7 +155,7 @@ public class AddNewAccountActivity extends SherlockAccountAuthenticatorActivity 
         builder.setPositiveButton("Connect anyway", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                secureHttps=false;
+                secureHttps = false;
                 login();
             }
         });

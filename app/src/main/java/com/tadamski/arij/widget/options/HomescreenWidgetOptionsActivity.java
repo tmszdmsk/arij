@@ -3,6 +3,7 @@ package com.tadamski.arij.widget.options;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
+import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,25 +11,6 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.AccountsService;
 import com.tadamski.arij.account.activity.AccountListAdapter;
@@ -39,13 +21,21 @@ import com.tadamski.arij.issue.list.filters.Filter;
 import com.tadamski.arij.util.analytics.Tracker;
 import com.tadamski.arij.widget.HomeScreenWidgetProvider;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.ViewById;
+
 import java.util.List;
 
 /**
  * Created by tmszdmsk on 12.07.13.
  */
 @EActivity(R.layout.homescreen_widget_options_activity)
-public class HomescreenWidgetOptionsActivity extends SherlockActivity implements OnAccountsUpdateListener {
+public class HomescreenWidgetOptionsActivity extends Activity implements OnAccountsUpdateListener {
 
     @ViewById(R.id.accounts)
     Spinner accountsSpinner;

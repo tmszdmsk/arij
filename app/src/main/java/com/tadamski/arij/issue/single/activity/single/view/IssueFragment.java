@@ -7,31 +7,14 @@ package com.tadamski.arij.issue.single.activity.single.view;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.comments.activity.CommentsActivity;
@@ -53,6 +36,14 @@ import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView;
 import com.tadamski.arij.issue.worklog.timetracking.TimeTrackingSummaryView_;
 import com.tadamski.arij.util.analytics.Tracker;
 
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,7 +52,7 @@ import java.util.Date;
  * @author tmszdmsk
  */
 @EFragment(R.layout.issue_fragment)
-public class IssueFragment extends SherlockFragment {
+public class IssueFragment extends Fragment {
 
     private static final String TAG = IssueFragment.class.getName();
     @Bean

@@ -1,26 +1,10 @@
 package com.tadamski.arij.issue.list;
 
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.drawer.IssueListDrawerFragment;
@@ -30,8 +14,17 @@ import com.tadamski.arij.issue.resource.model.Issue;
 import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.util.analytics.Tracker;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.FragmentById;
+import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.ViewById;
+
 @EActivity(R.layout.issue_list_activity)
-public class IssueListActivity extends SherlockFragmentActivity implements IssueListFragment.Listener, IssueListDrawerFragment.Listener {
+public class IssueListActivity extends FragmentActivity implements IssueListFragment.Listener, IssueListDrawerFragment.Listener {
 
     @FragmentById(R.id.fragment)
     IssueListFragment issueListFragment;
@@ -80,8 +73,8 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_drawer,
                 R.string.open, R.string.close);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
     }
 
@@ -101,7 +94,7 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
     private void initWithFilter(Filter filter) {
         drawerFragment.selectFilter(filter);
         issueListFragment.executeFilter(filter.jql, loginInfo);
-        getSupportActionBar().setTitle(filter.name);
+        getActionBar().setTitle(filter.name);
     }
 
     @Override
@@ -111,7 +104,7 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
 
     @Override
     public void onJql(String jql) {
-        getSupportActionBar().setSubtitle(jql);
+        getActionBar().setSubtitle(jql);
     }
 
     @Override
@@ -120,7 +113,7 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
         this.instanceQuery = query;
         issueListFragment.quickSearch(query, loginInfo);
         drawerLayout.closeDrawer(drawer);
-        getSupportActionBar().setTitle(query);
+        getActionBar().setTitle(query);
     }
 
     @Override
@@ -128,7 +121,7 @@ public class IssueListActivity extends SherlockFragmentActivity implements Issue
         this.instanceQuery = null;
         this.instanceFilter = filter;
         issueListFragment.executeFilter(filter.jql, loginInfo);
-        getSupportActionBar().setTitle(filter.name);
+        getActionBar().setTitle(filter.name);
         drawerLayout.closeDrawer(drawer);
     }
 }

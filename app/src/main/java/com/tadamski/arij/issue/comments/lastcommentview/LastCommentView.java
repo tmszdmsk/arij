@@ -7,26 +7,14 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.issue.comments.resource.Comment;
 import com.tadamski.arij.issue.comments.resource.CommentsList;
 import com.tadamski.arij.util.analytics.Tracker;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EViewGroup;
+import org.androidannotations.annotations.ViewById;
 import org.ocpsoft.prettytime.PrettyTime;
 
 /**

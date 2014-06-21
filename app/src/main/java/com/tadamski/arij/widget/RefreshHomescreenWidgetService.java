@@ -55,8 +55,8 @@ public class RefreshHomescreenWidgetService extends RemoteViewsService {
         public void onDataSetChanged() {
             ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            if(activeNetworkInfo !=null && activeNetworkInfo.isConnected()){
-                    issues = getIssues(ctx, appWidgetId);
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                issues = getIssues(ctx, appWidgetId);
             }
         }
 

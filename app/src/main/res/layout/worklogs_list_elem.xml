@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="8dp"
-                android:paddingTop="4dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="4dp">
-
-<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/worklog_time_spent_label"
-            android:id="@+id/time_spent_label"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textStyle="bold"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="24h 23m"
-            android:id="@+id/worklog_time_spent"
-            android:layout_toRightOf="@+id/time_spent_label"
-            android:layout_marginLeft="4dp"
-            android:textStyle="bold"/>
+        android:id="@+id/time_spent_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/worklog_time_spent_label"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
 
     <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="No comment"
-            android:id="@+id/worklog_comment"
-            android:layout_gravity="left|center_vertical"
-            android:layout_alignParentLeft="false"
-            android:layout_marginLeft="0dp"
-            android:layout_alignParentTop="false"
-            android:layout_marginTop="0dp"
-            android:layout_below="@+id/time_spent_label"/>
+        android:id="@+id/worklog_time_spent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/time_spent_label"
+        android:text="24h 23m"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="account.name"
-            android:id="@+id/worklog_author_name"
-            android:layout_below="@+id/worklog_comment"
-            android:layout_alignParentRight="true"
-            android:textStyle="italic"
-            android:textColor="@android:color/darker_gray"/>
+        android:id="@+id/worklog_comment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/time_spent_label"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:text="No comment"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="yesterday"
-            android:id="@+id/worklog_date"
-            android:layout_below="@+id/worklog_comment"
-            android:layout_alignParentLeft="true"
-            android:textColor="@android:color/darker_gray"/>
+        android:id="@+id/worklog_author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/worklog_comment"
+        android:text="account.name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/darker_gray"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/worklog_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/worklog_comment"
+        android:text="yesterday"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/darker_gray" />
 
 </RelativeLayout>

@@ -33,7 +33,8 @@ public class EndlessIssueListAdapter extends EndlessAdapter {
     @Override
     protected boolean cacheInBackground() throws Exception {
         this.resultList = issueService.search(loginInfo, new SearchParams(wrapped.getJql(), (long) wrapped.getCount(), 20L));
-        if (wrapped.getCount() + resultList.getIssues().size() >= resultList.getTotal()) return false;
+        if (wrapped.getCount() + resultList.getIssues().size() >= resultList.getTotal())
+            return false;
         else return true;
     }
 

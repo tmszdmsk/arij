@@ -1,33 +1,15 @@
 package com.tadamski.arij.issue.worklog.list;
 
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import com.tadamski.arij.R;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity;
@@ -35,6 +17,13 @@ import com.tadamski.arij.issue.worklog.newlog.activity.NewWorklogActivity_;
 import com.tadamski.arij.issue.worklog.resource.Worklog;
 import com.tadamski.arij.issue.worklog.resource.WorklogList;
 import com.tadamski.arij.issue.worklog.resource.WorklogService;
+
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
@@ -47,7 +36,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @EFragment
-public class WorklogsFragment extends SherlockListFragment {
+public class WorklogsFragment extends ListFragment {
     @Bean
     WorklogService worklogService;
     @ViewById(R.id.loading)
