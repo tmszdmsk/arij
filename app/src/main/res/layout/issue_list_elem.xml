@@ -36,9 +36,9 @@
         android:gravity="center_vertical|center_horizontal"
         android:lines="1"
         android:maxLines="1"
-        android:text="123"
+        android:text="1234"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="32dp"
+        android:textSize="24dp"
         android:textStyle="bold" />
 
 
