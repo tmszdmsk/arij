@@ -4,11 +4,13 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.ListAdapter;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tadamski.arij.R;
@@ -16,6 +18,7 @@ import com.tadamski.arij.account.AccountsService;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListActivity_;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.util.analytics.Tracker;
 
 import org.androidannotations.annotations.Bean;
@@ -43,12 +46,35 @@ public class AccountSelectorActivity extends ListActivity implements OnAccountsU
         super.onCreate(savedInstanceState);
         accountManager.addOnAccountsUpdatedListener(this, null, true);
         reloadAccounts();
+        if(savedInstanceState==null){
+            deeplink();
+        }
         if (getListAdapter().isEmpty()) {
             openAddNewAccountScreen();
         }
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
-
+    private boolean deeplink(){
+        Intent intent = getIntent();
+        String url = intent.getDataString();
+        int ofs =url==null?-1:url.indexOf("/browse/");
+        if (ofs>0) {//looks like a link to an issue, find out what account it belongs to
+            ListAdapter adapter = getListAdapter();
+            String issue = url.substring(ofs+8);
+            for (int i = 0; i < adapter.getCount(); i++) {
+                LoginInfo loginInfo = (LoginInfo) adapter.getItem(i);
+                if(url.contains(loginInfo.getBaseURL())){
+                    IssueActivity_.intent(this)
+                                  .issueKey(issue)
+                                  .loginInfo(loginInfo)
+                                  .flags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                  .start();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     @Override
     protected void onStart() {
         super.onStart();
