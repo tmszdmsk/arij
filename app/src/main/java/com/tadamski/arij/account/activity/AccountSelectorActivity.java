@@ -3,6 +3,7 @@ package com.tadamski.arij.account.activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,17 +47,15 @@ public class AccountSelectorActivity extends ListActivity implements OnAccountsU
         super.onCreate(savedInstanceState);
         accountManager.addOnAccountsUpdatedListener(this, null, true);
         reloadAccounts();
-        if(savedInstanceState==null){
-            deeplink();
+        if(savedInstanceState==null&&getIntent().getDataString()!=null){
+            deeplink(getIntent().getDataString());
         }
         if (getListAdapter().isEmpty()) {
             openAddNewAccountScreen();
         }
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
-    private boolean deeplink(){
-        Intent intent = getIntent();
-        String url = intent.getDataString();
+    private boolean deeplink(String url){
         int ofs =url==null?-1:url.indexOf("/browse/");
         if (ofs>0) {//looks like a link to an issue, find out what account it belongs to
             ListAdapter adapter = getListAdapter();
@@ -67,11 +66,15 @@ public class AccountSelectorActivity extends ListActivity implements OnAccountsU
                     IssueActivity_.intent(this)
                                   .issueKey(issue)
                                   .loginInfo(loginInfo)
-                                  .flags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                   .start();
                     return true;
                 }
             }
+            new AlertDialog.Builder(this)
+                    .setTitle("Account not found")
+                    .setMessage("Please create an account for "+url.substring(0,url.indexOf("/browse")) )
+                    .create()
+                    .show();
         }
         return false;
     }
