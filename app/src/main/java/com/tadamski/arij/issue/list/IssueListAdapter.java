@@ -67,7 +67,10 @@ public class IssueListAdapter extends BaseAdapter {
 
     private void setViewProperties(View convertView, final Issue issueSummary) {
         setTextViewText(convertView, R.id.project_shortcut, issueSummary.getKey().split("-")[0]);
-        setTextViewText(convertView, R.id.issue_id_number, issueSummary.getKey().split("-")[1]);
+        String inum = issueSummary.getKey().split("-")[1];
+        //up to 4 digits. If bigger, show the LAST 4 perhaps indicating that it was clipped would be a good idea...
+        if(inum.length()>4)inum = inum.substring(inum.length()-4);
+        setTextViewText(convertView, R.id.issue_id_number, inum);
         setTextViewText(convertView, R.id.issue_summary, issueSummary.getSummary());
         setTextViewText(convertView, R.id.issue_creation_date, DATE_TIME_INSTANCE.format(issueSummary.getCreated()));
     }
