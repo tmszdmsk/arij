@@ -3,12 +3,15 @@ package com.tadamski.arij.account.activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.ListAdapter;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tadamski.arij.R;
@@ -16,6 +19,7 @@ import com.tadamski.arij.account.AccountsService;
 import com.tadamski.arij.account.authenticator.Authenticator;
 import com.tadamski.arij.account.service.LoginInfo;
 import com.tadamski.arij.issue.list.IssueListActivity_;
+import com.tadamski.arij.issue.single.activity.single.view.IssueActivity_;
 import com.tadamski.arij.util.analytics.Tracker;
 
 import org.androidannotations.annotations.Bean;
@@ -43,12 +47,37 @@ public class AccountSelectorActivity extends ListActivity implements OnAccountsU
         super.onCreate(savedInstanceState);
         accountManager.addOnAccountsUpdatedListener(this, null, true);
         reloadAccounts();
+        if(savedInstanceState==null&&getIntent().getDataString()!=null){
+            deeplink(getIntent().getDataString());
+        }
         if (getListAdapter().isEmpty()) {
             openAddNewAccountScreen();
         }
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
-
+    private boolean deeplink(String url){
+        int ofs =url==null?-1:url.indexOf("/browse/");
+        if (ofs>0) {//looks like a link to an issue, find out what account it belongs to
+            ListAdapter adapter = getListAdapter();
+            String issue = url.substring(ofs+8);
+            for (int i = 0; i < adapter.getCount(); i++) {
+                LoginInfo loginInfo = (LoginInfo) adapter.getItem(i);
+                if(url.contains(loginInfo.getBaseURL())){
+                    IssueActivity_.intent(this)
+                                  .issueKey(issue)
+                                  .loginInfo(loginInfo)
+                                  .start();
+                    return true;
+                }
+            }
+            new AlertDialog.Builder(this)
+                    .setTitle("Account not found")
+                    .setMessage("Please create an account for "+url.substring(0,url.indexOf("/browse")) )
+                    .create()
+                    .show();
+        }
+        return false;
+    }
     @Override
     protected void onStart() {
         super.onStart();
