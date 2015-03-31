@@ -60,6 +60,8 @@ public class AccountSelectorActivity extends ListActivity implements OnAccountsU
         if (ofs>0) {//looks like a link to an issue, find out what account it belongs to
             ListAdapter adapter = getListAdapter();
             String issue = url.substring(ofs+8);
+            ofs =issue.indexOf("#");
+            if(ofs>0) issue = issue.substring(0,ofs-1);
             for (int i = 0; i < adapter.getCount(); i++) {
                 LoginInfo loginInfo = (LoginInfo) adapter.getItem(i);
                 if(url.contains(loginInfo.getBaseURL())){
