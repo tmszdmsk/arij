@@ -32,13 +32,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/project_shortcut"
-        android:ellipsize="none"
+        android:ellipsize="start"
+        android:scrollHorizontally="true"
         android:gravity="center_vertical|center_horizontal"
-        android:lines="1"
-        android:maxLines="1"
-        android:text="123"
+        android:singleLine="true"
+        android:text="1234"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="32dp"
+        android:textSize="24dp"
         android:textStyle="bold" />
 
 
