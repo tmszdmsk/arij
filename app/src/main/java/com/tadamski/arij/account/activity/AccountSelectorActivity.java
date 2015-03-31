@@ -31,7 +31,6 @@ import java.util.List;
  */
 @EActivity
 public class AccountSelectorActivity extends ListActivity implements OnAccountsUpdateListener {
-
     @SystemService
     AccountManager accountManager;
     @Bean

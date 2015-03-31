@@ -38,7 +38,6 @@
         <activity
             android:name=".issue.worklog.newlog.activity.NewWorklogActivity_"
             android:theme="@android:style/Theme.Holo.Light" />
-
         <service
             android:name=".account.authenticator.AuthenticationService"
             android:exported="true">
