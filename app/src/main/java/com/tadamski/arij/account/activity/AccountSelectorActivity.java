@@ -61,7 +61,7 @@ public class AccountSelectorActivity extends ListActivity implements OnAccountsU
             ListAdapter adapter = getListAdapter();
             String issue = url.substring(ofs+8);
             ofs =issue.indexOf("#");
-            if(ofs>0) issue = issue.substring(0,ofs-1);
+            if(ofs>0) issue = issue.substring(0,ofs);
             for (int i = 0; i < adapter.getCount(); i++) {
                 LoginInfo loginInfo = (LoginInfo) adapter.getItem(i);
                 if(url.contains(loginInfo.getBaseURL())){
