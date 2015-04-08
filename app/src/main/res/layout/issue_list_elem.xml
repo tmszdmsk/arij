@@ -33,7 +33,6 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/project_shortcut"
         android:ellipsize="start"
-        android:scrollHorizontally="true"
         android:gravity="center_vertical|center_horizontal"
         android:singleLine="true"
         android:text="1234"
