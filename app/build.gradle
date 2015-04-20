@@ -3,10 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // replace with the current version of the Android plugin
-        classpath 'com.android.tools.build:gradle:0.11.+'
-        // Since Android's Gradle plugin 0.11, you have to use android-apt >= 1.3
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.+'
+        classpath 'com.android.tools.build:gradle:1.1.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
 }
 
@@ -15,9 +13,9 @@ repositories {
     mavenLocal()
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-def AAVersion = '3.0.1'
+def AAVersion = '3.2'
 
 dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
@@ -30,7 +28,7 @@ dependencies {
 
 apt {
     arguments {
-        androidManifestFile variant.processResources.manifestFile
+        androidManifestFile variant.outputs[0].processResources.manifestFile
         resourcePackageName 'com.tadamski.arij'
     }
 }
@@ -43,13 +41,31 @@ android {
         applicationId "com.tadamski.arij"
         minSdkVersion 15
         targetSdkVersion 19
-        versionCode 1
-        versionName "1.0"
+        versionCode 17
+        versionName "1.3.2"
     }
+
+    def releaseConfigProperty = "ArijRelease.properties"
+    def releaseConfigFile = new File(System.getProperty("user.home") + File.separator + project.property(releaseConfigProperty))
+    def hasReleaseConfig = project.hasProperty(releaseConfigProperty) && releaseConfigFile.exists()
+    if (hasReleaseConfig) {
+        signingConfigs {
+            Properties props = new Properties()
+            props.load(new FileInputStream(releaseConfigFile))
+            release {
+                storeFile new File(props['RELEASE_STORE_FILE'])
+                storePassword props['RELEASE_STORE_PASSWORD']
+                keyAlias props['RELEASE_KEY_ALIAS']
+                keyPassword props['RELEASE_KEY_PASSWORD']
+            }
+        }
+    }
+
     buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        if (hasReleaseConfig) {
+            release {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }

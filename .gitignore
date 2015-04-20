@@ -22,10 +22,13 @@ local.properties
 
 # IntelliJ Idea
 /.idea/
-
+*.iml
 # Gradle
 /.gradle/
 /build/
 
 # External apklib
 /gen-external-apklibs/
+
+/arij-release.keystore
+/arij-release.properties
