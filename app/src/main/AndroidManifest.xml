@@ -13,6 +13,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="*"
+                    android:pathPattern="/browse/.*-.*"
+                    android:scheme="https"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".issue.list.IssueListActivity_"
@@ -38,7 +46,6 @@
         <activity
             android:name=".issue.worklog.newlog.activity.NewWorklogActivity_"
             android:theme="@android:style/Theme.Holo.Light" />
-
         <service
             android:name=".account.authenticator.AuthenticationService"
             android:exported="true">
