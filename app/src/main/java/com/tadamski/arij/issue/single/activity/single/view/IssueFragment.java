@@ -6,11 +6,13 @@ package com.tadamski.arij.issue.single.activity.single.view;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import com.tadamski.arij.issue.resource.model.updates.ChangeAssigneeUpdate;
 import com.tadamski.arij.issue.single.activity.properties.model.IssueProperty;
 import com.tadamski.arij.issue.single.activity.properties.model.IssuePropertyGroup;
 import com.tadamski.arij.issue.single.activity.properties.view.IssuePropertyGroupViewFactory;
+import com.tadamski.arij.issue.worklog.WorkingManager;
 import com.tadamski.arij.issue.worklog.list.WorklogsActivity;
 import com.tadamski.arij.issue.worklog.list.WorklogsActivity_;
 import com.tadamski.arij.issue.worklog.newlog.notification.NewWorklogNotification;
@@ -66,6 +69,7 @@ public class IssueFragment extends Fragment {
     private Issue loadedIssue;
     private View view;
     private IssueFragmentListener issueFragmentListener;
+    private WorkingManager workingManager = new WorkingManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class IssueFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
         setMenuVisibility(false);
+
+        workingManager.init(getActivity());
     }
 
     @Override
@@ -94,6 +100,29 @@ public class IssueFragment extends Fragment {
         this.actualLoginInfo = loginInfo;
         enableLoadingIndicator();
         loadIssueInBackground(issueKey, loginInfo);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        if (loadedIssue == null) {
+            return;
+        }
+
+        final MenuItem menuItem = menu.findItem(R.id.menu_item_start_work);
+
+        if (workingManager.isWorking(loadedIssue.getKey())) {
+            menuItem.setTitle(R.string.stop_work);
+        } else {
+            menuItem.setTitle(R.string.start_work);
+        }
     }
 
     @Background
@@ -171,8 +200,19 @@ public class IssueFragment extends Fragment {
     @OptionsItem(R.id.menu_item_start_work)
     void onStartWorkClicked() {
         Tracker.sendEvent("IssueFragment", "startWorkClicked", null, null);
-        if (loadedIssue != null)
+
+        if (loadedIssue == null) {
+            return;
+        }
+
+        if (workingManager.isWorking(loadedIssue.getKey())) {
+            final Intent intent = NewWorklogNotification.createIntentForWorklog(getActivity().getApplicationContext(),
+                    loadedIssue, new Date(workingManager.getStartWorking(loadedIssue.getKey())), actualLoginInfo);
+            startActivity(intent);
+        } else {
             NewWorklogNotification.create(getActivity().getApplicationContext(), loadedIssue, new Date(), actualLoginInfo);
+            getActivity().invalidateOptionsMenu();
+        }
     }
 
     @OptionsItem(R.id.menu_item_assign_to_me)
