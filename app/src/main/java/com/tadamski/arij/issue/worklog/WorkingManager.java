@@ -8,26 +8,22 @@ import android.content.SharedPreferences;
  */
 public class WorkingManager {
 
-	public void startWorking(String issueKey) {
+	public void startWorking(Context context, String issueKey) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(".work", Context.MODE_PRIVATE);
 		sharedPreferences.edit().putLong(issueKey, System.currentTimeMillis()).apply();
 	}
 
-	public void stopWorking(String issueKey) {
+	public void stopWorking(Context context, String issueKey) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(".work", Context.MODE_PRIVATE);
 		sharedPreferences.edit().remove(issueKey).apply();
 	}
 
-	public long getStartWorking(String issueKey) {
+	public long getStartWorking(Context context, String issueKey) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(".work", Context.MODE_PRIVATE);
 		return sharedPreferences.getLong(issueKey, 0);
 	}
 
-	public boolean isWorking(String issueKey) {
-		return getStartWorking(issueKey) > 0;
+	public boolean isWorking(Context context, String issueKey) {
+		return getStartWorking(context, issueKey) > 0;
 	}
-
-	public void init(Context context) {
-		sharedPreferences = context.getSharedPreferences(".work", Context.MODE_PRIVATE);
-
-	}
-
-	private SharedPreferences sharedPreferences;
 }

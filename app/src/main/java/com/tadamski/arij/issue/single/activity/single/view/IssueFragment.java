@@ -77,8 +77,6 @@ public class IssueFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
         setMenuVisibility(false);
-
-        workingManager.init(getActivity());
     }
 
     @Override
@@ -118,7 +116,7 @@ public class IssueFragment extends Fragment {
 
         final MenuItem menuItem = menu.findItem(R.id.menu_item_start_work);
 
-        if (workingManager.isWorking(loadedIssue.getKey())) {
+        if (workingManager.isWorking(getActivity(),loadedIssue.getKey())) {
             menuItem.setTitle(R.string.stop_work);
         } else {
             menuItem.setTitle(R.string.start_work);
@@ -205,9 +203,9 @@ public class IssueFragment extends Fragment {
             return;
         }
 
-        if (workingManager.isWorking(loadedIssue.getKey())) {
+        if (workingManager.isWorking(getActivity(),loadedIssue.getKey())) {
             final Intent intent = NewWorklogNotification.createIntentForWorklog(getActivity().getApplicationContext(),
-                    loadedIssue, new Date(workingManager.getStartWorking(loadedIssue.getKey())), actualLoginInfo);
+                    loadedIssue, new Date(workingManager.getStartWorking(getActivity(),loadedIssue.getKey())), actualLoginInfo);
             startActivity(intent);
         } else {
             NewWorklogNotification.create(getActivity().getApplicationContext(), loadedIssue, new Date(), actualLoginInfo);

@@ -29,7 +29,7 @@ public class NewWorklogNotification {
     private static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
     private static int NOTIFICATION_ID = 12366234;
     private static int PENDING_REQUETS_ID = 0;
-    private static WorkingManager workingManager;
+    private static WorkingManager workingManager = new WorkingManager();
 
     public static Intent createIntentForWorklog(Context ctx, Issue issue, Date startDate, LoginInfo loginInfo) {
         Intent intent = NewWorklogActivity_.intent(ctx)
@@ -57,21 +57,13 @@ public class NewWorklogNotification {
                         build();
         notificationManager.notify(issue.getKey(), NOTIFICATION_ID, notification);
 
-        if (workingManager == null) {
-            workingManager = new WorkingManager();
-            workingManager.init(ctx);
-        }
-        workingManager.startWorking(issue.getKey());
+        workingManager.startWorking(ctx,issue.getKey());
     }
 
     public static void cancel(Context ctx, String issueKey) {
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(issueKey, NOTIFICATION_ID);
 
-        if (workingManager == null) {
-            workingManager = new WorkingManager();
-            workingManager.init(ctx);
-        }
-        workingManager.stopWorking(issueKey);
+        workingManager.stopWorking(ctx,issueKey);
     }
 }
